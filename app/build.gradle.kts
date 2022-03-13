@@ -19,6 +19,7 @@ plugins {
     id("kotlin-android")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -78,6 +79,8 @@ dependencies {
     implementation(ComposeLibs.NAVIGATION)
     implementation(ComposeLibs.HILT_NAVIGATION)
     implementation(ComposeLibs.ACTIVITY)
+    implementation("com.google.firebase:firebase-storage:20.0.0")
+    implementation("io.arrow-kt:arrow-core:1.0.1")
 
     testImplementation(TestLibs.JUNIT)
     androidTestImplementation(AndroidXTestLibs.JUNIT)

@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
-}
+package dev.marcocattaneo.asmrelax
 
-tasks {
-    register("clean", Delete::class.java) {
-        delete(rootProject.buildDir)
-    }
-}
+import android.app.Application
+
+open class BaseApplication: Application()

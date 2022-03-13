@@ -16,18 +16,20 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.marcocattaneo.androidcomposetemplate">
+    package="dev.marcocattaneo.asmrelax">
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name=".di.MyApplication"
+        android:name="dev.marcocattaneo.asmrelax.di.MyApplication"
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidcomposetemplate">
         <activity
-            android:name=".MainActivity"
+            android:name="dev.marcocattaneo.asmrelax.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Androidcomposetemplate.NoActionBar">

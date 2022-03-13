@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
-}
+package dev.marcocattaneo.asmrelax.di.module
 
-tasks {
-    register("clean", Delete::class.java) {
-        delete(rootProject.buildDir)
-    }
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dev.marcocattaneo.asmrelax.ui.player.AudioPlayer
+import dev.marcocattaneo.asmrelax.ui.player.AudioPlayerImpl
+
+@Module
+@InstallIn(ViewModelComponent::class)
+abstract class PresentationModule {
+
+    @Binds
+    abstract fun provideAudioPlayer(audioPlayerImpl: AudioPlayerImpl): AudioPlayer
+
 }

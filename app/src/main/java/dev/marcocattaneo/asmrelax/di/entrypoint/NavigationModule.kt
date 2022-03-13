@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
-}
+package dev.marcocattaneo.asmrelax.di.entrypoint
 
-tasks {
-    register("clean", Delete::class.java) {
-        delete(rootProject.buildDir)
-    }
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dev.marcocattaneo.asmrelax.di.component.ComposableComponent
+
+@InstallIn(ComposableComponent::class)
+@EntryPoint
+interface ComposableEntryPoint {
+
 }
