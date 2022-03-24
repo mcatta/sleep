@@ -42,24 +42,20 @@ class PlayerViewModel @Inject constructor(
         val urlPath: Path = savedStateHandle.get<String>(RouteKeys.PATH_KEY)!!
 
         viewModelScope.launch {
-            mediaRepository.urlFromPath(urlPath)
-                .map(audioPlayer::start)
-                .mapLeft { it.printStackTrace() }
-
             audioPlayer.state().collect {
                 when (it) {
-                    AudioPlayerState.None -> {}
+                    AudioPlayerState.None -> {
+                        mediaRepository.urlFromPath(urlPath)
+                            .map(audioPlayer::start)
+                            .mapLeft { err -> err.printStackTrace() }
+                    }
                     AudioPlayerState.OnInit -> emitState { state -> state.copy(playerStatus = Status.PlayerStatus.Init) }
                     AudioPlayerState.OnPause -> emitState { state -> state.copy(playerStatus = Status.PlayerStatus.Pause) }
                     AudioPlayerState.OnProgress -> emitState { state -> state.copy(playerStatus = Status.PlayerStatus.Playing) }
-                    is AudioPlayerState.UpdateDuration -> emitState { state ->
+                    is AudioPlayerState.PlayerStatus -> emitState { state ->
                         state.copy(
+                            position = it.position,
                             duration = it.duration
-                        )
-                    }
-                    is AudioPlayerState.UpdatePosition -> emitState { state ->
-                        state.copy(
-                            position = it.position
                         )
                     }
                     is AudioPlayerState.OnError -> emitState { state ->
@@ -69,6 +65,7 @@ class PlayerViewModel @Inject constructor(
                             )
                         )
                     }
+                    AudioPlayerState.Disposed -> {}
                 }
             }
         }

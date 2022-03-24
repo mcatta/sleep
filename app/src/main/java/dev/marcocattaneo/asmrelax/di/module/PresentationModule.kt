@@ -19,15 +19,17 @@ package dev.marcocattaneo.asmrelax.di.module
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import dev.marcocattaneo.asmrelax.ui.player.AudioPlayer
 import dev.marcocattaneo.asmrelax.ui.player.AudioPlayerImpl
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class PresentationModule {
 
     @Binds
+    @Singleton
     abstract fun provideAudioPlayer(audioPlayerImpl: AudioPlayerImpl): AudioPlayer
 
 }

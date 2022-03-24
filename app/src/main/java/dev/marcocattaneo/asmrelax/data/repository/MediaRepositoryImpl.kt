@@ -24,11 +24,10 @@ import dev.marcocattaneo.asmrelax.domain.AppException
 import dev.marcocattaneo.asmrelax.domain.model.MediaFile
 import dev.marcocattaneo.asmrelax.domain.model.Path
 import dev.marcocattaneo.asmrelax.domain.repository.MediaRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import kotlin.coroutines.resume
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class MediaRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val mediaFileMapper: MediaFileMapper
@@ -40,19 +39,18 @@ class MediaRepositoryImpl @Inject constructor(
 
     private val mediaStorageRef = firebaseStorage.reference.child(AUDIO_FOLDER)
 
-    override suspend fun listMedia(
-    ): Either<AppException, List<MediaFile>> = suspendCancellableCoroutine { continuation ->
-        mediaStorageRef.listAll()
-            .addOnSuccessListener { listResult ->
-                listResult.items
-                    .map(mediaFileMapper::mapTo)
-                    .let { list -> Either.Right(list) }
-                    .let { continuation.resume(it) {} }
-            }
-            .addOnFailureListener {
-                continuation.resume(Either.Left(AppException.GenericError)) {}
-            }
-    }
+    override suspend fun listMedia(): Either<AppException, List<MediaFile>> =
+        suspendCancellableCoroutine { continuation ->
+            mediaStorageRef.listAll()
+                .addOnSuccessListener { listResult ->
+                    listResult.items
+                        .map(mediaFileMapper::mapTo)
+                        .let { list -> continuation.resume(Either.Right(list)) }
+                }
+                .addOnFailureListener {
+                    continuation.resume(Either.Left(AppException.GenericError))
+                }
+        }
 
     override suspend fun urlFromPath(
         path: Path
@@ -61,7 +59,7 @@ class MediaRepositoryImpl @Inject constructor(
             .reference
             .child(path)
             .downloadUrl
-            .addOnSuccessListener { url -> continuation.resume(Either.Right(url)) {} }
-            .addOnFailureListener { continuation.resume(Either.Left(AppException.GenericError)) {} }
+            .addOnSuccessListener { url -> continuation.resume(Either.Right(url)) }
+            .addOnFailureListener { continuation.resume(Either.Left(AppException.GenericError)) }
     }
 }

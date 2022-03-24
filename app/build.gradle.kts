@@ -79,8 +79,10 @@ dependencies {
     implementation(ComposeLibs.NAVIGATION)
     implementation(ComposeLibs.HILT_NAVIGATION)
     implementation(ComposeLibs.ACTIVITY)
-    implementation("com.google.firebase:firebase-storage:20.0.0")
-    implementation("io.arrow-kt:arrow-core:1.0.1")
+
+    implementation(ThirdPartyLibs.FIREBASE_STORAGE)
+    implementation(ThirdPartyLibs.ARROW_CORE)
+    implementation(ThirdPartyLibs.TIMBER)
 
     testImplementation(TestLibs.JUNIT)
     androidTestImplementation(AndroidXTestLibs.JUNIT)

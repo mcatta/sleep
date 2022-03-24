@@ -16,6 +16,7 @@
 
 package dev.marcocattaneo.asmrelax
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,17 +27,23 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.marcocattaneo.asmrelax.navigation.NavigationComponent
 import dev.marcocattaneo.asmrelax.navigation.NavigationControllerImpl
 import dev.marcocattaneo.asmrelax.navigation.composable
+import dev.marcocattaneo.asmrelax.ui.notification.PlayerNotificationService
 import dev.marcocattaneo.asmrelax.ui.screen.Routes
-import dev.marcocattaneo.asmrelax.ui.screen.login.HomeViewModel
-import dev.marcocattaneo.asmrelax.ui.screen.login.LoginScreen
+import dev.marcocattaneo.asmrelax.ui.screen.home.HomeViewModel
+import dev.marcocattaneo.asmrelax.ui.screen.home.HomeScreen
 import dev.marcocattaneo.asmrelax.ui.screen.player.PlayerScreen
 import dev.marcocattaneo.asmrelax.ui.screen.player.PlayerViewModel
 import dev.marcocattaneo.asmrelax.ui.theme.AndroidcomposetemplateTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Start NotificationService
+        startService(Intent(this, PlayerNotificationService::class.java))
+
         setContent {
             val navHostState = rememberNavController()
             val controller = NavigationControllerImpl(navHostState)
@@ -51,7 +58,7 @@ class MainActivity : ComponentActivity() {
                             route = Routes.Login,
                             navigationController = controller
                         ) { _, vm ->
-                            LoginScreen(vm)
+                            HomeScreen(vm)
                         }
 
                         composable<PlayerViewModel>(

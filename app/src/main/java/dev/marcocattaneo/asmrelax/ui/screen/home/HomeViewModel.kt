@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.asmrelax.ui.screen.login
+package dev.marcocattaneo.asmrelax.ui.screen.home
 
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
@@ -25,7 +25,6 @@ import dev.marcocattaneo.asmrelax.navigation.routing.generatePath
 import dev.marcocattaneo.asmrelax.ui.screen.RouteKeys
 import dev.marcocattaneo.asmrelax.ui.screen.Routes
 import dev.marcocattaneo.asmrelax.ui.screen.common.StateViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,22 +35,19 @@ class HomeViewModel @Inject constructor(
     initialState = Status()
 ) {
 
-    fun fetch(): Job {
-        val launch = viewModelScope.launch {
-            when (val res = mediaRepository.listMedia()) {
-                is Either.Left -> {
-                    // TODO error
-                }
-                is Either.Right -> {
-                    emitState { state ->
-                        state.copy(
-                            mediaFiles = res.value
-                        )
-                    }
+    fun fetch() = viewModelScope.launch {
+        when (val res = mediaRepository.listMedia()) {
+            is Either.Left -> {
+                res.value.printStackTrace()
+            }
+            is Either.Right -> {
+                emitState { state ->
+                    state.copy(
+                        mediaFiles = res.value
+                    )
                 }
             }
         }
-        return launch
     }
 
     fun openPlayer(url: String) = viewModelScope.launch {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.asmrelax.ui.screen.login
+package dev.marcocattaneo.asmrelax.ui.screen.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +31,7 @@ import dev.marcocattaneo.asmrelax.domain.model.MediaFile
 import dev.marcocattaneo.asmrelax.ui.theme.Dimen
 
 @Composable
-fun LoginScreen(
+fun HomeScreen(
     homeViewModel: HomeViewModel
 ) {
     val uiState by homeViewModel.uiState.collectAsState()

@@ -47,6 +47,12 @@ object HiltLibs {
     const val ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
 }
 
+object ThirdPartyLibs {
+    const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage:20.0.1"
+    const val TIMBER = "com.jakewharton.timber:timber:5.0.1"
+    const val ARROW_CORE = "io.arrow-kt:arrow-core:1.0.1"
+}
+
 object AndroidXLibs {
     const val APP_COMPACT= "androidx.appcompat:appcompat:${Versions.ACTIVITY}"
     const val CORE = "androidx.core:core-ktx:1.7.0"

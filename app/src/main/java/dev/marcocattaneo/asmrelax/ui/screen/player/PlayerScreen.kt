@@ -19,7 +19,6 @@ package dev.marcocattaneo.asmrelax.ui.screen.player
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 
@@ -28,9 +27,6 @@ fun PlayerScreen(
     playerViewModel: PlayerViewModel
 ) {
     val uiState by playerViewModel.uiState.collectAsState()
-    DisposableEffect(playerViewModel) {
-        onDispose { playerViewModel.dispose() }
-    }
 
     Column {
         Text(text = "Duration ${uiState.duration}")

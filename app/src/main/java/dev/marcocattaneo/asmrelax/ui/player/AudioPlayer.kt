@@ -16,6 +16,7 @@
 
 package dev.marcocattaneo.asmrelax.ui.player
 
+import android.media.MediaPlayer
 import android.net.Uri
 import kotlinx.coroutines.flow.StateFlow
 
@@ -26,5 +27,7 @@ interface AudioPlayer {
     fun start(uri: Uri)
 
     fun dispose()
+
+    val player: MediaPlayer
 
 }

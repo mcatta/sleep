@@ -46,7 +46,7 @@ class AudioPlayerImpl @Inject constructor(
         setOnPreparedListener {
             start()
             emitState(AudioPlayerState.OnProgress)
-            emitState(AudioPlayerState.UpdateDuration(duration.div(1_000)))
+            updatePlayerStatus(it)
         }
 
         setOnErrorListener { _, what, _ ->
@@ -59,10 +59,18 @@ class AudioPlayerImpl @Inject constructor(
     init {
         timer.schedule(object : TimerTask() {
             override fun run() {
-                emitState(AudioPlayerState.UpdatePosition(mediaPlayer.currentPosition.div(1_000)))
+                if (mediaPlayer.isPlaying) updatePlayerStatus(mediaPlayer)
             }
         }, 0, 1_000)
     }
+
+    private fun updatePlayerStatus(mediaPlayer: MediaPlayer) = emitState(
+        AudioPlayerState.PlayerStatus(
+            isPlaying = mediaPlayer.isPlaying,
+            duration = mediaPlayer.duration.div(1_000),
+            position = mediaPlayer.currentPosition.div(1_000)
+        )
+    )
 
     override fun state(): StateFlow<AudioPlayerState> = playerStateFlow
 
@@ -81,16 +89,25 @@ class AudioPlayerImpl @Inject constructor(
     override fun dispose() {
         mediaPlayer.release()
         timer.cancel()
+        emitState(AudioPlayerState.Disposed)
     }
+
+    override val player: MediaPlayer
+        get() = mediaPlayer
 
 }
 
 sealed interface AudioPlayerState {
     object None : AudioPlayerState
+    object Disposed : AudioPlayerState
     object OnInit : AudioPlayerState
     data class OnError(val errorCode: Int) : AudioPlayerState
-    data class UpdateDuration(val duration: Int) : AudioPlayerState
-    data class UpdatePosition(val position: Int) : AudioPlayerState
+    data class PlayerStatus(
+        val isPlaying: Boolean,
+        val position: Int,
+        val duration: Int
+    ) : AudioPlayerState
+
     object OnPause : AudioPlayerState
     object OnProgress : AudioPlayerState
 }

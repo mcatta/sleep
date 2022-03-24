@@ -17,5 +17,18 @@
 package dev.marcocattaneo.asmrelax
 
 import android.app.Application
+import timber.log.Timber.DebugTree
+import timber.log.Timber.Forest.plant
 
-open class BaseApplication: Application()
+
+open class BaseApplication: Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        if (BuildConfig.DEBUG) {
+            plant(DebugTree())
+        }
+    }
+
+}
