@@ -16,7 +16,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.marcocattaneo.asmrelax">
+    package="dev.marcocattaneo.sleep">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -26,11 +26,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:name="dev.marcocattaneo.asmrelax.di.MyApplication"
+        android:name="dev.marcocattaneo.sleep.di.MyApplication"
         android:supportsRtl="true"
         android:theme="@style/Theme.Androidcomposetemplate">
         <activity
-            android:name="dev.marcocattaneo.asmrelax.MainActivity"
+            android:name="dev.marcocattaneo.sleep.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Androidcomposetemplate.NoActionBar">
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ui.notification.PlayerNotificationService" />
+        <service android:name="dev.marcocattaneo.sleep.ui.notification.PlayerNotificationService" />
     </application>
 
 </manifest>

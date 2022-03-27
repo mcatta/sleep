@@ -21,6 +21,7 @@ object Versions {
     const val ACTIVITY = "1.4.0"
     const val KOTLIN = "1.6.10"
     const val HILT = "2.41"
+    const val COROUTINE = "1.5.2"
 }
 
 object Sdk {
@@ -38,6 +39,14 @@ object ComposeLibs {
     const val UI_TEST = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
     const val NAVIGATION = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
     const val HILT_NAVIGATION = "androidx.hilt:hilt-navigation-compose:${Versions.COMPOSE_HILT_NAVIGATION}"
+}
+
+object ComposeAccompanistLibs {
+    const val PLACEHOLDER = "com.google.accompanist:accompanist-placeholder:0.23.1"
+}
+
+object KotlinLibs {
+    const val COROUTINE_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}"
 }
 
 object HiltLibs {

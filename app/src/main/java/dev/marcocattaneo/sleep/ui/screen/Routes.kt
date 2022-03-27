@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
+package dev.marcocattaneo.sleep.ui.screen
+
+import dev.marcocattaneo.sleep.navigation.routing.ScreenRoute
+
+object Routes {
+
+    object Login : ScreenRoute(
+        routeDefinition = Definition("login")
+    )
+
 }
 
-tasks {
-    register("clean", Delete::class.java) {
-        delete(rootProject.buildDir)
-    }
+object RouteKeys {
+    const val PATH_KEY = "path"
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
+plugins {
+    id("java-library")
+    id("org.jetbrains.kotlin.jvm")
 }
 
-tasks {
-    register("clean", Delete::class.java) {
-        delete(rootProject.buildDir)
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation(KotlinLibs.COROUTINE_CORE)
 }

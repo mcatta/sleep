@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
-}
+package dev.marcocattaneo.mvi.intent
 
-tasks {
-    register("clean", Delete::class.java) {
-        delete(rootProject.buildDir)
-    }
+import dev.marcocattaneo.mvi.State
+import dev.marcocattaneo.mvi.store.Store
+
+/**
+ * Intent factory used to create an Intent starting from an Action
+ * @param store store instance related to the intent factory [Store]
+ */
+abstract class IntentFactory<S: State, A: Action>(
+    private val store: Store<S>
+) {
+
+    abstract suspend fun buildIntent(action: A): Intent<S>
+
+    suspend fun handleSideEffectAction(action: A) = store.process(buildIntent(action))
+
 }

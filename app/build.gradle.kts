@@ -80,9 +80,12 @@ dependencies {
     implementation(ComposeLibs.HILT_NAVIGATION)
     implementation(ComposeLibs.ACTIVITY)
 
+    implementation(ComposeAccompanistLibs.PLACEHOLDER)
+
     implementation(ThirdPartyLibs.FIREBASE_STORAGE)
     implementation(ThirdPartyLibs.ARROW_CORE)
     implementation(ThirdPartyLibs.TIMBER)
+    implementation(project(mapOf("path" to ":mvi")))
 
     testImplementation(TestLibs.JUNIT)
     androidTestImplementation(AndroidXTestLibs.JUNIT)

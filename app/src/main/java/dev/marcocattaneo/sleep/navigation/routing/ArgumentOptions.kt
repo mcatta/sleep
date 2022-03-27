@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.0.3")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("com.google.gms:google-services:4.3.3")
-    }
-}
+package dev.marcocattaneo.sleep.navigation.routing
 
-tasks {
-    register("clean", Delete::class.java) {
-        delete(rootProject.buildDir)
-    }
-}
+import androidx.navigation.NavType
+
+/**
+ * Arguments Options specify for the argument keys used on the Screen Routes
+ * @param type argument type
+ * @param optional true if argument is optional
+ */
+class ArgumentOptions(
+    var type: NavType<*> = NavType.StringType,
+    var optional: Boolean = false
+)
