@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.ui.player
+package dev.marcocattaneo.sleep.ui.composables
 
-import android.media.MediaPlayer
-import android.net.Uri
-import kotlinx.coroutines.flow.StateFlow
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
-interface AudioPlayer {
-
-    fun state(): StateFlow<AudioPlayerState>
-
-    fun start(uri: Uri)
-
-    fun pause()
-
-    fun play()
-
-    fun dispose()
-
-    val player: MediaPlayer
-
+@Composable
+fun Body1(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.body1
+    )
 }

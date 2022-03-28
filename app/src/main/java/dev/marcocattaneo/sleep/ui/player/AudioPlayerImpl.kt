@@ -67,8 +67,8 @@ class AudioPlayerImpl @Inject constructor(
     private fun updatePlayerStatus(mediaPlayer: MediaPlayer) = emitState(
         AudioPlayerState.PlayerStatus(
             isPlaying = mediaPlayer.isPlaying,
-            duration = mediaPlayer.duration.div(1_000),
-            position = mediaPlayer.currentPosition.div(1_000)
+            duration = mediaPlayer.duration.div(1_000L),
+            position = mediaPlayer.currentPosition.div(1_000L)
         )
     )
 
@@ -88,6 +88,14 @@ class AudioPlayerImpl @Inject constructor(
         }
     }
 
+    override fun pause() = mediaPlayer.pause().also {
+        emitState(AudioPlayerState.OnPause)
+    }
+
+    override fun play() = mediaPlayer.start().also {
+        emitState(AudioPlayerState.OnProgress)
+    }
+
     override fun dispose() {
         mediaPlayer.release()
         timer.cancel()
@@ -103,11 +111,12 @@ sealed interface AudioPlayerState {
     object None : AudioPlayerState
     object Disposed : AudioPlayerState
     object OnInit : AudioPlayerState
+
     data class OnError(val errorCode: Int) : AudioPlayerState
     data class PlayerStatus(
         val isPlaying: Boolean,
-        val position: Int,
-        val duration: Int
+        val position: Long,
+        val duration: Long
     ) : AudioPlayerState
 
     object OnPause : AudioPlayerState

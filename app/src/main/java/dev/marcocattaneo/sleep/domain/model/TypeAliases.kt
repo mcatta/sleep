@@ -17,3 +17,5 @@
 package dev.marcocattaneo.sleep.domain.model
 
 typealias Path = String
+
+typealias PlayerSeconds = Long

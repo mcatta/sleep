@@ -62,8 +62,8 @@ class PlayerNotificationManager @Inject constructor(
         .show()
 
     fun updateNotification(
-        position: Int,
-        duration: Int,
+        position: Long,
+        duration: Long,
         isPlaying: Boolean
     ) = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.mipmap.ic_launcher)

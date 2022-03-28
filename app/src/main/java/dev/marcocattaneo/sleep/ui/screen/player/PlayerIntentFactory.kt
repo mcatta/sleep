@@ -38,7 +38,7 @@ class PlayerIntentFactory @Inject constructor(
         is PlayerAction.InitPlayer -> sideEffect {
             when (val result = mediaRepository.urlFromPath(action.urlPath)) {
                 is Either.Left -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))
-                is Either.Right -> PlayerAction.StartPlayer(result.value)
+                is Either.Right -> PlayerAction.SideEffectStartPlayer(result.value)
             }
         }
         is PlayerAction.UpdateDuration -> intent {
@@ -48,8 +48,16 @@ class PlayerIntentFactory @Inject constructor(
             )
         }
         is PlayerAction.UpdateStatus -> intent { copy(playerStatus = action.status) }
-        is PlayerAction.StartPlayer -> intent {
+        is PlayerAction.SideEffectStartPlayer -> intent {
             audioPlayer.start(action.uri)
+            this
+        }
+        PlayerAction.Pause -> intent {
+            audioPlayer.pause()
+            this
+        }
+        PlayerAction.Play -> intent {
+            audioPlayer.play()
             this
         }
     }

@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.ui.player
+package dev.marcocattaneo.sleep.ui.composables
 
-import android.media.MediaPlayer
-import android.net.Uri
-import kotlinx.coroutines.flow.StateFlow
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import dev.marcocattaneo.sleep.domain.model.PlayerSeconds
 
-interface AudioPlayer {
+@Composable
+fun screenWidth(): Float {
+    val context = LocalContext.current.resources
+    val displayMetrics = context.displayMetrics
+    return displayMetrics.widthPixels / displayMetrics.density
+}
 
-    fun state(): StateFlow<AudioPlayerState>
+fun PlayerSeconds.format(): String {
+    val minutes = (this % 3600) / 60
+    val seconds = this % 60
 
-    fun start(uri: Uri)
-
-    fun pause()
-
-    fun play()
-
-    fun dispose()
-
-    val player: MediaPlayer
-
+    return String.format("%02d:%02d", minutes, seconds)
 }

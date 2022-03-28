@@ -26,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import dev.marcocattaneo.sleep.ui.composables.BottomPlayerBar
 
 @Composable
 fun PlayerScreen(
@@ -40,11 +41,17 @@ fun PlayerScreen(
             content = content
         )
         if (uiState.playerStatus != PlayerState.PlayerStatus.None) {
-            Column(
-                modifier = Modifier.align(Alignment.BottomCenter)
-            ) {
-                Text(text = "Duration ${uiState.duration}")
-                Text(text = "Position ${uiState.position}")
+            BottomPlayerBar(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                position = uiState.position,
+                duration = uiState.duration,
+                isPlaying = uiState.playerStatus is PlayerState.PlayerStatus.Playing
+            ) { isPlaying ->
+                if (isPlaying) {
+                    playerViewModel.process(PlayerAction.Play)
+                } else {
+                    playerViewModel.process(PlayerAction.Pause)
+                }
             }
         }
     }
