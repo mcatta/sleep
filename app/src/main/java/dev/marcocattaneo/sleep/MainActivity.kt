@@ -33,7 +33,7 @@ import dev.marcocattaneo.sleep.ui.screen.home.HomeViewModel
 import dev.marcocattaneo.sleep.ui.screen.player.PlayerAction
 import dev.marcocattaneo.sleep.ui.screen.player.PlayerScreen
 import dev.marcocattaneo.sleep.ui.screen.player.PlayerViewModel
-import dev.marcocattaneo.sleep.ui.theme.AndroidcomposetemplateTheme
+import dev.marcocattaneo.sleep.ui.theme.SleepTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navHostState = rememberNavController()
             val controller = NavigationControllerImpl(navHostState)
-            AndroidcomposetemplateTheme {
+            SleepTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     val playerViewModel = hiltViewModel<PlayerViewModel>()
 

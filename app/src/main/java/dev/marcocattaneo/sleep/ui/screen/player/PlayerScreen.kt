@@ -16,17 +16,15 @@
 
 package dev.marcocattaneo.sleep.ui.screen.player
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import dev.marcocattaneo.sleep.ui.composables.BottomPlayerBar
+import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 
 @Composable
 fun PlayerScreen(
@@ -42,7 +40,8 @@ fun PlayerScreen(
         )
         if (uiState.playerStatus != PlayerState.PlayerStatus.None) {
             BottomPlayerBar(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier.align(Alignment.BottomCenter)
+                    .padding(horizontal = Margin16),
                 position = uiState.position,
                 duration = uiState.duration,
                 isPlaying = uiState.playerStatus is PlayerState.PlayerStatus.Playing

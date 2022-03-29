@@ -17,17 +17,23 @@
 package dev.marcocattaneo.sleep.ui.screen.home
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Text
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.ui.composables.Body1
+import dev.marcocattaneo.sleep.ui.composables.Body2
+import dev.marcocattaneo.sleep.ui.composables.H4
 import dev.marcocattaneo.sleep.ui.theme.Dimen
 import dev.marcocattaneo.sleep.ui.theme.placeholder
 
@@ -39,22 +45,37 @@ fun HomeScreen(
     val uiState by homeViewModel.uiState.collectAsState()
 
     LaunchedEffect(homeViewModel) {
+        homeViewModel.process(HomeAction.ShowLoading)
         homeViewModel.process(HomeAction.CheckAudioList)
     }
 
-    LazyColumn {
-        if (uiState.showLoading) {
-            repeat(5) {
-                item {
-                    MediaItem(
-                        modifier = Modifier.placeholder(true),
-                        mediaFile = null
-                    ) {}
+    Column(modifier = Modifier.fillMaxSize()) {
+        H4(
+            modifier = Modifier.padding(horizontal = Dimen.Margin16),
+            text = stringResource(id = R.string.home_header),
+            color = MaterialTheme.colors.onBackground
+        )
+        Body2(
+            modifier = Modifier.padding(horizontal = Dimen.Margin16),
+            text = stringResource(id = R.string.home_header_claim),
+            color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
+        )
+        Spacer(Modifier.size(Dimen.Margin16))
+
+        LazyColumn {
+            if (uiState.showLoading) {
+                repeat(5) {
+                    item {
+                        MediaItem(
+                            modifier = Modifier.placeholder(true),
+                            mediaFile = null
+                        ) {}
+                    }
                 }
-            }
-        } else {
-            uiState.mediaFiles.forEach {
-                item { MediaItem(mediaFile = it, onClick = onClickTrackCallback) }
+            } else {
+                uiState.mediaFiles.forEach {
+                    item { MediaItem(mediaFile = it, onClick = onClickTrackCallback) }
+                }
             }
         }
     }
@@ -66,8 +87,7 @@ private fun MediaItem(
     mediaFile: MediaFile?,
     onClick: (String) -> Unit
 ) {
-    Text(
-        text = mediaFile?.name ?: "Undefined",
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
@@ -80,5 +100,16 @@ private fun MediaItem(
                 vertical = Dimen.Margin8
             )
             .then(modifier)
-    )
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_play_circle_outline_24),
+            contentDescription = mediaFile?.name ?: "Undefined",
+            tint = MaterialTheme.colors.onBackground
+        )
+        Spacer(Modifier.size(Dimen.Margin8))
+        Body1(
+            text = mediaFile?.name ?: "Undefined",
+            color = MaterialTheme.colors.onBackground
+        )
+    }
 }

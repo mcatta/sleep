@@ -16,4 +16,6 @@
 
 <resources>
     <string name="app_name">Sleep-alpha</string>
+    <string name="home_header">Sleep tracks</string>
+    <string name="home_header_claim">The sound of silence</string>
 </resources>

@@ -33,6 +33,8 @@ class HomeIntentFactory @Inject constructor(
 
     override suspend fun buildIntent(action: HomeAction): Intent<HomeState> = when (action) {
 
+        HomeAction.ShowLoading -> intent { copy(showLoading = true) }
+
         HomeAction.CheckAudioList -> sideEffect {
             HomeAction.CheckAudioListResult(mediaRepository.listMedia())
         }

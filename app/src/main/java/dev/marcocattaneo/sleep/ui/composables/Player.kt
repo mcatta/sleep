@@ -16,6 +16,7 @@
 
 package dev.marcocattaneo.sleep.ui.composables
 
+import android.graphics.ColorSpace
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -28,11 +29,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.PlayerSeconds
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
@@ -52,64 +56,76 @@ fun BottomPlayerBar(
     position: PlayerSeconds,
     onChangePlayingStatus: (Boolean) -> Unit
 ) {
-    val screenWidth = screenWidth()
 
-    Card(
-        modifier = Modifier
-            .padding(Margin16)
-            .fillMaxWidth()
-            .then(modifier),
-        elevation = 10.dp,
-        content = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                IconButton(
-                    onClick = { onChangePlayingStatus(!isPlaying) },
-                    modifier = Modifier
-                        .padding(top = Margin16)
-                        .background(
-                            color = MaterialTheme.colors.secondaryVariant,
-                            shape = CircleShape
-                        )
-                ) {
-                    Icon(
-                        modifier = Modifier.size(48.dp),
-                        tint = MaterialTheme.colors.background,
-                        imageVector = if (isPlaying) Icons.Default.PlayArrow else Icons.Default.Close,
-                        contentDescription = null
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = Margin8, horizontal = Margin16)
-                ) {
-                    Body1(
-                        text = position.format(),
-                        modifier = Modifier.align(Alignment.CenterStart)
-                    )
-                    Body1(
-                        text = duration.format(),
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                    )
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colors.secondary.copy(alpha = 0.5f))
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .height(4.dp)
-                            .width((screenWidth * position).div(duration).dp)
-                            .background(MaterialTheme.colors.secondaryVariant)
-                            .clip(RoundedCornerShape(2.dp))
-                    )
-                }
-            }
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        SeekBar(duration = duration, position = position)
+        IconButton(
+            onClick = { onChangePlayingStatus(!isPlaying) },
+            modifier = Modifier
+                .padding(all = Margin16)
+                .background(
+                    color = MaterialTheme.colors.secondaryVariant,
+                    shape = CircleShape
+                )
+        ) {
+            Icon(
+                modifier = Modifier
+                    .size(48.dp)
+                    .padding(Margin8),
+                tint = MaterialTheme.colors.background,
+                painter = painterResource(id = if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24),
+                contentDescription = null
+            )
         }
-    )
+    }
+}
+
+@Composable
+private fun SeekBar(
+    position: PlayerSeconds,
+    duration: PlayerSeconds
+) {
+    val screenWidth = screenWidth()
+    val progressWidth = (screenWidth * position).div(duration)
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = Margin8)
+        ) {
+            OverLine(
+                text = position.format(),
+                modifier = Modifier.align(Alignment.CenterStart)
+            )
+            OverLine(
+                text = duration.format(),
+                modifier = Modifier.align(Alignment.CenterEnd)
+            )
+        }
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(4.dp)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .height(4.dp)
+                .width(progressWidth.dp)
+                .clip(RoundedCornerShape(4.dp))
+                .background(MaterialTheme.colors.secondaryVariant)
+        )
+        Box(
+            modifier = Modifier
+                .height(2.dp)
+                .width(screenWidth.minus(progressWidth).dp)
+                .background(MaterialTheme.colors.secondaryVariant.copy(alpha = 0.4f))
+        )
+    }
 }
 
 @Composable
