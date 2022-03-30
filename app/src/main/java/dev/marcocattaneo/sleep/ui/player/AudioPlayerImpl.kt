@@ -20,6 +20,7 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
+import dev.marcocattaneo.sleep.domain.model.Minutes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,6 +33,8 @@ class AudioPlayerImpl @Inject constructor(
 ) : AudioPlayer {
 
     private val playerStateFlow = MutableStateFlow<AudioPlayerState>(AudioPlayerState.None)
+
+    var stopDate: Long? = null
 
     private val timer = Timer()
 
@@ -59,7 +62,15 @@ class AudioPlayerImpl @Inject constructor(
     init {
         timer.schedule(object : TimerTask() {
             override fun run() {
-                if (mediaPlayer.isPlaying) updatePlayerStatus(mediaPlayer)
+                if (mediaPlayer.isPlaying) {
+                    updatePlayerStatus(mediaPlayer)
+
+                    stopDate?.let { stopDate ->
+                        if (System.currentTimeMillis() > stopDate) {
+                            stop()
+                        }
+                    }
+                }
             }
         }, 0, 1_000)
     }
@@ -79,6 +90,7 @@ class AudioPlayerImpl @Inject constructor(
     }
 
     override fun start(uri: Uri) {
+        stopDate = null
         emitState(AudioPlayerState.OnInit)
         mediaPlayer.stop()
         mediaPlayer.reset()
@@ -94,6 +106,14 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun play() = mediaPlayer.start().also {
         emitState(AudioPlayerState.OnProgress)
+    }
+
+    override fun stop() = mediaPlayer.stop().also {
+        emitState(AudioPlayerState.OnStop)
+    }
+
+    override fun stopAfter(minutes: Minutes) {
+        stopDate = System.currentTimeMillis().plus(minutes.times(60).times(1_000))
     }
 
     override fun dispose() {
@@ -121,4 +141,5 @@ sealed interface AudioPlayerState {
 
     object OnPause : AudioPlayerState
     object OnProgress : AudioPlayerState
+    object OnStop : AudioPlayerState
 }

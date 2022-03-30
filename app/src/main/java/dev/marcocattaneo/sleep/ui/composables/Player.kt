@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.R
-import dev.marcocattaneo.sleep.domain.model.PlayerSeconds
+import dev.marcocattaneo.sleep.domain.model.Seconds
 import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
@@ -46,8 +46,8 @@ import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
 fun BottomPlayerBar(
     modifier: Modifier = Modifier,
     isPlaying: Boolean,
-    duration: PlayerSeconds,
-    position: PlayerSeconds,
+    duration: Seconds,
+    position: Seconds,
     onChangePlayingStatus: (Boolean) -> Unit,
     onChangeStopTimer: (Long) -> Unit
 ) {
@@ -120,8 +120,8 @@ fun BottomPlayerBar(
 
 @Composable
 private fun SeekBar(
-    position: PlayerSeconds,
-    duration: PlayerSeconds
+    position: Seconds,
+    duration: Seconds
 ) {
     val screenWidth = screenWidth()
     val progressWidth = (screenWidth * position).div(duration)

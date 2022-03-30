@@ -23,7 +23,8 @@ import dev.marcocattaneo.sleep.domain.model.Path
 import dev.marcocattaneo.mvi.State
 import dev.marcocattaneo.mvi.intent.Action
 import dev.marcocattaneo.mvi.store.ChannelStore
-import dev.marcocattaneo.sleep.domain.model.PlayerSeconds
+import dev.marcocattaneo.sleep.domain.model.Minutes
+import dev.marcocattaneo.sleep.domain.model.Seconds
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
@@ -36,12 +37,13 @@ class PlayerStore @Inject constructor(
 )
 
 data class PlayerState(
-    val duration: PlayerSeconds = 0,
-    val position: PlayerSeconds = 0,
-    val playerStatus: PlayerStatus = PlayerStatus.None
+    val duration: Seconds = 0,
+    val position: Seconds = 0,
+    val playerStatus: PlayerStatus = PlayerStatus.Stop
 ) : State {
     sealed interface PlayerStatus {
-        object None : PlayerStatus
+        object Stop : PlayerStatus
+        object Disposed : PlayerStatus
         object Init : PlayerStatus
         object Playing : PlayerStatus
         object Pause : PlayerStatus
@@ -52,10 +54,11 @@ data class PlayerState(
 sealed interface PlayerAction : Action {
     data class InitPlayer(val urlPath: Path) : PlayerAction
     data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
-    data class UpdateDuration(val duration: PlayerSeconds, val position: PlayerSeconds) : PlayerAction
+    data class UpdateDuration(val duration: Seconds, val position: Seconds) : PlayerAction
 
     object Play: PlayerAction
     object Pause: PlayerAction
+    data class StopAfter(val minutes: Minutes) : PlayerAction
 
     data class SideEffectStartPlayer(val uri: Uri) : PlayerAction
 }

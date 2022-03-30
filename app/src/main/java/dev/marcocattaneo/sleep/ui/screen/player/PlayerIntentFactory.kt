@@ -24,6 +24,7 @@ import dev.marcocattaneo.mvi.intent.Intent
 import dev.marcocattaneo.mvi.intent.IntentFactory
 import dev.marcocattaneo.mvi.intent.intent
 import dev.marcocattaneo.mvi.intent.sideEffect
+import timber.log.Timber
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -60,6 +61,12 @@ class PlayerIntentFactory @Inject constructor(
             audioPlayer.play()
             this
         }
+        is PlayerAction.StopAfter -> intent {
+            audioPlayer.stopAfter(action.minutes)
+            this
+        }
+    }.also {
+        Timber.d("Built Intent for action $action")
     }
 
 }

@@ -42,6 +42,7 @@ class PlayerViewModel @Inject constructor(
                     AudioPlayerState.OnInit -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Init)
                     AudioPlayerState.OnPause -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Pause)
                     AudioPlayerState.OnProgress -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Playing)
+                    AudioPlayerState.OnStop -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Stop)
 
                     is AudioPlayerState.PlayerStatus -> PlayerAction.UpdateDuration(
                         duration = it.duration,
@@ -52,8 +53,8 @@ class PlayerViewModel @Inject constructor(
                         PlayerState.PlayerStatus.Error(it.errorCode)
                     )
 
-                    AudioPlayerState.None,
-                    AudioPlayerState.Disposed -> null
+                    AudioPlayerState.Disposed -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Disposed)
+                    AudioPlayerState.None -> null
                 }?.let(::process)
             }
         }

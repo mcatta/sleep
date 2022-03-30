@@ -18,7 +18,7 @@ package dev.marcocattaneo.sleep.ui.composables
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import dev.marcocattaneo.sleep.domain.model.PlayerSeconds
+import dev.marcocattaneo.sleep.domain.model.Seconds
 
 @Composable
 fun screenWidth(): Float {
@@ -27,7 +27,7 @@ fun screenWidth(): Float {
     return displayMetrics.widthPixels / displayMetrics.density
 }
 
-fun PlayerSeconds.format(): String {
+fun Seconds.format(): String {
     val minutes = (this % 3600) / 60
     val seconds = this % 60
 

@@ -39,7 +39,10 @@ fun PlayerScreen(
             content = content
         )
         CollapseAnimation(
-            visible = uiState.playerStatus != PlayerState.PlayerStatus.None,
+            visible = uiState.playerStatus !in listOf(
+                PlayerState.PlayerStatus.Disposed,
+                PlayerState.PlayerStatus.Stop,
+            ),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = Margin16)
@@ -55,7 +58,9 @@ fun PlayerScreen(
                         playerViewModel.process(PlayerAction.Pause)
                     }
                 },
-                onChangeStopTimer = {}
+                onChangeStopTimer = {
+                    playerViewModel.process(PlayerAction.StopAfter(it))
+                }
             )
         }
     }
