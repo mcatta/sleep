@@ -16,7 +16,6 @@
 
 package dev.marcocattaneo.sleep.ui.screen.player
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import dev.marcocattaneo.sleep.ui.composables.BottomPlayerBar
+import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 
 @Composable
@@ -38,20 +38,25 @@ fun PlayerScreen(
             modifier = Modifier.align(Alignment.TopCenter),
             content = content
         )
-        if (uiState.playerStatus != PlayerState.PlayerStatus.None) {
+        CollapseAnimation(
+            visible = uiState.playerStatus != PlayerState.PlayerStatus.None,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = Margin16)
+        ) {
             BottomPlayerBar(
-                modifier = Modifier.align(Alignment.BottomCenter)
-                    .padding(horizontal = Margin16),
                 position = uiState.position,
                 duration = uiState.duration,
-                isPlaying = uiState.playerStatus is PlayerState.PlayerStatus.Playing
-            ) { isPlaying ->
-                if (isPlaying) {
-                    playerViewModel.process(PlayerAction.Play)
-                } else {
-                    playerViewModel.process(PlayerAction.Pause)
-                }
-            }
+                isPlaying = uiState.playerStatus is PlayerState.PlayerStatus.Playing,
+                onChangePlayingStatus = { isPlaying ->
+                    if (isPlaying) {
+                        playerViewModel.process(PlayerAction.Play)
+                    } else {
+                        playerViewModel.process(PlayerAction.Pause)
+                    }
+                },
+                onChangeStopTimer = {}
+            )
         }
     }
 }

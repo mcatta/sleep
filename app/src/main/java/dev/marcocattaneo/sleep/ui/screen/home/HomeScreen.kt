@@ -31,9 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.MediaFile
-import dev.marcocattaneo.sleep.ui.composables.Body1
-import dev.marcocattaneo.sleep.ui.composables.Body2
-import dev.marcocattaneo.sleep.ui.composables.H4
+import dev.marcocattaneo.sleep.ui.composables.*
 import dev.marcocattaneo.sleep.ui.theme.Dimen
 import dev.marcocattaneo.sleep.ui.theme.placeholder
 
@@ -50,19 +48,21 @@ fun HomeScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        H4(
-            modifier = Modifier.padding(horizontal = Dimen.Margin16),
-            text = stringResource(id = R.string.home_header),
-            color = MaterialTheme.colors.onBackground
-        )
-        Body2(
-            modifier = Modifier.padding(horizontal = Dimen.Margin16),
-            text = stringResource(id = R.string.home_header_claim),
-            color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
-        )
-        Spacer(Modifier.size(Dimen.Margin16))
+        Column(modifier = Modifier.padding(horizontal = Dimen.Margin16)) {
+            H4(
+                text = stringResource(id = R.string.home_header),
+                color = MaterialTheme.colors.onBackground
+            )
+            Body2(
+                text = stringResource(id = R.string.home_header_claim),
+                color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
+            )
+            Spacer16()
+            Illustration(resource = R.drawable.ui_undraw_late_at_night)
+        }
 
         LazyColumn {
+            item { Spacer32() }
             if (uiState.showLoading) {
                 repeat(5) {
                     item {
@@ -106,7 +106,7 @@ private fun MediaItem(
             contentDescription = mediaFile?.name ?: "Undefined",
             tint = MaterialTheme.colors.onBackground
         )
-        Spacer(Modifier.size(Dimen.Margin8))
+        Spacer8()
         Body1(
             text = mediaFile?.name ?: "Undefined",
             color = MaterialTheme.colors.onBackground

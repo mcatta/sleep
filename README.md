@@ -1,57 +1,26 @@
 
-# Android Jetpack Compose Template
-[![Android CI](https://github.com/mcatta/android-compose-template/actions/workflows/ci.yml/badge.svg)](https://github.com/mcatta/android-compose-template/actions/workflows/ci.yml) ![Language](https://img.shields.io/github/languages/top/mcatta/android-compose-template?color=green&logo=kotlin)
+# Sleep App 😴
+[![Android CI](https://github.com/mcatta/sleep/actions/workflows/ci.yml/badge.svg)](https://github.com/mcatta/sleep/actions/workflows/ci.yml) ![Language](https://img.shields.io/github/languages/top/mcatta/sleep?color=green&logo=kotlin)
 
+This is a pet project we are building a Audio Player that reproduce a playlist hosted on Firebase Storage.
 
-A template for Android application written with Jetpack Compose
+Features "Wanna be"
+- reproduce audio player
+- allow the user to reproduce the playlist on display off
+- allow the user to set a timer that stops the playlist
 
-### Documentations
-This template is designed to allow developers to create an android project that supports Jetpack Compose. The main goal is to define a pattern to handle the Composable Screen and link them by using [Jetpack Navigation](https://developer.android.com/guide/navigation).
+### Technology 🔮
+- Android Clean Architecture
+- MVI pattern on the presentation layer
+- Jetpack Compose
 
-#### Routing
-To define a new route you need to put it [here](https://github.com/mcatta/android-compose-template/blob/main/app/src/main/java/dev/marcocattaneo/androidcomposetemplate/ui/screen/Routes.kt) as below:
-
-```kotlin
-object Dashboard : ScreenRoute(
-   routeDefinition = Definition("dashboard", argumentKeys = listOf(
-      "username" to { type = NavType.StringType; optional = false }
-   ))
-)
-```
-by adding the route `"dashboard"` and optional parameters in `argumentKeys` . After that you need only to define the Composable Screen that you want to show on this path in the [MainActivity](https://github.com/mcatta/android-compose-template/blob/main/app/src/main/java/dev/marcocattaneo/androidcomposetemplate/MainActivity.kt) :
-```kotlin
-NavigationComponent(
-  startRoute = Routes.Login,
-  navigationController = controller
-) {
-    composable<DashboardViewModel>(
-      route = Routes.Dashboard,
-      navigationController = controller
-    ) { _, vm ->
-	  DashboardScreen(vm)
-	}  
-}
-```
-and the related ViewModel associated to the screen.
-
-### Features
-
-Status | Feature
-:-------------| :-------------|  
-:white_check_mark: | Jetpack Compose for UI |  
-:white_check_mark: | Jetpack Navigation for Compose for routing/navigation |  
-:white_check_mark: | Dagger Hilt for DI |  
-:heavy_check_mark: | Improve navigation controller |  
-:white_check_mark: | Provide a sample UI |  
-:heavy_check_mark: | Documentation |  
-
-### Contributions
+### Contributions ♥️
 
 Every contributors are welcome. We are using [this convention](https://www.conventionalcommits.org/en/v1.0.0/).
 
 ### License
 ```
-Copyright 2021 Marco Cattaneo  
+Copyright 2022 Marco Cattaneo  
  
 Licensed under the Apache License, Version 2.0 (the "License");  
 you may not use this file except in compliance with the License.  

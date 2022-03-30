@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,26 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.ui.theme
+package dev.marcocattaneo.sleep.ui.composables
 
-import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import dev.marcocattaneo.sleep.ui.theme.Dimen
 
-val Purple200 = Color(0xFFF50057)
-val Purple500 = Color(0xFFc51162)
-val Purple700 = Color(0xFFc51162)
-val Teal200 = Color(0xFF03DAC5)
+
+@Composable
+fun Spacer32() {
+    Spacer(Modifier.size(Dimen.Margin32))
+}
+
+@Composable
+fun Spacer16() {
+    Spacer(Modifier.size(Dimen.Margin16))
+}
+
+@Composable
+fun Spacer8() {
+    Spacer(Modifier.size(Dimen.Margin8))
+}

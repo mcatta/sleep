@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.ui.theme
+package dev.marcocattaneo.sleep.ui.composables
 
-import androidx.compose.ui.graphics.Color
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 
-val Purple200 = Color(0xFFF50057)
-val Purple500 = Color(0xFFc51162)
-val Purple700 = Color(0xFFc51162)
-val Teal200 = Color(0xFF03DAC5)
+@Composable
+fun Illustration(
+    @DrawableRes resource: Int,
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(id = resource),
+        modifier = modifier,
+        contentDescription = "Illustration"
+    )
+}

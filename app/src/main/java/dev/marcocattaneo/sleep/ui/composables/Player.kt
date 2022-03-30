@@ -16,28 +16,22 @@
 
 package dev.marcocattaneo.sleep.ui.composables
 
-import android.graphics.ColorSpace
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.PlayerSeconds
+import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
 
@@ -54,31 +48,72 @@ fun BottomPlayerBar(
     isPlaying: Boolean,
     duration: PlayerSeconds,
     position: PlayerSeconds,
-    onChangePlayingStatus: (Boolean) -> Unit
+    onChangePlayingStatus: (Boolean) -> Unit,
+    onChangeStopTimer: (Long) -> Unit
 ) {
+    var timerVisible by remember { mutableStateOf(false) }
+    val onClickTimerButton: (Long) -> Unit =  {
+        onChangeStopTimer(it)
+        timerVisible = false
+    }
 
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SeekBar(duration = duration, position = position)
-        IconButton(
-            onClick = { onChangePlayingStatus(!isPlaying) },
-            modifier = Modifier
-                .padding(all = Margin16)
-                .background(
-                    color = MaterialTheme.colors.secondaryVariant,
-                    shape = CircleShape
-                )
-        ) {
-            Icon(
+        Box(modifier = Modifier.fillMaxWidth()) {
+            RoundedButton(
                 modifier = Modifier
-                    .size(48.dp)
-                    .padding(Margin8),
-                tint = MaterialTheme.colors.background,
-                painter = painterResource(id = if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24),
-                contentDescription = null
-            )
+                    .padding(all = Margin16)
+                    .align(Alignment.TopCenter),
+                onClick = { onChangePlayingStatus(!isPlaying) }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .padding(Margin8),
+                    tint = MaterialTheme.colors.background,
+                    painter = painterResource(id = if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24),
+                    contentDescription = null
+                )
+            }
+            RoundedButton(
+                backgroundColor = Color.Transparent,
+                modifier = Modifier
+                    .padding(all = Margin8)
+                    .align(Alignment.CenterEnd),
+                onClick = { timerVisible = !timerVisible }
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .padding(Margin8),
+                    tint = MaterialTheme.colors.onBackground,
+                    painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
+                    contentDescription = null
+                )
+            }
+        }
+        CollapseAnimation(
+            visible = timerVisible
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Margin16),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                RoundedButton(
+                    onClick = { onClickTimerButton(30) },
+                    content = { Caption(text = "30m", color = Color.White) }
+                )
+                Spacer8()
+                RoundedButton(
+                    onClick = { onClickTimerButton(60) },
+                    content = { Caption(text = "60m", color = Color.White) }
+                )
+            }
         }
     }
 }
@@ -117,13 +152,13 @@ private fun SeekBar(
                 .height(4.dp)
                 .width(progressWidth.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(MaterialTheme.colors.secondaryVariant)
+                .background(MaterialTheme.colors.primary)
         )
         Box(
             modifier = Modifier
                 .height(2.dp)
                 .width(screenWidth.minus(progressWidth).dp)
-                .background(MaterialTheme.colors.secondaryVariant.copy(alpha = 0.4f))
+                .background(MaterialTheme.colors.primary.copy(alpha = 0.4f))
         )
     }
 }
@@ -134,6 +169,8 @@ fun BottomPlayerBarPreview() {
     BottomPlayerBar(
         isPlaying = true,
         duration = 36000,
-        position = 5500
-    ) {}
+        position = 5500,
+        onChangePlayingStatus = {},
+        onChangeStopTimer = {}
+    )
 }
