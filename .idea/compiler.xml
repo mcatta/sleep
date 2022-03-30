@@ -4,6 +4,8 @@
     <bytecodeTargetLevel target="1.8">
       <module name="android-compose-template.app" target="11" />
       <module name="android-compose-template.buildSrc" target="11" />
+      <module name="sleep-app.app" target="11" />
+      <module name="sleep-app.buildSrc" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

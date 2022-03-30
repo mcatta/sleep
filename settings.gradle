@@ -22,6 +22,6 @@ dependencyResolutionManagement {
         jcenter() // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "android-compose-template"
+rootProject.name = "sleep-app"
 include ':app'
 include ':mvi'
