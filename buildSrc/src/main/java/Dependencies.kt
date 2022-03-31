@@ -73,6 +73,9 @@ object AndroidXTestLibs {
 
 object TestLibs {
     const val JUNIT = "junit:junit:4.13.2"
+    const val COROUTINE_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0"
+    const val MOCKK = "io.mockk:mockk:1.12.3"
+    const val MOCKK_ANDROID = "io.mockk:mockk-android:1.12.3"
 }
 
 object AndroidLibs {

@@ -87,7 +87,10 @@ dependencies {
     implementation(ThirdPartyLibs.TIMBER)
     implementation(project(mapOf("path" to ":mvi")))
 
-    testImplementation(TestLibs.JUNIT)
+    testImplementation(kotlin("test"))
+    testImplementation(TestLibs.MOCKK)
+    testImplementation(TestLibs.COROUTINE_TEST)
+
     androidTestImplementation(AndroidXTestLibs.JUNIT)
     androidTestImplementation(ComposeLibs.UI_TEST)
 
