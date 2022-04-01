@@ -1,4 +1,4 @@
-name: Android CI
+name: Sleep App CI
 
 on:
   push:

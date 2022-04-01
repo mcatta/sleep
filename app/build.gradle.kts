@@ -25,6 +25,15 @@ plugins {
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION
 
+    signingConfigs {
+        create("release") {
+            keyAlias = "sleep"
+            storeFile = file("release.keystore")
+            keyPassword = "sleepapp"
+            storePassword = "sleepapp"
+        }
+    }
+
     defaultConfig {
         applicationId = AppConfiguration.APPLICATION_ID
         minSdk = Sdk.MIN_SDK_VERSION
@@ -42,6 +51,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
+
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
