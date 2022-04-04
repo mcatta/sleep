@@ -33,7 +33,7 @@ interface AudioPlayer {
 
     fun play()
 
-    fun stopAfter(minutes: Minutes)
+    fun stopAfter(minutes: Minutes?)
 
     fun dispose()
 

@@ -16,10 +16,17 @@
 
 package dev.marcocattaneo.sleep.domain.model
 
-sealed interface TimeUnit
+sealed class TimeUnit constructor(val value: Long) {
+    override fun equals(other: Any?): Boolean = (other as? Minutes)?.value == this.value
+    override fun hashCode(): Int = value.hashCode()
+}
 
-data class Seconds(val value: Long): TimeUnit
-data class Minutes(val value: Long): TimeUnit
+class Seconds(value: Long): TimeUnit(value)
+class Minutes(value: Long): TimeUnit(value)
+
+/**
+ * Smart constructors
+ */
 
 inline val Int.sec: Seconds get() = this.toLong().sec
 

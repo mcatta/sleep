@@ -51,6 +51,7 @@ fun PlayerScreen(
                 position = uiState.position,
                 duration = uiState.duration,
                 isPlaying = uiState.playerStatus is PlayerState.PlayerStatus.Playing,
+                selectedStopTimer = uiState.stopTimer,
                 onChangePlayingStatus = { isPlaying ->
                     if (isPlaying) {
                         playerViewModel.process(PlayerAction.Play)

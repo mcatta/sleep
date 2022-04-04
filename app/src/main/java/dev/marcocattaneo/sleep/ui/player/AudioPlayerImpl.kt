@@ -21,6 +21,8 @@ import android.media.MediaPlayer
 import android.net.Uri
 import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
 import dev.marcocattaneo.sleep.domain.model.Minutes
+import dev.marcocattaneo.sleep.domain.model.Seconds
+import dev.marcocattaneo.sleep.domain.model.sec
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -78,8 +80,8 @@ class AudioPlayerImpl @Inject constructor(
     private fun updatePlayerStatus(mediaPlayer: MediaPlayer) = emitState(
         AudioPlayerState.PlayerStatus(
             isPlaying = mediaPlayer.isPlaying,
-            duration = mediaPlayer.duration.div(1_000L),
-            position = mediaPlayer.currentPosition.div(1_000L)
+            duration = mediaPlayer.duration.div(1_000L).sec,
+            position = mediaPlayer.currentPosition.div(1_000L).sec
         )
     )
 
@@ -112,8 +114,8 @@ class AudioPlayerImpl @Inject constructor(
         emitState(AudioPlayerState.OnStop)
     }
 
-    override fun stopAfter(minutes: Minutes) {
-        stopDate = System.currentTimeMillis().plus(minutes.value.times(60).times(1_000))
+    override fun stopAfter(minutes: Minutes?) {
+        stopDate = minutes?.let { System.currentTimeMillis().plus(it.value.times(60).times(1_000)) }
     }
 
     override fun dispose() {
@@ -135,8 +137,8 @@ sealed interface AudioPlayerState {
     data class OnError(val errorCode: Int) : AudioPlayerState
     data class PlayerStatus(
         val isPlaying: Boolean,
-        val position: Long,
-        val duration: Long
+        val position: Seconds,
+        val duration: Seconds
     ) : AudioPlayerState
 
     object OnPause : AudioPlayerState

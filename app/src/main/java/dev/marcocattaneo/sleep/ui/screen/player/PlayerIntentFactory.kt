@@ -18,12 +18,13 @@ package dev.marcocattaneo.sleep.ui.screen.player
 
 import arrow.core.Either
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.marcocattaneo.sleep.domain.repository.MediaRepository
-import dev.marcocattaneo.sleep.ui.player.AudioPlayer
 import dev.marcocattaneo.mvi.intent.Intent
 import dev.marcocattaneo.mvi.intent.IntentFactory
 import dev.marcocattaneo.mvi.intent.intent
 import dev.marcocattaneo.mvi.intent.sideEffect
+import dev.marcocattaneo.sleep.domain.model.Minutes
+import dev.marcocattaneo.sleep.domain.repository.MediaRepository
+import dev.marcocattaneo.sleep.ui.player.AudioPlayer
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -62,8 +63,12 @@ class PlayerIntentFactory @Inject constructor(
             this
         }
         is PlayerAction.StopAfter -> intent {
-            audioPlayer.stopAfter(action.minutes)
-            this
+            val newTimer: Minutes? = if (this.stopTimer != action.minutes) {
+                action.minutes
+            } else null
+
+            audioPlayer.stopAfter(newTimer)
+            copy(stopTimer = newTimer)
         }
     }.also {
         Timber.d("Built Intent for action $action")

@@ -40,7 +40,8 @@ class PlayerStore @Inject constructor(
 data class PlayerState(
     val duration: Seconds = 0.sec,
     val position: Seconds = 0.sec,
-    val playerStatus: PlayerStatus = PlayerStatus.Stop
+    val playerStatus: PlayerStatus = PlayerStatus.Stop,
+    val stopTimer: Minutes? = null
 ) : State {
     sealed interface PlayerStatus {
         object Stop : PlayerStatus

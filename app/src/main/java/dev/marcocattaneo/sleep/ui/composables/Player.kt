@@ -43,6 +43,8 @@ import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
  * @param isPlaying true if is playing
  * @param duration duration in seconds
  * @param position position in seconds
+ * @param selectedStopTimer selected stop timeframe
+ * @param supportedStoppingTimeframes supported timeframes
  * @param onChangePlayingStatus
  */
 @Composable
@@ -51,11 +53,13 @@ fun BottomPlayerBar(
     isPlaying: Boolean,
     duration: Seconds,
     position: Seconds,
+    selectedStopTimer: Minutes? = null,
+    supportedStoppingTimeframes: Set<Minutes> = setOf(10.min, 20.min, 30.min),
     onChangePlayingStatus: (Boolean) -> Unit,
     onChangeStopTimer: (Minutes) -> Unit
 ) {
     var timerVisible by remember { mutableStateOf(false) }
-    val onClickTimerButton: (Minutes) -> Unit =  {
+    val onClickTimerButton: (Minutes) -> Unit = {
         onChangeStopTimer(it)
         timerVisible = false
     }
@@ -107,15 +111,17 @@ fun BottomPlayerBar(
                     .padding(Margin16),
                 horizontalArrangement = Arrangement.Center
             ) {
-                RoundedButton(
-                    onClick = { onClickTimerButton(30.min) },
-                    content = { Caption(text = "30m", color = Color.White) }
-                )
-                Spacer8()
-                RoundedButton(
-                    onClick = { onClickTimerButton(60.min) },
-                    content = { Caption(text = "60m", color = Color.White) }
-                )
+                supportedStoppingTimeframes.forEach { timeFrame ->
+                    RoundedButton(
+                        modifier = Modifier.padding(horizontal = Margin8),
+                        onClick = { onClickTimerButton(timeFrame) },
+                        content = { Caption(text = "${timeFrame.value}m", color = Color.White) },
+                        backgroundColor = if (selectedStopTimer == timeFrame)
+                            MaterialTheme.colors.secondary
+                        else
+                            MaterialTheme.colors.primary
+                    )
+                }
             }
         }
     }

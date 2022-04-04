@@ -24,6 +24,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.marcocattaneo.sleep.R
+import dev.marcocattaneo.sleep.domain.model.Seconds
 import javax.inject.Inject
 
 class PlayerNotificationManager @Inject constructor(
@@ -62,8 +63,8 @@ class PlayerNotificationManager @Inject constructor(
         .show()
 
     fun updateNotification(
-        position: Long,
-        duration: Long,
+        position: Seconds,
+        duration: Seconds,
         isPlaying: Boolean
     ) = NotificationCompat.Builder(context, CHANNEL_ID)
         .setSmallIcon(R.mipmap.ic_launcher)
