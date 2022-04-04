@@ -18,5 +18,6 @@ package dev.marcocattaneo.sleep.domain.model
 
 data class MediaFile(
     val name: String,
+    val fileName: String,
     val path: String
 )

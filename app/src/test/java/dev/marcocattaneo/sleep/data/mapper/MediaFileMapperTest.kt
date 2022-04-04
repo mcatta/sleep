@@ -35,6 +35,7 @@ class MediaFileMapperTest {
         val mapped = mediaFileMapper.mapTo(storageReference)
 
         // Then
+        assertEquals("name.mp3", mapped.fileName)
         assertEquals("name", mapped.name)
         assertEquals("path", mapped.path)
     }
@@ -43,7 +44,7 @@ class MediaFileMapperTest {
 
 fun mockStorageReference(): StorageReference {
     val ref = mockk<StorageReference>()
-    every { ref.name } returns "name"
+    every { ref.name } returns "name.mp3"
     every { ref.path } returns "path"
     return ref
 }

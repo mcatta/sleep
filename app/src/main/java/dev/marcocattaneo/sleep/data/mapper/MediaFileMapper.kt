@@ -23,7 +23,8 @@ import javax.inject.Inject
 
 class MediaFileMapper @Inject constructor(): Mapper<StorageReference, MediaFile> {
     override fun mapTo(from: StorageReference): MediaFile = MediaFile(
-        name = from.name,
+        fileName = from.name,
+        name = from.name.replace(".mp3", ""),
         path = from.path
     )
 }
