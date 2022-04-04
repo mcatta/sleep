@@ -16,4 +16,15 @@
 
 package dev.marcocattaneo.sleep.domain.model
 
-typealias Path = String
+sealed interface TimeUnit
+
+data class Seconds(val value: Long): TimeUnit
+data class Minutes(val value: Long): TimeUnit
+
+inline val Int.sec: Seconds get() = this.toLong().sec
+
+inline val Int.min: Minutes get() = this.toLong().min
+
+inline val Long.sec: Seconds get() = Seconds(this)
+
+inline val Long.min: Minutes get() = Minutes(this)

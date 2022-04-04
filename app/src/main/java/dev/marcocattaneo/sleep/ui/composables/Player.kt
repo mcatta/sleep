@@ -30,7 +30,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.R
+import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.Seconds
+import dev.marcocattaneo.sleep.domain.model.min
+import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
@@ -49,10 +52,10 @@ fun BottomPlayerBar(
     duration: Seconds,
     position: Seconds,
     onChangePlayingStatus: (Boolean) -> Unit,
-    onChangeStopTimer: (Long) -> Unit
+    onChangeStopTimer: (Minutes) -> Unit
 ) {
     var timerVisible by remember { mutableStateOf(false) }
-    val onClickTimerButton: (Long) -> Unit =  {
+    val onClickTimerButton: (Minutes) -> Unit =  {
         onChangeStopTimer(it)
         timerVisible = false
     }
@@ -105,12 +108,12 @@ fun BottomPlayerBar(
                 horizontalArrangement = Arrangement.Center
             ) {
                 RoundedButton(
-                    onClick = { onClickTimerButton(30) },
+                    onClick = { onClickTimerButton(30.min) },
                     content = { Caption(text = "30m", color = Color.White) }
                 )
                 Spacer8()
                 RoundedButton(
-                    onClick = { onClickTimerButton(60) },
+                    onClick = { onClickTimerButton(60.min) },
                     content = { Caption(text = "60m", color = Color.White) }
                 )
             }
@@ -124,7 +127,7 @@ private fun SeekBar(
     duration: Seconds
 ) {
     val screenWidth = screenWidth()
-    val progressWidth = (screenWidth * position).div(duration)
+    val progressWidth = (screenWidth * position.value).div(duration.value)
     Column {
         Box(
             modifier = Modifier
@@ -168,8 +171,8 @@ private fun SeekBar(
 fun BottomPlayerBarPreview() {
     BottomPlayerBar(
         isPlaying = true,
-        duration = 36000,
-        position = 5500,
+        duration = 36000.sec,
+        position = 5500.sec,
         onChangePlayingStatus = {},
         onChangeStopTimer = {}
     )

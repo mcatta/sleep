@@ -113,7 +113,7 @@ class AudioPlayerImpl @Inject constructor(
     }
 
     override fun stopAfter(minutes: Minutes) {
-        stopDate = System.currentTimeMillis().plus(minutes.times(60).times(1_000))
+        stopDate = System.currentTimeMillis().plus(minutes.value.times(60).times(1_000))
     }
 
     override fun dispose() {
