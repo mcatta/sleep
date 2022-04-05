@@ -4,10 +4,13 @@
 
 This is a pet project we are building a Audio Player that reproduce a playlist hosted on Firebase Storage.
 
-Features "Wanna be"
-- reproduce audio player
+Features done:
+- reproduce audio player from Firebase Storage
 - allow the user to reproduce the playlist on display off
 - allow the user to set a timer that stops the playlist
+
+Features "Wanna be"
+- Add statistics
 
 ### Technology 🔮
 - Android Clean Architecture

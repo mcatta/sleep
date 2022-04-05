@@ -18,7 +18,25 @@ package dev.marcocattaneo.sleep.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFF50057)
-val Purple500 = Color(0xFFc51162)
-val Purple700 = Color(0xFFc51162)
-val Teal200 = Color(0xFF03DAC5)
+val Cherry500 = Color(0xFFE5376E)
+val Cherry700 = Color(0xFFBD3064)
+val Cherry900 = Color(0xFF812654)
+val Cherry800 = Color(0xFFA82C5F)
+
+val Pumpkin500 = Color(0xFFFE2824)
+val Pumpkin700 = Color(0xFFEF1725)
+
+val Prune300 = Color(0xFF735CB4)
+val Prune500 = Color(0xFF5A41AA)
+
+val CandyPaper50 = Color(0xFFF8EDEB)
+val CandyPaper0 = Color(0xFFFCF7F6)
+
+val Mud900 = Color(0xFF122936)
+val Mud800 = Color(0xFF233D4D)
+val Mud50 = Color(0xFFE2EEFA)
+
+val VolcanicStone = Color(0xFF212529)
+
+val White = Color(0xFFFFFFFF)
+val DirtyWhite = Color(0xFFF5F5F5)

@@ -43,6 +43,7 @@ object ComposeLibs {
 
 object ComposeAccompanistLibs {
     const val PLACEHOLDER = "com.google.accompanist:accompanist-placeholder:0.23.1"
+    const val SYSTEM_UI_CONTROLLER = "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
 }
 
 object KotlinLibs {

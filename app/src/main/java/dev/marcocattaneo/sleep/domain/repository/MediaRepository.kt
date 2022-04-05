@@ -19,12 +19,12 @@ package dev.marcocattaneo.sleep.domain.repository
 import android.net.Uri
 import arrow.core.Either
 import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.model.Path
+import dev.marcocattaneo.sleep.domain.model.StorageFile
 
 interface MediaRepository {
 
-    suspend fun listMedia(): Either<AppException, List<MediaFile>>
+    suspend fun listMedia(): Either<AppException, List<StorageFile>>
 
     suspend fun urlFromPath(path: Path): Either<AppException, Uri>
 

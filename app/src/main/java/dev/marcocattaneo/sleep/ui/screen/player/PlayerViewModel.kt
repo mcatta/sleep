@@ -39,23 +39,28 @@ class PlayerViewModel @Inject constructor(
         viewModelScope.launch {
             audioPlayer.state().collect {
                 when (it) {
-                    AudioPlayerState.OnInit -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Init)
-                    AudioPlayerState.OnPause -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Pause)
-                    AudioPlayerState.OnProgress -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Playing)
-                    AudioPlayerState.OnStop -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Stop)
+                    AudioPlayerState.OnInit -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Init))
+                    AudioPlayerState.OnPause -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Pause))
+                    AudioPlayerState.OnProgress -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Playing))
+                    AudioPlayerState.OnStop -> {
+                        listOf(
+                            PlayerAction.StopAfter(null),
+                            PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Stop)
+                        )
+                    }
 
-                    is AudioPlayerState.PlayerStatus -> PlayerAction.UpdateDuration(
-                        duration = it.duration,
-                        position = it.position
+                    is AudioPlayerState.PlayerStatus -> listOf(
+                        PlayerAction.UpdateDuration(duration = it.duration, position = it.position)
+                    )
+                    is AudioPlayerState.OnError -> listOf(
+                        PlayerAction.UpdateStatus(
+                            PlayerState.PlayerStatus.Error(it.errorCode)
+                        )
                     )
 
-                    is AudioPlayerState.OnError -> PlayerAction.UpdateStatus(
-                        PlayerState.PlayerStatus.Error(it.errorCode)
-                    )
-
-                    AudioPlayerState.Disposed -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Disposed)
+                    AudioPlayerState.Disposed -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Disposed))
                     AudioPlayerState.None -> null
-                }?.let(::process)
+                }?.map(::process)
             }
         }
     }
