@@ -24,18 +24,18 @@ import androidx.compose.runtime.Composable
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
-    primary = Pumpkin500,
-    primaryVariant = Pumpkin700,
-    secondary = Cherry500,
-    secondaryVariant = Cherry700,
-    background = CandyPaper0,
-    surface = CandyPaper50,
-    onPrimary = White,
-    onSecondary = White,
-    onBackground = VolcanicStone,
-    onSurface = VolcanicStone,
-    error = Cherry500,
-    onError = White
+    secondary = Prune300,
+    secondaryVariant = Prune500,
+    primary = Cherry800,
+    primaryVariant = Cherry900,
+    background = Mud900,
+    surface = Mud800,
+    onPrimary = DirtyWhite,
+    onSecondary = DirtyWhite,
+    onBackground = Mud50,
+    onSurface = Mud50,
+    error = Prune300,
+    onError = DirtyWhite
 )
 
 private val LightColorPalette = lightColors(

@@ -102,7 +102,6 @@ fun BottomPlayerBar(
                             .padding(top = Margin32)
                             .align(Alignment.TopEnd),
                         style = TextStyle.Default.copy(fontSize = 8.sp),
-                        color = MaterialTheme.colors.primary,
                         text = "${minutes}m"
                     )
                 }
@@ -180,13 +179,13 @@ private fun SeekBar(
                 .height(4.dp)
                 .width(progressWidth.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(MaterialTheme.colors.primary)
+                .background(MaterialTheme.colors.primaryVariant)
         )
         Box(
             modifier = Modifier
                 .height(2.dp)
                 .width(screenWidth.minus(progressWidth).dp)
-                .background(MaterialTheme.colors.primary.copy(alpha = 0.4f))
+                .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.4f))
         )
     }
 }
