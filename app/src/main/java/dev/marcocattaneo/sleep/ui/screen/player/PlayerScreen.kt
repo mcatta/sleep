@@ -43,11 +43,10 @@ fun PlayerScreen(
                 PlayerState.PlayerStatus.Disposed,
                 PlayerState.PlayerStatus.Stop,
             ),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = Margin16)
+            modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             BottomPlayerBar(
+                modifier = Modifier.padding(horizontal = Margin16),
                 position = uiState.position,
                 duration = uiState.duration,
                 isPlaying = uiState.playerStatus is PlayerState.PlayerStatus.Playing,

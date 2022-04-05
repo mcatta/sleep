@@ -17,10 +17,12 @@
 package dev.marcocattaneo.sleep.data.mapper
 
 import com.google.firebase.storage.StorageReference
+import dev.marcocattaneo.sleep.domain.model.MediaFile
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class MediaFileMapperTest {
 
@@ -35,6 +37,7 @@ class MediaFileMapperTest {
         val mapped = mediaFileMapper.mapTo(storageReference)
 
         // Then
+        assertIs<MediaFile>(mapped)
         assertEquals("name.mp3", mapped.fileName)
         assertEquals("name", mapped.name)
         assertEquals("path", mapped.path)

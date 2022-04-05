@@ -16,9 +16,16 @@
 
 package dev.marcocattaneo.sleep.domain.model
 
-sealed class TimeUnit constructor(val value: Long) {
+sealed class TimeUnit constructor(val value: Long): Comparable<TimeUnit> {
     override fun equals(other: Any?): Boolean = (other as? Minutes)?.value == this.value
     override fun hashCode(): Int = value.hashCode()
+    override fun toString(): String = value.toString()
+    override fun compareTo(other: TimeUnit): Int = when {
+        value == other.value -> 0
+        value < other.value -> -1
+        value > other.value -> 1
+        else -> throw IllegalStateException("Unsupported compare operation")
+    }
 }
 
 class Seconds(value: Long): TimeUnit(value)

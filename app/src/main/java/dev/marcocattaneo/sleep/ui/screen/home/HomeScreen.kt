@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.StorageFile
 import dev.marcocattaneo.sleep.ui.composables.*
 import dev.marcocattaneo.sleep.ui.theme.Dimen
 import dev.marcocattaneo.sleep.ui.theme.placeholder
@@ -49,7 +50,9 @@ fun HomeScreen(
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.padding(horizontal = Dimen.Margin16)) {
+        Column(
+            modifier = Modifier.padding(all = Dimen.Margin16)
+        ) {
             H4(
                 text = stringResource(id = R.string.home_header),
                 color = MaterialTheme.colors.onBackground
@@ -71,7 +74,7 @@ fun HomeScreen(
         }
 
         LazyColumn {
-            item { Spacer32() }
+            item { Spacer16() }
             if (uiState.showLoading) {
                 repeat(5) {
                     item {
@@ -93,9 +96,10 @@ fun HomeScreen(
 @Composable
 private fun MediaItem(
     modifier: Modifier = Modifier,
-    mediaFile: MediaFile?,
+    mediaFile: StorageFile?,
     onClick: (String) -> Unit
 ) {
+    mediaFile as MediaFile?
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -113,7 +117,7 @@ private fun MediaItem(
         Icon(
             painter = painterResource(id = R.drawable.ic_baseline_play_circle_outline_24),
             contentDescription = mediaFile?.name ?: "Undefined",
-            tint = MaterialTheme.colors.onBackground
+            tint = MaterialTheme.colors.secondary
         )
         Spacer8()
         Body1(

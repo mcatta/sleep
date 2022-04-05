@@ -16,8 +16,10 @@
 
 package dev.marcocattaneo.sleep.domain.model
 
+sealed interface StorageFile
+
 data class MediaFile(
     val name: String,
     val fileName: String,
     val path: String
-)
+): StorageFile

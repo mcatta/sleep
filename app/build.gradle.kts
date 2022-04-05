@@ -92,6 +92,7 @@ dependencies {
     implementation(ComposeLibs.ACTIVITY)
 
     implementation(ComposeAccompanistLibs.PLACEHOLDER)
+    implementation(ComposeAccompanistLibs.SYSTEM_UI_CONTROLLER)
 
     implementation(ThirdPartyLibs.FIREBASE_STORAGE)
     implementation(ThirdPartyLibs.ARROW_CORE)

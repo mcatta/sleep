@@ -23,6 +23,7 @@ import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.model.Path
+import dev.marcocattaneo.sleep.domain.model.StorageFile
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -39,7 +40,7 @@ class MediaRepositoryImpl @Inject constructor(
 
     private val mediaStorageRef = firebaseStorage.reference.child(AUDIO_FOLDER)
 
-    override suspend fun listMedia(): Either<AppException, List<MediaFile>> =
+    override suspend fun listMedia(): Either<AppException, List<StorageFile>> =
         suspendCancellableCoroutine { continuation ->
             mediaStorageRef.listAll()
                 .addOnSuccessListener { listResult ->

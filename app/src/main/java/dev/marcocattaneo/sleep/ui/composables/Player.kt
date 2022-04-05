@@ -21,14 +21,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.Seconds
@@ -36,6 +39,7 @@ import dev.marcocattaneo.sleep.domain.model.min
 import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
+import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin32
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
 
 /**
@@ -65,7 +69,10 @@ fun BottomPlayerBar(
     }
 
     Column(
-        modifier = modifier,
+        modifier = Modifier
+            .background(MaterialTheme.colors.surface)
+            .padding(top = Margin16)
+            .then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SeekBar(duration = duration, position = position)
@@ -85,21 +92,33 @@ fun BottomPlayerBar(
                     contentDescription = null
                 )
             }
-            RoundedButton(
-                backgroundColor = Color.Transparent,
-                modifier = Modifier
-                    .padding(all = Margin8)
-                    .align(Alignment.CenterEnd),
-                onClick = { timerVisible = !timerVisible }
+            Box(modifier = Modifier
+                .padding(all = Margin8)
+                .align(Alignment.CenterEnd)
             ) {
-                Icon(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .padding(Margin8),
-                    tint = MaterialTheme.colors.onBackground,
-                    painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
-                    contentDescription = null
-                )
+                selectedStopTimer?.let { minutes ->
+                    Text(
+                        modifier = Modifier
+                            .padding(top = Margin32)
+                            .align(Alignment.TopEnd),
+                        style = TextStyle.Default.copy(fontSize = 8.sp),
+                        color = MaterialTheme.colors.primary,
+                        text = "${minutes}m"
+                    )
+                }
+                RoundedButton(
+                    backgroundColor = Color.Transparent,
+                    onClick = { timerVisible = !timerVisible }
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .padding(Margin8),
+                        tint = MaterialTheme.colors.primary,
+                        painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
+                        contentDescription = null
+                    )
+                }
             }
         }
         CollapseAnimation(
@@ -179,6 +198,7 @@ fun BottomPlayerBarPreview() {
         isPlaying = true,
         duration = 36000.sec,
         position = 5500.sec,
+        selectedStopTimer = 30.min,
         onChangePlayingStatus = {},
         onChangeStopTimer = {}
     )

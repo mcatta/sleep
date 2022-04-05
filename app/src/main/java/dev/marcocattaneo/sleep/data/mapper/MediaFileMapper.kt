@@ -19,10 +19,11 @@ package dev.marcocattaneo.sleep.data.mapper
 import com.google.firebase.storage.StorageReference
 import dev.marcocattaneo.sleep.domain.mapper.Mapper
 import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.StorageFile
 import javax.inject.Inject
 
-class MediaFileMapper @Inject constructor(): Mapper<StorageReference, MediaFile> {
-    override fun mapTo(from: StorageReference): MediaFile = MediaFile(
+class MediaFileMapper @Inject constructor(): Mapper<StorageReference, StorageFile> {
+    override fun mapTo(from: StorageReference): StorageFile = MediaFile(
         fileName = from.name,
         name = from.name.replace(".mp3", ""),
         path = from.path
