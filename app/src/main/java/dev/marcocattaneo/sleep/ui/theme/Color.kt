@@ -18,16 +18,23 @@ package dev.marcocattaneo.sleep.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Cherry500 = Color(0xFFE5376E)
-val Cherry700 = Color(0xFFBD3064)
 val Cherry900 = Color(0xFF812654)
 val Cherry800 = Color(0xFFA82C5F)
+val Cherry700 = Color(0xFFBD3064)
+val Cherry600 = Color(0xFFD4346A)
+val Cherry500 = Color(0xFFE5376E)
+val Cherry400 = Color(0xFFE84E83)
+val Cherry300 = Color(0xFFEC6B9A)
+val Cherry200 = Color(0xFFF194B6)
 
-val Pumpkin500 = Color(0xFFFE2824)
-val Pumpkin700 = Color(0xFFEF1725)
-
-val Prune300 = Color(0xFF735CB4)
-val Prune500 = Color(0xFF5A41AA)
+val Garden900 = Color(0xFF106C2C)
+val Garden800 = Color(0xFF388E3E)
+val Garden700 = Color(0xFF4AA348)
+val Garden600 = Color(0xFF5DB752)
+val Garden500 = Color(0xFF6BC85B)
+val Garden400 = Color(0xFF81D173)
+val Garden300 = Color(0xFF99D98C)
+val Garden200 = Color(0xFFB6E4AD)
 
 val CandyPaper50 = Color(0xFFF8EDEB)
 val CandyPaper0 = Color(0xFFFCF7F6)
