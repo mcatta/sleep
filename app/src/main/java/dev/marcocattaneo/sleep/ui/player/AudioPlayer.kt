@@ -19,6 +19,7 @@ package dev.marcocattaneo.sleep.ui.player
 import android.media.MediaPlayer
 import android.net.Uri
 import dev.marcocattaneo.sleep.domain.model.Minutes
+import dev.marcocattaneo.sleep.domain.model.Seconds
 import kotlinx.coroutines.flow.StateFlow
 
 interface AudioPlayer {
@@ -36,6 +37,10 @@ interface AudioPlayer {
     fun stopAfter(minutes: Minutes?)
 
     fun dispose()
+
+    fun forwardOf(sec: Seconds)
+
+    fun replayOf(sec: Seconds)
 
     val player: MediaPlayer
 

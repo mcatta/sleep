@@ -29,6 +29,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.max
+import kotlin.math.min
 
 class AudioPlayerImpl @Inject constructor(
     @CoroutineContextScope private val coroutineScope: CoroutineScope
@@ -122,6 +124,16 @@ class AudioPlayerImpl @Inject constructor(
         mediaPlayer.release()
         timer.cancel()
         emitState(AudioPlayerState.Disposed)
+    }
+
+    override fun forwardOf(sec: Seconds) {
+        min(player.duration, player.currentPosition + (sec.value.toInt().times(1_000)))
+            .let(mediaPlayer::seekTo)
+    }
+
+    override fun replayOf(sec: Seconds) {
+        max(0, player.currentPosition - (sec.value.toInt()).times(1_000))
+            .let(mediaPlayer::seekTo)
     }
 
     override val player: MediaPlayer

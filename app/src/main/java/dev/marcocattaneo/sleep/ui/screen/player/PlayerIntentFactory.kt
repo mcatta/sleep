@@ -23,6 +23,7 @@ import dev.marcocattaneo.mvi.intent.IntentFactory
 import dev.marcocattaneo.mvi.intent.intent
 import dev.marcocattaneo.mvi.intent.sideEffect
 import dev.marcocattaneo.sleep.domain.model.Minutes
+import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.ui.player.AudioPlayer
 import timber.log.Timber
@@ -69,6 +70,14 @@ class PlayerIntentFactory @Inject constructor(
 
             audioPlayer.stopAfter(newTimer)
             copy(stopTimer = newTimer)
+        }
+        PlayerAction.ForwardOf -> intent {
+            audioPlayer.forwardOf(30.sec)
+            this
+        }
+        PlayerAction.ReplayOf -> intent {
+            audioPlayer.replayOf(30.sec)
+            this
         }
     }.also {
         Timber.d("Built Intent for action $action")

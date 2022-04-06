@@ -27,9 +27,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.marcocattaneo.sleep.R
@@ -60,7 +62,9 @@ fun BottomPlayerBar(
     selectedStopTimer: Minutes? = null,
     supportedStoppingTimeframes: Set<Minutes> = setOf(10.min, 20.min, 30.min),
     onChangePlayingStatus: (Boolean) -> Unit,
-    onChangeStopTimer: (Minutes) -> Unit
+    onChangeStopTimer: (Minutes) -> Unit,
+    onClickReplay: () -> Unit,
+    onClickForward: () -> Unit
 ) {
     var timerVisible by remember { mutableStateOf(false) }
     val onClickTimerButton: (Minutes) -> Unit = {
@@ -76,20 +80,29 @@ fun BottomPlayerBar(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SeekBar(duration = duration, position = position)
+        // Buttons
         Box(modifier = Modifier.fillMaxWidth()) {
-            RoundedButton(
+            Row(
                 modifier = Modifier
                     .padding(all = Margin16)
                     .align(Alignment.TopCenter),
-                onClick = { onChangePlayingStatus(!isPlaying) }
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(Margin8),
-                    tint = MaterialTheme.colors.background,
-                    painter = painterResource(id = if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24),
-                    contentDescription = null
+                ActionButton(
+                    painter = painterResource(id = R.drawable.ic_baseline_replay_30_24),
+                    internalMargin = 4.dp,
+                    onClick = onClickReplay
+                )
+                Spacer8()
+                PlayButton(
+                    isPlaying = isPlaying,
+                    onChangePlayingStatus = onChangePlayingStatus
+                )
+                Spacer8()
+                ActionButton(
+                    painter = painterResource(id = R.drawable.ic_baseline_forward_30_24),
+                    internalMargin = 4.dp,
+                    onClick = onClickForward
                 )
             }
             Box(
@@ -106,21 +119,14 @@ fun BottomPlayerBar(
                         text = "${minutes}m"
                     )
                 }
-                RoundedButton(
-                    backgroundColor = Color.Transparent,
+                ActionButton(
+                    painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
                     onClick = { timerVisible = !timerVisible }
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .padding(Margin8),
-                        tint = MaterialTheme.colors.primary,
-                        painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
-                        contentDescription = null
-                    )
-                }
+                )
             }
         }
+
+        // StopAt selection
         CollapseAnimation(
             visible = timerVisible
         ) {
@@ -151,6 +157,50 @@ fun BottomPlayerBar(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun PlayButton(
+    modifier: Modifier = Modifier,
+    isPlaying: Boolean,
+    onChangePlayingStatus: (Boolean) -> Unit
+) {
+    RoundedButton(
+        modifier = modifier,
+        onClick = { onChangePlayingStatus(!isPlaying) }
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(48.dp)
+                .padding(Margin8),
+            tint = MaterialTheme.colors.background,
+            painter = painterResource(id = if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun ActionButton(
+    painter: Painter,
+    modifier: Modifier = Modifier,
+    internalMargin: Dp = Margin8,
+    onClick: () -> Unit
+) {
+    RoundedButton(
+        modifier = modifier,
+        backgroundColor = Color.Transparent,
+        onClick = onClick
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(32.dp)
+                .padding(internalMargin),
+            tint = MaterialTheme.colors.primary,
+            painter = painter,
+            contentDescription = null
+        )
     }
 }
 
@@ -208,6 +258,8 @@ fun BottomPlayerBarPreview() {
         position = 5500.sec,
         selectedStopTimer = 30.min,
         onChangePlayingStatus = {},
-        onChangeStopTimer = {}
+        onChangeStopTimer = {},
+        onClickForward = {},
+        onClickReplay = {}
     )
 }
