@@ -92,9 +92,10 @@ fun BottomPlayerBar(
                     contentDescription = null
                 )
             }
-            Box(modifier = Modifier
-                .padding(all = Margin8)
-                .align(Alignment.CenterEnd)
+            Box(
+                modifier = Modifier
+                    .padding(all = Margin8)
+                    .align(Alignment.CenterEnd)
             ) {
                 selectedStopTimer?.let { minutes ->
                     Text(
@@ -133,7 +134,15 @@ fun BottomPlayerBar(
                     RoundedButton(
                         modifier = Modifier.padding(horizontal = Margin8),
                         onClick = { onClickTimerButton(timeFrame) },
-                        content = { Caption(text = "${timeFrame.value}m", color = Color.White) },
+                        content = {
+                            Caption(
+                                text = "${timeFrame.value}m",
+                                color = if (selectedStopTimer == timeFrame)
+                                    MaterialTheme.colors.onSecondary
+                                else
+                                    MaterialTheme.colors.onPrimary
+                            )
+                        },
                         backgroundColor = if (selectedStopTimer == timeFrame)
                             MaterialTheme.colors.secondary
                         else

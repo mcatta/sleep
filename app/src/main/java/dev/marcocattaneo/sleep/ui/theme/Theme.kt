@@ -24,7 +24,7 @@ import androidx.compose.runtime.Composable
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val LightColorPalette = lightColors(
-    primary = Cherry200,
+    primary = Cherry500,
     primaryVariant = Cherry700,
     secondary = Garden200,
     secondaryVariant = Garden900,
@@ -45,7 +45,7 @@ private val DarkColorPalette = darkColors(
     secondaryVariant = Garden200,
     background = Mud900,
     surface = Mud800,
-    onPrimary = DirtyWhite,
+    onPrimary = VolcanicStone,
     onSecondary = VolcanicStone,
     onBackground = Mud50,
     onSurface = Mud50,

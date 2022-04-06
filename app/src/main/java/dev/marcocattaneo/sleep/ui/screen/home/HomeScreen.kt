@@ -74,7 +74,6 @@ fun HomeScreen(
         }
 
         LazyColumn {
-            item { Spacer16() }
             if (uiState.showLoading) {
                 repeat(5) {
                     item {
