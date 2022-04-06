@@ -60,7 +60,9 @@ fun PlayerScreen(
                 },
                 onChangeStopTimer = {
                     playerViewModel.process(PlayerAction.StopAfter(it))
-                }
+                },
+                onClickReplay = { playerViewModel.process(PlayerAction.ReplayOf) },
+                onClickForward = {playerViewModel.process(PlayerAction.ForwardOf) }
             )
         }
     }

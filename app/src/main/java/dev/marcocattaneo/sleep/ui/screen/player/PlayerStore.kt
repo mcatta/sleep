@@ -60,6 +60,9 @@ sealed interface PlayerAction : Action {
 
     object Play: PlayerAction
     object Pause: PlayerAction
+
+    object ReplayOf : PlayerAction
+    object ForwardOf : PlayerAction
     data class StopAfter(val minutes: Minutes?) : PlayerAction
 
     data class SideEffectStartPlayer(val uri: Uri) : PlayerAction

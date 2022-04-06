@@ -16,7 +16,6 @@
 
 package dev.marcocattaneo.sleep.ui.composables
 
-import android.text.Spannable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -35,7 +34,7 @@ fun InfoBox(
 ) {
     Card(
         modifier = modifier,
-        backgroundColor = MaterialTheme.colors.secondary,
+        backgroundColor = MaterialTheme.colors.surface,
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
