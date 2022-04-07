@@ -254,7 +254,7 @@ private fun SeekBar(
 fun BottomPlayerBarPreview() {
     BottomPlayerBar(
         isPlaying = true,
-        duration = 36000.sec,
+        duration = 360300.sec,
         position = 5500.sec,
         selectedStopTimer = 30.min,
         onChangePlayingStatus = {},

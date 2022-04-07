@@ -28,8 +28,9 @@ fun screenWidth(): Float {
 }
 
 fun Seconds.format(): String {
+    val hours = this.value.div(3_600)
     val minutes = (this.value % 3600) / 60
     val seconds = this.value % 60
 
-    return String.format("%02d:%02d", minutes, seconds)
+    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
 }
