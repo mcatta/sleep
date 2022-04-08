@@ -52,7 +52,6 @@ class AudioPlayerImpl @Inject constructor(
 
         setOnPreparedListener {
             start()
-            emitState(AudioPlayerState.OnProgress)
             updatePlayerStatus(it)
         }
 
@@ -109,7 +108,7 @@ class AudioPlayerImpl @Inject constructor(
     }
 
     override fun play() = mediaPlayer.start().also {
-        emitState(AudioPlayerState.OnProgress)
+        updatePlayerStatus(mediaPlayer)
     }
 
     override fun stop() = mediaPlayer.stop().also {
@@ -154,6 +153,5 @@ sealed interface AudioPlayerState {
     ) : AudioPlayerState
 
     object OnPause : AudioPlayerState
-    object OnProgress : AudioPlayerState
     object OnStop : AudioPlayerState
 }

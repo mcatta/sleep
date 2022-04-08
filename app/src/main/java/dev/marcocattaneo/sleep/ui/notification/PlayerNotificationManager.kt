@@ -16,15 +16,17 @@
 
 package dev.marcocattaneo.sleep.ui.notification
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.marcocattaneo.sleep.R
-import dev.marcocattaneo.sleep.domain.model.Seconds
 import javax.inject.Inject
 
 class PlayerNotificationManager @Inject constructor(
@@ -37,50 +39,59 @@ class PlayerNotificationManager @Inject constructor(
         const val NOTIFICATION_ID = 93
     }
 
+    private val pausePendingIntent: PendingIntent
+        get() = createPendingIntent(PlayerNotificationService.ACTION_PAUSE)
+
+    private val playPendingIntent: PendingIntent
+        get() = createPendingIntent(PlayerNotificationService.ACTION_PLAY)
+
+    private fun createPendingIntent(action: String) = PendingIntent.getService(
+        context,
+        0,
+        Intent(context, PlayerNotificationService::class.java).setAction(action),
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+    )
+
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 context.getString(R.string.app_name),
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_LOW
             ).apply {
                 description = "Audio Player"
+                setSound(null, null)
             }
             // Register the channel with the system
-            val notificationManager: NotificationManager =
+            val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-    fun createNotification() = NotificationCompat.Builder(context, CHANNEL_ID)
+    private fun NotificationCompat.Builder.show() =
+        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, build())
+
+    private fun baseNotification() = NotificationCompat.Builder(context, CHANNEL_ID)
+        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         .setSmallIcon(R.mipmap.ic_launcher)
-        .setContentTitle("My notification")
-        .setContentText("Hello World!")
-        // Set the intent that will fire when the user taps the notification
-        //.setContentIntent(pendingIntent)
         .setAutoCancel(false)
-        .show()
 
     fun updateNotification(
-        position: Seconds,
-        duration: Seconds,
         isPlaying: Boolean
-    ) = NotificationCompat.Builder(context, CHANNEL_ID)
-        .setSmallIcon(R.mipmap.ic_launcher)
-        .setContentTitle("My notification")
-        .setContentText("isPlaying $isPlaying")
-        // Set the intent that will fire when the user taps the notification
-        //.setContentIntent(pendingIntent)
-        .setAutoCancel(false)
+    ) = baseNotification()
+        .apply {
+            if (isPlaying) {
+                addAction(R.drawable.ic_baseline_pause_24, "Pause", pausePendingIntent)
+            } else {
+                addAction(R.drawable.ic_baseline_play_arrow_24, "Play", playPendingIntent)
+            }
+        }
+        .setStyle(androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0))
         .show()
 
-    private fun NotificationCompat.Builder.show() {
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, build())
-    }
+    fun removeNotification() = NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID)
 
-    fun removeNotification() {
-        NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID)
-    }
+    fun foregroundNotification(): Notification = baseNotification().build()
 
 }

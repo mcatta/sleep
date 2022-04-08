@@ -16,6 +16,8 @@
 
 package dev.marcocattaneo.sleep
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.marcocattaneo.sleep.navigation.NavigationComponent
 import dev.marcocattaneo.sleep.navigation.NavigationControllerImpl
 import dev.marcocattaneo.sleep.navigation.composable
+import dev.marcocattaneo.sleep.ui.notification.PlayerNotificationService
 import dev.marcocattaneo.sleep.ui.screen.Routes
 import dev.marcocattaneo.sleep.ui.screen.home.HomeScreen
 import dev.marcocattaneo.sleep.ui.screen.home.HomeViewModel
@@ -42,8 +45,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         // Start NotificationService
-        //TODO need to improve the notification part
-        //startService(Intent(this, PlayerNotificationService::class.java))
+        Intent(this, PlayerNotificationService::class.java)
+            .let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(it)
+                } else {
+                    startService(it)
+                }
+            }
 
         setContent {
             val navHostState = rememberNavController()
