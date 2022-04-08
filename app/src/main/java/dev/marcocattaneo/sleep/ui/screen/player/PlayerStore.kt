@@ -44,11 +44,11 @@ data class PlayerState(
     val stopTimer: Minutes? = null
 ) : State {
     sealed interface PlayerStatus {
-        object Stop : PlayerStatus
         object Disposed : PlayerStatus
         object Init : PlayerStatus
         object Playing : PlayerStatus
         object Pause : PlayerStatus
+        object Stop : PlayerStatus
         data class Error(val errorCode: Int) : PlayerStatus
     }
 }

@@ -65,8 +65,7 @@ class PlayerNotificationService: Service()  {
                     AudioPlayerState.Disposed -> playerNotificationManager.removeNotification()
 
                     AudioPlayerState.OnInit,
-                    AudioPlayerState.None,
-                    AudioPlayerState.OnProgress -> Unit
+                    AudioPlayerState.None -> Unit
                 }
             }
         }
