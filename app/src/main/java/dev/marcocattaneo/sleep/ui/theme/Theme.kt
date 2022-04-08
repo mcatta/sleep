@@ -65,7 +65,7 @@ fun SleepTheme(
         LightColorPalette
     }
     systemUiController.setSystemBarsColor(
-        color = colors.surface
+        color = colors.background
     )
 
     MaterialTheme(

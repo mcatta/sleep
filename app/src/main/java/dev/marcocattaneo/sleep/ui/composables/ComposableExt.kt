@@ -32,5 +32,9 @@ fun Seconds.format(): String {
     val minutes = (this.value % 3600) / 60
     val seconds = this.value % 60
 
-    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+    return if (hours == 0L)
+        String.format("%02d:%02d", minutes, seconds)
+    else
+        String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
 }

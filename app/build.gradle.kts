@@ -83,6 +83,7 @@ dependencies {
     implementation(AndroidXLibs.CORE)
     implementation(AndroidXLibs.APP_COMPACT)
     implementation(AndroidLibs.MATERIAL)
+    implementation(AndroidXLibs.MEDIA)
 
     implementation(ComposeLibs.UI)
     implementation(ComposeLibs.MATERIAL)

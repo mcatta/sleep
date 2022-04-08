@@ -66,6 +66,7 @@ object ThirdPartyLibs {
 object AndroidXLibs {
     const val APP_COMPACT= "androidx.appcompat:appcompat:${Versions.ACTIVITY}"
     const val CORE = "androidx.core:core-ktx:1.7.0"
+    const val MEDIA = "androidx.media:media:1.5.0"
 }
 
 object AndroidXTestLibs {
