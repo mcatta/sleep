@@ -49,7 +49,11 @@ class PlayerViewModel @Inject constructor(
                     }
 
                     is AudioPlayerState.PlayerStatus -> listOf(
-                        PlayerAction.UpdateDuration(duration = it.duration, position = it.position),
+                        PlayerAction.UpdateDuration(
+                            duration = it.duration,
+                            position = it.position,
+                            stopAfterMinutes = it.stopAt
+                        ),
                         PlayerAction.UpdateStatus(if (it.isPlaying) PlayerState.PlayerStatus.Playing else PlayerState.PlayerStatus.Pause)
                     )
                     is AudioPlayerState.OnError -> listOf(
