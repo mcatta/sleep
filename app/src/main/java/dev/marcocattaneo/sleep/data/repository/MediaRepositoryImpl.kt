@@ -18,10 +18,10 @@ package dev.marcocattaneo.sleep.data.repository
 
 import android.net.Uri
 import arrow.core.Either
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.model.Path
 import dev.marcocattaneo.sleep.domain.model.StorageFile
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
@@ -31,20 +31,20 @@ import kotlin.coroutines.resume
 
 class MediaRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
+    private val firebaseFirestore: FirebaseFirestore,
     private val mediaFileMapper: MediaFileMapper
 ) : MediaRepository {
 
     companion object {
-        const val AUDIO_FOLDER = "audio"
+        const val AUDIO_COLLECTION = "audio"
     }
-
-    private val mediaStorageRef = firebaseStorage.reference.child(AUDIO_FOLDER)
 
     override suspend fun listMedia(): Either<AppException, List<StorageFile>> =
         suspendCancellableCoroutine { continuation ->
-            mediaStorageRef.listAll()
+            firebaseFirestore.collection(AUDIO_COLLECTION)
+                .get()
                 .addOnSuccessListener { listResult ->
-                    listResult.items
+                    listResult.documents
                         .map(mediaFileMapper::mapTo)
                         .let { list -> continuation.resume(Either.Right(list)) }
                 }

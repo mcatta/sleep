@@ -80,6 +80,8 @@ kapt {
 }
 
 dependencies {
+    implementation(platform(ThirdPartyLibs.FIREBASE_BOM))
+
     implementation(AndroidXLibs.CORE)
     implementation(AndroidXLibs.APP_COMPACT)
     implementation(AndroidLibs.MATERIAL)
@@ -96,6 +98,7 @@ dependencies {
     implementation(ComposeAccompanistLibs.SYSTEM_UI_CONTROLLER)
 
     implementation(ThirdPartyLibs.FIREBASE_STORAGE)
+    implementation(ThirdPartyLibs.FIREBASE_FIRESTORE)
     implementation(ThirdPartyLibs.ARROW_CORE)
     implementation(ThirdPartyLibs.TIMBER)
     implementation(project(mapOf("path" to ":mvi")))
