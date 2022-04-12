@@ -62,7 +62,10 @@ class PlayerNotificationService: Service()  {
 
                     is AudioPlayerState.OnError,
                     AudioPlayerState.OnStop,
-                    AudioPlayerState.Disposed -> playerNotificationManager.removeNotification()
+                    AudioPlayerState.Disposed -> {
+                        playerNotificationManager.removeNotification()
+                        stopForeground(true)
+                    }
 
                     AudioPlayerState.OnInit,
                     AudioPlayerState.None -> Unit
