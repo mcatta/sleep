@@ -58,7 +58,9 @@ object HiltLibs {
 }
 
 object ThirdPartyLibs {
-    const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage:20.0.1"
+    const val FIREBASE_BOM = "com.google.firebase:firebase-bom:29.3.0"
+    const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage"
+    const val FIREBASE_FIRESTORE = "com.google.firebase:firebase-firestore-ktx"
     const val TIMBER = "com.jakewharton.timber:timber:5.0.1"
     const val ARROW_CORE = "io.arrow-kt:arrow-core:1.0.1"
 }

@@ -21,8 +21,10 @@ import arrow.core.Either
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.StorageReference
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.data.mapper.mockStorageReference
@@ -50,6 +52,9 @@ class MediaRepositoryImplTest {
     @MockK
     lateinit var storageReference: StorageReference
 
+    @MockK
+    lateinit var firestore: FirebaseFirestore
+
     @BeforeTest
     fun setup() {
         MockKAnnotations.init(this)
@@ -59,23 +64,26 @@ class MediaRepositoryImplTest {
 
         mediaRepository = MediaRepositoryImpl(
             mediaFileMapper = MediaFileMapper(),
-            firebaseStorage = firebaseStorage
+            firebaseStorage = firebaseStorage,
+            firebaseFirestore = firestore
         )
     }
 
     @Test
     fun `Test listMedia upon a success`() = runTest {
         // Given
-        val taskMocked = mockk<Task<ListResult>>()
-        val slot = slot<OnSuccessListener<ListResult>>()
-        val result = mockk<ListResult>()
-        every { result.items } returns listOf(mockStorageReference(), mockStorageReference())
+        val mockedCollection = mockk<CollectionReference>()
+        val taskMocked = mockk<Task<QuerySnapshot>>()
+        val slot = slot<OnSuccessListener<QuerySnapshot>>()
+        val result = mockk<QuerySnapshot>()
+        every { result.documents } returns listOf(mockStorageReference(), mockStorageReference())
+        every { mockedCollection.get() } returns taskMocked
         every { taskMocked.addOnSuccessListener(capture(slot)) } answers {
             slot.captured.onSuccess(result)
             taskMocked
         }
         every { taskMocked.addOnFailureListener(any()) } returns taskMocked
-        every { storageReference.listAll() } returns taskMocked
+        every { firestore.collection(any()) } returns mockedCollection
 
         // When
         val res = mediaRepository.listMedia()
@@ -88,14 +96,16 @@ class MediaRepositoryImplTest {
     @Test
     fun `Test listMedia upon a failure`() = runTest {
         // Given
-        val taskMocked = mockk<Task<ListResult>>()
+        val mockedCollection = mockk<CollectionReference>()
+        val taskMocked = mockk<Task<QuerySnapshot>>()
         val slot = slot<OnFailureListener>()
+        every { mockedCollection.get() } returns taskMocked
         every { taskMocked.addOnSuccessListener(any()) } returns taskMocked
         every { taskMocked.addOnFailureListener(capture(slot)) } answers {
             slot.captured.onFailure(IllegalStateException("Something goes wrong"))
             taskMocked
         }
-        every { storageReference.listAll() } returns taskMocked
+        every { firestore.collection(any()) } returns mockedCollection
 
         // When
         val res = mediaRepository.listMedia()

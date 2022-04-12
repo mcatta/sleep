@@ -38,7 +38,9 @@ class AudioPlayerImpl @Inject constructor(
 
     private val playerStateFlow = MutableStateFlow<AudioPlayerState>(AudioPlayerState.None)
 
-    var stopDate: Long? = null
+    private var stopDate: Long? = null
+
+    private var stopAfterMinutes: Minutes? = null
 
     private val timer = Timer()
 
@@ -82,7 +84,8 @@ class AudioPlayerImpl @Inject constructor(
         AudioPlayerState.PlayerStatus(
             isPlaying = mediaPlayer.isPlaying,
             duration = mediaPlayer.duration.div(1_000L).sec,
-            position = mediaPlayer.currentPosition.div(1_000L).sec
+            position = mediaPlayer.currentPosition.div(1_000L).sec,
+            stopAt = stopAfterMinutes
         )
     )
 
@@ -94,6 +97,7 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun start(uri: Uri) {
         stopDate = null
+        stopAfterMinutes = null
         emitState(AudioPlayerState.OnInit)
         mediaPlayer.stop()
         mediaPlayer.reset()
@@ -116,6 +120,7 @@ class AudioPlayerImpl @Inject constructor(
     }
 
     override fun stopAfter(minutes: Minutes?) {
+        stopAfterMinutes = minutes
         stopDate = minutes?.let { System.currentTimeMillis().plus(it.value.times(60).times(1_000)) }
     }
 
@@ -149,7 +154,8 @@ sealed interface AudioPlayerState {
     data class PlayerStatus(
         val isPlaying: Boolean,
         val position: Seconds,
-        val duration: Seconds
+        val duration: Seconds,
+        val stopAt: Minutes? = null
     ) : AudioPlayerState
 
     object OnPause : AudioPlayerState

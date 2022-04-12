@@ -32,7 +32,7 @@ import javax.inject.Inject
 @ViewModelScoped
 class PlayerStore @Inject constructor(
     @CoroutineContextScope scope: CoroutineScope
-): ChannelStore<PlayerState>(
+) : ChannelStore<PlayerState>(
     scope = scope,
     initialState = PlayerState()
 )
@@ -56,10 +56,14 @@ data class PlayerState(
 sealed interface PlayerAction : Action {
     data class InitPlayer(val urlPath: Path) : PlayerAction
     data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
-    data class UpdateDuration(val duration: Seconds, val position: Seconds) : PlayerAction
+    data class UpdateDuration(
+        val duration: Seconds,
+        val position: Seconds,
+        val stopAfterMinutes: Minutes?
+    ) : PlayerAction
 
-    object Play: PlayerAction
-    object Pause: PlayerAction
+    object Play : PlayerAction
+    object Pause : PlayerAction
 
     object ReplayOf : PlayerAction
     object ForwardOf : PlayerAction

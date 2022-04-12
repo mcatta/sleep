@@ -16,7 +16,7 @@
 
 package dev.marcocattaneo.sleep.data.mapper
 
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.firestore.DocumentSnapshot
 import dev.marcocattaneo.sleep.domain.model.MediaFile
 import io.mockk.every
 import io.mockk.mockk
@@ -38,16 +38,17 @@ class MediaFileMapperTest {
 
         // Then
         assertIs<MediaFile>(mapped)
-        assertEquals("name.mp3", mapped.fileName)
+        assertEquals("description", mapped.description)
         assertEquals("name", mapped.name)
         assertEquals("path", mapped.path)
     }
 
 }
 
-fun mockStorageReference(): StorageReference {
-    val ref = mockk<StorageReference>()
-    every { ref.name } returns "name.mp3"
-    every { ref.path } returns "path"
+fun mockStorageReference(): DocumentSnapshot {
+    val ref = mockk<DocumentSnapshot>()
+    every { ref.getString("name") } returns "name"
+    every { ref.getString("storage") } returns "path"
+    every { ref.getString("description") } returns "description"
     return ref
 }

@@ -44,10 +44,8 @@ fun HomeScreen(
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
-    LaunchedEffect(homeViewModel) {
-        homeViewModel.process(HomeAction.ShowLoading)
-        homeViewModel.process(HomeAction.CheckAudioList)
-    }
+    homeViewModel.process(HomeAction.ShowLoading)
+    homeViewModel.process(HomeAction.CheckAudioList)
 
     Column(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -119,9 +117,17 @@ private fun MediaItem(
             tint = MaterialTheme.colors.secondary
         )
         Spacer8()
-        Body1(
-            text = mediaFile?.name ?: "Undefined",
-            color = MaterialTheme.colors.onBackground
-        )
+        Column {
+            Body1(
+                text = mediaFile?.name ?: "Undefined",
+                color = MaterialTheme.colors.onBackground
+            )
+            mediaFile?.description?.let { description ->
+                Caption(
+                    text = description,
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.8f)
+                )
+            }
+        }
     }
 }

@@ -47,7 +47,8 @@ class PlayerIntentFactory @Inject constructor(
         is PlayerAction.UpdateDuration -> intent {
             copy(
                 duration = action.duration,
-                position = action.position
+                position = action.position,
+                stopTimer = action.stopAfterMinutes
             )
         }
         is PlayerAction.UpdateStatus -> intent { copy(playerStatus = action.status) }
