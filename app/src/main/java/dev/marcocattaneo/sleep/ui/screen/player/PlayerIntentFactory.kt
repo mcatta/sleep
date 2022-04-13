@@ -17,7 +17,6 @@
 package dev.marcocattaneo.sleep.ui.screen.player
 
 import arrow.core.Either
-import dagger.hilt.android.scopes.ViewModelScoped
 import dev.marcocattaneo.mvi.intent.Intent
 import dev.marcocattaneo.mvi.intent.IntentFactory
 import dev.marcocattaneo.mvi.intent.intent
@@ -28,8 +27,9 @@ import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.ui.player.AudioPlayer
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ViewModelScoped
+@Singleton
 class PlayerIntentFactory @Inject constructor(
     private val mediaRepository: MediaRepository,
     private val audioPlayer: AudioPlayer,
@@ -39,9 +39,11 @@ class PlayerIntentFactory @Inject constructor(
 ) {
     override suspend fun buildIntent(action: PlayerAction): Intent<PlayerState> = when (action) {
         is PlayerAction.InitPlayer -> sideEffect {
-            when (val result = mediaRepository.urlFromPath(action.urlPath)) {
+            when (val result = mediaRepository.urlFromPath(action.mediaFile.path)) {
                 is Either.Left -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))
-                is Either.Right -> PlayerAction.SideEffectStartPlayer(result.value)
+                is Either.Right -> PlayerAction.SideEffectStartPlayer(
+                    uri = result.value, trackId = action.mediaFile.id
+                )
             }
         }
         is PlayerAction.UpdateDuration -> intent {
@@ -54,7 +56,7 @@ class PlayerIntentFactory @Inject constructor(
         is PlayerAction.UpdateStatus -> intent { copy(playerStatus = action.status) }
         is PlayerAction.SideEffectStartPlayer -> intent {
             audioPlayer.start(action.uri)
-            this
+            copy(trackId = action.trackId)
         }
         PlayerAction.Pause -> intent {
             audioPlayer.pause()

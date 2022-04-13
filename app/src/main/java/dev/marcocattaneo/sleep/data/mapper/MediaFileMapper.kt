@@ -19,11 +19,11 @@ package dev.marcocattaneo.sleep.data.mapper
 import com.google.firebase.firestore.DocumentSnapshot
 import dev.marcocattaneo.sleep.domain.mapper.Mapper
 import dev.marcocattaneo.sleep.domain.model.MediaFile
-import dev.marcocattaneo.sleep.domain.model.StorageFile
 import javax.inject.Inject
 
-class MediaFileMapper @Inject constructor(): Mapper<DocumentSnapshot, StorageFile> {
-    override fun mapTo(from: DocumentSnapshot): StorageFile = MediaFile(
+class MediaFileMapper @Inject constructor(): Mapper<DocumentSnapshot, MediaFile> {
+    override fun mapTo(from: DocumentSnapshot) = MediaFile(
+        id = from.id,
         description = from.getString("description"),
         name = from.getString("name") ?: "",
         path = from.getString("storage") ?: ""
