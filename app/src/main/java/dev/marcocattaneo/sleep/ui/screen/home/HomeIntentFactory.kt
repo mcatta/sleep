@@ -51,5 +51,9 @@ class HomeIntentFactory @Inject constructor(
                 )
             }
         }
+
+        is HomeAction.UpdateTrack -> intent {
+            copy(selectedTrackId = action.trackId)
+        }
     }
 }

@@ -22,7 +22,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -32,7 +31,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.MediaFile
-import dev.marcocattaneo.sleep.domain.model.StorageFile
 import dev.marcocattaneo.sleep.ui.composables.*
 import dev.marcocattaneo.sleep.ui.theme.Dimen
 import dev.marcocattaneo.sleep.ui.theme.placeholder
@@ -40,7 +38,7 @@ import dev.marcocattaneo.sleep.ui.theme.placeholder
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
-    onClickTrackCallback: (String) -> Unit
+    onClickMediaFile: (MediaFile) -> Unit
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
@@ -82,8 +80,8 @@ fun HomeScreen(
                     }
                 }
             } else {
-                uiState.mediaFiles.forEach {
-                    item { MediaItem(mediaFile = it, onClick = onClickTrackCallback) }
+                uiState.homeMediaFile.forEach {
+                    item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                 }
             }
         }
@@ -93,15 +91,14 @@ fun HomeScreen(
 @Composable
 private fun MediaItem(
     modifier: Modifier = Modifier,
-    mediaFile: StorageFile?,
-    onClick: (String) -> Unit
+    mediaFile: MediaFile?,
+    onClick: (MediaFile) -> Unit
 ) {
-    mediaFile as MediaFile?
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
-                onClick = { onClick(mediaFile?.path ?: "") },
+                onClick = { mediaFile?.let(onClick) },
                 role = Role.Button,
                 enabled = true
             )
@@ -114,7 +111,7 @@ private fun MediaItem(
         Icon(
             painter = painterResource(id = R.drawable.ic_baseline_play_circle_outline_24),
             contentDescription = mediaFile?.name ?: "Undefined",
-            tint = MaterialTheme.colors.secondary
+            tint = if (mediaFile?.selected == true) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
         )
         Spacer8()
         Column {

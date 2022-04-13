@@ -72,14 +72,14 @@ class PlayerNotificationManager @Inject constructor(
     private fun NotificationCompat.Builder.show() =
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, build())
 
-    private fun baseNotification() = NotificationCompat.Builder(context, CHANNEL_ID)
+    private fun baseNotification(cancelable: Boolean) = NotificationCompat.Builder(context, CHANNEL_ID)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         .setSmallIcon(R.mipmap.ic_launcher)
-        .setAutoCancel(false)
+        .setAutoCancel(cancelable)
 
     fun updateNotification(
         isPlaying: Boolean
-    ) = baseNotification()
+    ) = baseNotification(cancelable = !isPlaying)
         .apply {
             if (isPlaying) {
                 addAction(R.drawable.ic_baseline_pause_24, "Pause", pausePendingIntent)
@@ -92,6 +92,6 @@ class PlayerNotificationManager @Inject constructor(
 
     fun removeNotification() = NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID)
 
-    fun foregroundNotification(): Notification = baseNotification().build()
+    fun foregroundNotification(): Notification = baseNotification(true).build()
 
 }

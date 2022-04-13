@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
                                 route = Routes.Login,
                                 navigationController = controller
                             ) { _, vm ->
-                                HomeScreen(vm, onClickTrackCallback = {
+                                HomeScreen(vm, onClickMediaFile = {
                                     playerViewModel.process(PlayerAction.InitPlayer(it))
                                 })
                             }

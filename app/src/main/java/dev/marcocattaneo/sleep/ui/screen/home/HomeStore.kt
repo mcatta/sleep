@@ -18,12 +18,12 @@ package dev.marcocattaneo.sleep.ui.screen.home
 
 import arrow.core.Either
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
-import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.mvi.State
 import dev.marcocattaneo.mvi.intent.Action
 import dev.marcocattaneo.mvi.store.ChannelStore
-import dev.marcocattaneo.sleep.domain.model.StorageFile
+import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
+import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.model.MediaFile
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
@@ -37,12 +37,18 @@ class HomeStore @Inject constructor(
 
 data class HomeState(
     val showLoading: Boolean = false,
-    val mediaFiles: List<StorageFile> = emptyList(),
+    val mediaFiles: List<MediaFile> = emptyList(),
+    val selectedTrackId: String? = null,
     val showError: String? = null
-): State
+): State {
+    val homeMediaFile: List<MediaFile>
+        get() = mediaFiles.map { it.copy(selected = it.id == selectedTrackId) }
+}
 
 sealed interface HomeAction: Action {
     object ShowLoading: HomeAction
     object CheckAudioList: HomeAction
-    data class CheckAudioListResult(val result: Either<AppException, List<StorageFile>>): HomeAction
+    data class CheckAudioListResult(val result: Either<AppException, List<MediaFile>>): HomeAction
+
+    data class UpdateTrack(val trackId: String? = null): HomeAction
 }

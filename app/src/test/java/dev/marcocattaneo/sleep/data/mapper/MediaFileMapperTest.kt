@@ -39,6 +39,7 @@ class MediaFileMapperTest {
         // Then
         assertIs<MediaFile>(mapped)
         assertEquals("description", mapped.description)
+        assertEquals("UUID", mapped.id)
         assertEquals("name", mapped.name)
         assertEquals("path", mapped.path)
     }
@@ -47,6 +48,7 @@ class MediaFileMapperTest {
 
 fun mockStorageReference(): DocumentSnapshot {
     val ref = mockk<DocumentSnapshot>()
+    every { ref.id } returns "UUID"
     every { ref.getString("name") } returns "name"
     every { ref.getString("storage") } returns "path"
     every { ref.getString("description") } returns "description"

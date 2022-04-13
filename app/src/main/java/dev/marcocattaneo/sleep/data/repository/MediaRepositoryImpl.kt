@@ -22,8 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.model.Path
-import dev.marcocattaneo.sleep.domain.model.StorageFile
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -39,7 +39,7 @@ class MediaRepositoryImpl @Inject constructor(
         const val AUDIO_COLLECTION = "audio"
     }
 
-    override suspend fun listMedia(): Either<AppException, List<StorageFile>> =
+    override suspend fun listMedia(): Either<AppException, List<MediaFile>> =
         suspendCancellableCoroutine { continuation ->
             firebaseFirestore.collection(AUDIO_COLLECTION)
                 .get()

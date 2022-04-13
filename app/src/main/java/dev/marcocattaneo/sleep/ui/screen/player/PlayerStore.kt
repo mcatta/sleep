@@ -17,19 +17,16 @@
 package dev.marcocattaneo.sleep.ui.screen.player
 
 import android.net.Uri
-import dagger.hilt.android.scopes.ViewModelScoped
 import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
-import dev.marcocattaneo.sleep.domain.model.Path
 import dev.marcocattaneo.mvi.State
 import dev.marcocattaneo.mvi.intent.Action
 import dev.marcocattaneo.mvi.store.ChannelStore
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
-import dev.marcocattaneo.sleep.domain.model.sec
+import dev.marcocattaneo.sleep.domain.model.*
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ViewModelScoped
+@Singleton
 class PlayerStore @Inject constructor(
     @CoroutineContextScope scope: CoroutineScope
 ) : ChannelStore<PlayerState>(
@@ -41,7 +38,8 @@ data class PlayerState(
     val duration: Seconds = 0.sec,
     val position: Seconds = 0.sec,
     val playerStatus: PlayerStatus = PlayerStatus.Stop,
-    val stopTimer: Minutes? = null
+    val stopTimer: Minutes? = null,
+    val trackId: String? = null
 ) : State {
     sealed interface PlayerStatus {
         object Disposed : PlayerStatus
@@ -54,7 +52,7 @@ data class PlayerState(
 }
 
 sealed interface PlayerAction : Action {
-    data class InitPlayer(val urlPath: Path) : PlayerAction
+    data class InitPlayer(val mediaFile: MediaFile) : PlayerAction
     data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
     data class UpdateDuration(
         val duration: Seconds,
@@ -69,5 +67,5 @@ sealed interface PlayerAction : Action {
     object ForwardOf : PlayerAction
     data class StopAfter(val minutes: Minutes?) : PlayerAction
 
-    data class SideEffectStartPlayer(val uri: Uri) : PlayerAction
+    data class SideEffectStartPlayer(val uri: Uri, val trackId: String) : PlayerAction
 }
