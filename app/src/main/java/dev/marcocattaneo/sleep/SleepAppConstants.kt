@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-object AppConfiguration {
-    const val APPLICATION_ID = "dev.marcocattaneo.sleep"
-    const val VERSION_CODE = 6
-    const val VERSION_NAME = "0.5.1"
+package dev.marcocattaneo.sleep
+
+import dev.marcocattaneo.sleep.domain.model.min
+
+object SleepAppConstants {
+
+    /**
+     * This represents the supported time frame used to auto-stop the player
+     */
+    val SUPPORTED_STOP_TIME_FRAMES = setOf(10.min, 20.min, 30.min)
 }
