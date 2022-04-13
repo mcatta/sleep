@@ -53,6 +53,7 @@ class PlayerNotificationService: Service()  {
         scope.launch {
             audioPlayer.state().collect {
                 when (it) {
+                    AudioPlayerState.OnInit -> startForegroundService()
                     is AudioPlayerState.PlayerStatus -> playerNotificationManager.updateNotification(
                         isPlaying = it.isPlaying
                     )
@@ -62,12 +63,8 @@ class PlayerNotificationService: Service()  {
 
                     is AudioPlayerState.OnError,
                     AudioPlayerState.OnStop,
-                    AudioPlayerState.Disposed -> {
-                        playerNotificationManager.removeNotification()
-                        stopForeground(true)
-                    }
+                    AudioPlayerState.Disposed -> stopForegroundService()
 
-                    AudioPlayerState.OnInit,
                     AudioPlayerState.None -> Unit
                 }
             }
@@ -80,16 +77,22 @@ class PlayerNotificationService: Service()  {
             ACTION_PLAY -> audioPlayer.play()
         }
 
-        startForeground(PlayerNotificationManager.NOTIFICATION_ID, playerNotificationManager.foregroundNotification())
-
         return START_STICKY
+    }
+
+    private fun startForegroundService() {
+        startForeground(PlayerNotificationManager.NOTIFICATION_ID, playerNotificationManager.foregroundNotification())
+    }
+
+    private fun stopForegroundService() {
+        playerNotificationManager.removeNotification()
+        stopForeground(true)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
         super.onDestroy()
-        audioPlayer.dispose()
         job.cancel()
     }
 

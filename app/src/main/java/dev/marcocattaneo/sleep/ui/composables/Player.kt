@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.marcocattaneo.sleep.R
+import dev.marcocattaneo.sleep.SleepAppConstants
 import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.Seconds
 import dev.marcocattaneo.sleep.domain.model.min
@@ -60,7 +61,7 @@ fun BottomPlayerBar(
     duration: Seconds,
     position: Seconds,
     selectedStopTimer: Minutes? = null,
-    supportedStoppingTimeframes: Set<Minutes> = setOf(10.min, 20.min, 30.min),
+    supportedStoppingTimeframes: Set<Minutes> = SleepAppConstants.SUPPORTED_STOP_TIME_FRAMES,
     onChangePlayingStatus: (Boolean) -> Unit,
     onChangeStopTimer: (Minutes) -> Unit,
     onClickReplay: () -> Unit,
