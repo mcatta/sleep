@@ -80,7 +80,9 @@ kapt {
 }
 
 dependencies {
-    implementation(platform(ThirdPartyLibs.FIREBASE_BOM))
+    implementation(project(mapOf("path" to ":mvi")))
+    implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":data")))
 
     implementation(AndroidXLibs.CORE)
     implementation(AndroidXLibs.APP_COMPACT)
@@ -101,8 +103,6 @@ dependencies {
     implementation(ThirdPartyLibs.FIREBASE_FIRESTORE)
     implementation(ThirdPartyLibs.ARROW_CORE)
     implementation(ThirdPartyLibs.TIMBER)
-    implementation(project(mapOf("path" to ":mvi")))
-    implementation(project(mapOf("path" to ":domain")))
 
     testImplementation(kotlin("test"))
     testImplementation(TestLibs.MOCKK)
