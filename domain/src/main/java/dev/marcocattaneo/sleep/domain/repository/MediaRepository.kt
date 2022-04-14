@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
-    }
+package dev.marcocattaneo.sleep.domain.repository
+
+import arrow.core.Either
+import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.Path
+
+interface MediaRepository {
+
+    suspend fun listMedia(): Either<AppException, List<MediaFile>>
+
+    suspend fun urlFromPath(path: Path): Either<AppException, String>
+
 }
-rootProject.name = "sleep-app"
-include ':app'
-include ':mvi'
-include ':domain'

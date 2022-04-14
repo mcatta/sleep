@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.domain.repository
+plugins {
+    id("java-library")
+    id("org.jetbrains.kotlin.jvm")
+}
 
-import android.net.Uri
-import arrow.core.Either
-import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.model.MediaFile
-import dev.marcocattaneo.sleep.domain.model.Path
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
-interface MediaRepository {
-
-    suspend fun listMedia(): Either<AppException, List<MediaFile>>
-
-    suspend fun urlFromPath(path: Path): Either<AppException, Uri>
-
+dependencies {
+    implementation(KotlinLibs.COROUTINE_CORE)
+    implementation(ThirdPartyLibs.ARROW_CORE)
 }

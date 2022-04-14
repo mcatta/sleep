@@ -16,6 +16,7 @@
 
 package dev.marcocattaneo.sleep.ui.screen.player
 
+import android.net.Uri
 import arrow.core.Either
 import dev.marcocattaneo.mvi.intent.Intent
 import dev.marcocattaneo.mvi.intent.IntentFactory
@@ -42,7 +43,7 @@ class PlayerIntentFactory @Inject constructor(
             when (val result = mediaRepository.urlFromPath(action.mediaFile.path)) {
                 is Either.Left -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))
                 is Either.Right -> PlayerAction.SideEffectStartPlayer(
-                    uri = result.value, trackId = action.mediaFile.id
+                    uri = Uri.parse(result.value), trackId = action.mediaFile.id
                 )
             }
         }

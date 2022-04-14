@@ -55,12 +55,12 @@ class MediaRepositoryImpl @Inject constructor(
 
     override suspend fun urlFromPath(
         path: Path
-    ): Either<AppException, Uri> = suspendCancellableCoroutine { continuation ->
+    ): Either<AppException, String> = suspendCancellableCoroutine { continuation ->
         firebaseStorage
             .reference
             .child(path)
             .downloadUrl
-            .addOnSuccessListener { url -> continuation.resume(Either.Right(url)) }
+            .addOnSuccessListener { url -> continuation.resume(Either.Right(url.toString())) }
             .addOnFailureListener { continuation.resume(Either.Left(AppException.GenericError)) }
     }
 }
