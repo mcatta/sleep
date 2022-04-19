@@ -16,11 +16,10 @@
 
 package dev.marcocattaneo.sleep.data.repository
 
-import android.net.Uri
 import arrow.core.Either
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
-import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.model.Path
@@ -32,7 +31,7 @@ import kotlin.coroutines.resume
 class MediaRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val firebaseFirestore: FirebaseFirestore,
-    private val mediaFileMapper: MediaFileMapper
+    private val mediaFileMapper: dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 ) : MediaRepository {
 
     companion object {
@@ -42,6 +41,7 @@ class MediaRepositoryImpl @Inject constructor(
     override suspend fun listMedia(): Either<AppException, List<MediaFile>> =
         suspendCancellableCoroutine { continuation ->
             firebaseFirestore.collection(AUDIO_COLLECTION)
+                .orderBy("order", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener { listResult ->
                     listResult.documents
@@ -55,12 +55,12 @@ class MediaRepositoryImpl @Inject constructor(
 
     override suspend fun urlFromPath(
         path: Path
-    ): Either<AppException, Uri> = suspendCancellableCoroutine { continuation ->
+    ): Either<AppException, String> = suspendCancellableCoroutine { continuation ->
         firebaseStorage
             .reference
             .child(path)
             .downloadUrl
-            .addOnSuccessListener { url -> continuation.resume(Either.Right(url)) }
+            .addOnSuccessListener { url -> continuation.resume(Either.Right(url.toString())) }
             .addOnFailureListener { continuation.resume(Either.Left(AppException.GenericError)) }
     }
 }

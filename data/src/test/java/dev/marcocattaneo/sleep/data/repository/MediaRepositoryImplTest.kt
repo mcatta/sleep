@@ -77,6 +77,7 @@ class MediaRepositoryImplTest {
         val slot = slot<OnSuccessListener<QuerySnapshot>>()
         val result = mockk<QuerySnapshot>()
         every { result.documents } returns listOf(mockStorageReference(), mockStorageReference())
+        every { mockedCollection.orderBy(any<String>(), any()) } returns mockedCollection
         every { mockedCollection.get() } returns taskMocked
         every { taskMocked.addOnSuccessListener(capture(slot)) } answers {
             slot.captured.onSuccess(result)
@@ -100,6 +101,7 @@ class MediaRepositoryImplTest {
         val taskMocked = mockk<Task<QuerySnapshot>>()
         val slot = slot<OnFailureListener>()
         every { mockedCollection.get() } returns taskMocked
+        every { mockedCollection.orderBy(any<String>(), any()) } returns mockedCollection
         every { taskMocked.addOnSuccessListener(any()) } returns taskMocked
         every { taskMocked.addOnFailureListener(capture(slot)) } answers {
             slot.captured.onFailure(IllegalStateException("Something goes wrong"))

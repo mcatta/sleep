@@ -16,11 +16,9 @@
 
 package dev.marcocattaneo.sleep.ui.screen.player
 
+import android.net.Uri
 import arrow.core.Either
-import dev.marcocattaneo.mvi.intent.Intent
-import dev.marcocattaneo.mvi.intent.IntentFactory
-import dev.marcocattaneo.mvi.intent.intent
-import dev.marcocattaneo.mvi.intent.sideEffect
+import dev.marcocattaneo.mvi.intent.*
 import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
@@ -38,11 +36,14 @@ class PlayerIntentFactory @Inject constructor(
     store = playerStore
 ) {
     override suspend fun buildIntent(action: PlayerAction): Intent<PlayerState> = when (action) {
-        is PlayerAction.InitPlayer -> sideEffect {
+        is PlayerAction.InitPlayer -> sideEffects {
             when (val result = mediaRepository.urlFromPath(action.mediaFile.path)) {
-                is Either.Left -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))
-                is Either.Right -> PlayerAction.SideEffectStartPlayer(
-                    uri = result.value, trackId = action.mediaFile.id
+                is Either.Left -> listOf(
+                    PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))
+                )
+                is Either.Right -> listOf(
+                    PlayerAction.SideEffectStartPlayer(uri = Uri.parse(result.value)),
+                    PlayerAction.UpdateTrack(trackId = action.mediaFile.id)
                 )
             }
         }
@@ -53,10 +54,11 @@ class PlayerIntentFactory @Inject constructor(
                 stopTimer = action.stopAfterMinutes
             )
         }
+        is PlayerAction.UpdateTrack -> intent { copy(trackId = action.trackId) }
         is PlayerAction.UpdateStatus -> intent { copy(playerStatus = action.status) }
         is PlayerAction.SideEffectStartPlayer -> intent {
             audioPlayer.start(action.uri)
-            copy(trackId = action.trackId)
+            this
         }
         PlayerAction.Pause -> intent {
             audioPlayer.pause()
@@ -80,6 +82,10 @@ class PlayerIntentFactory @Inject constructor(
         }
         PlayerAction.ReplayOf -> intent {
             audioPlayer.replayOf(30.sec)
+            this
+        }
+        is PlayerAction.SeekTo -> intent {
+            audioPlayer.seekTo(action.position)
             this
         }
     }.also {

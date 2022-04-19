@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.di.module
+package dev.marcocattaneo.sleep.data.di
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore

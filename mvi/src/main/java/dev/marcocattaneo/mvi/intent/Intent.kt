@@ -42,3 +42,14 @@ suspend fun <S : State, A : Action> IntentFactory<S, A>.sideEffect(
 ) = Intent<S> { it }.also {
     handleSideEffectAction(sideEffectBlock())
 }
+
+/**
+ * Create a side-effect that generate an array of new Action, but also support the state reducing before
+ * @param sideEffectBlock side-effect block
+ * @return [Intent]
+ */
+suspend fun <S : State, A : Action> IntentFactory<S, A>.sideEffects(
+    sideEffectBlock: suspend () -> List<A>
+) = Intent<S> { it }.also {
+    sideEffectBlock().map { handleSideEffectAction(it) }
+}

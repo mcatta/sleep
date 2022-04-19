@@ -62,7 +62,8 @@ fun PlayerScreen(
                     playerViewModel.process(PlayerAction.StopAfter(it))
                 },
                 onClickReplay = { playerViewModel.process(PlayerAction.ReplayOf) },
-                onClickForward = {playerViewModel.process(PlayerAction.ForwardOf) }
+                onClickForward = { playerViewModel.process(PlayerAction.ForwardOf) },
+                onSeeking = { playerViewModel.process(PlayerAction.SeekTo(it)) }
             )
         }
     }

@@ -34,6 +34,8 @@ interface AudioPlayer {
 
     fun play()
 
+    fun seekTo(sec: Seconds)
+
     fun stopAfter(minutes: Minutes?)
 
     fun dispose()

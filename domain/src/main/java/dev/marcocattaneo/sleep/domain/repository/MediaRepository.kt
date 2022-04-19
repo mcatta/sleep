@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep
+package dev.marcocattaneo.sleep.domain.repository
 
-import org.junit.Test
+import arrow.core.Either
+import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.Path
 
-import org.junit.Assert.*
+interface MediaRepository {
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
+    suspend fun listMedia(): Either<AppException, List<MediaFile>>
+
+    suspend fun urlFromPath(path: Path): Either<AppException, String>
+
 }
