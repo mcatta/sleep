@@ -50,6 +50,8 @@ class PlayerNotificationService: Service()  {
     override fun onCreate() {
         super.onCreate()
 
+        startForegroundService()
+
         scope.launch {
             audioPlayer.state().collect {
                 when (it) {
