@@ -18,6 +18,7 @@ package dev.marcocattaneo.sleep.data.repository
 
 import arrow.core.Either
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.model.MediaFile
@@ -40,6 +41,7 @@ class MediaRepositoryImpl @Inject constructor(
     override suspend fun listMedia(): Either<AppException, List<MediaFile>> =
         suspendCancellableCoroutine { continuation ->
             firebaseFirestore.collection(AUDIO_COLLECTION)
+                .orderBy("order", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener { listResult ->
                     listResult.documents
