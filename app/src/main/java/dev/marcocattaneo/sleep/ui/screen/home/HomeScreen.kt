@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -42,7 +43,10 @@ fun HomeScreen(
 ) {
     val uiState by homeViewModel.uiState.collectAsState()
 
-    homeViewModel.process(HomeAction.ShowLoading)
+    LaunchedEffect(Unit) {
+        // Show the loading on first access
+        homeViewModel.process(HomeAction.ShowLoading)
+    }
     homeViewModel.process(HomeAction.CheckAudioList)
 
     Column(modifier = Modifier.fillMaxSize()) {

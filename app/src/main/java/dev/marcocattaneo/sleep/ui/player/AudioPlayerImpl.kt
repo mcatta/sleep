@@ -62,6 +62,10 @@ class AudioPlayerImpl @Inject constructor(
             false
         }
 
+        setOnCompletionListener {
+            emitState(AudioPlayerState.OnStop)
+        }
+
     }
 
     init {

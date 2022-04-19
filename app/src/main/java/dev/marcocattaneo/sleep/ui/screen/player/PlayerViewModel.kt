@@ -41,12 +41,11 @@ class PlayerViewModel @Inject constructor(
                 when (it) {
                     AudioPlayerState.OnInit -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Init))
                     AudioPlayerState.OnPause -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Pause))
-                    AudioPlayerState.OnStop -> {
-                        listOf(
-                            PlayerAction.StopAfter(null),
-                            PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Stop)
-                        )
-                    }
+                    AudioPlayerState.OnStop -> listOf(
+                        PlayerAction.StopAfter(null),
+                        PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Stop),
+                        PlayerAction.UpdateTrack(trackId = null)
+                    )
 
                     is AudioPlayerState.PlayerStatus -> listOf(
                         PlayerAction.UpdateDuration(

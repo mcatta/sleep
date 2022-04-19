@@ -54,6 +54,7 @@ data class PlayerState(
 sealed interface PlayerAction : Action {
     data class InitPlayer(val mediaFile: MediaFile) : PlayerAction
     data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
+    data class UpdateTrack(val trackId: String?) : PlayerAction
     data class UpdateDuration(
         val duration: Seconds,
         val position: Seconds,
@@ -67,5 +68,5 @@ sealed interface PlayerAction : Action {
     object ForwardOf : PlayerAction
     data class StopAfter(val minutes: Minutes?) : PlayerAction
 
-    data class SideEffectStartPlayer(val uri: Uri, val trackId: String) : PlayerAction
+    data class SideEffectStartPlayer(val uri: Uri) : PlayerAction
 }
