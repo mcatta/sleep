@@ -84,6 +84,10 @@ class PlayerIntentFactory @Inject constructor(
             audioPlayer.replayOf(30.sec)
             this
         }
+        is PlayerAction.SeekTo -> intent {
+            audioPlayer.seekTo(action.position)
+            this
+        }
     }.also {
         Timber.d("Built Intent for action $action")
     }

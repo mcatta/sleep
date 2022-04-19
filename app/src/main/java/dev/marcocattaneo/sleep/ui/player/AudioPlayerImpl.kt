@@ -84,11 +84,16 @@ class AudioPlayerImpl @Inject constructor(
         }, 0, 1_000)
     }
 
-    private fun updatePlayerStatus(mediaPlayer: MediaPlayer) = emitState(
+    private fun updatePlayerStatus(mediaPlayer: MediaPlayer) = updatePlayerStatusWithPosition(
+        mediaPlayer = mediaPlayer,
+        position = mediaPlayer.currentPosition.div(1_000L).sec
+    )
+
+    private fun updatePlayerStatusWithPosition(mediaPlayer: MediaPlayer, position: Seconds) = emitState(
         AudioPlayerState.PlayerStatus(
             isPlaying = mediaPlayer.isPlaying,
             duration = mediaPlayer.duration.div(1_000L).sec,
-            position = mediaPlayer.currentPosition.div(1_000L).sec,
+            position = position,
             stopAt = stopAfterMinutes
         )
     )
@@ -115,9 +120,20 @@ class AudioPlayerImpl @Inject constructor(
         emitState(AudioPlayerState.OnPause)
     }
 
-    override fun play() = mediaPlayer.start().also {
+    override fun play() = mediaPlayer.start().also() {
         updatePlayerStatus(mediaPlayer)
     }
+
+    override fun seekTo(sec: Seconds) = sec.value
+        .times(1_000)
+        .toInt()
+        .let(mediaPlayer::seekTo)
+        .also {
+            updatePlayerStatusWithPosition(
+                mediaPlayer = mediaPlayer,
+                position = sec
+            )
+        }
 
     override fun stop() = mediaPlayer.stop().also {
         emitState(AudioPlayerState.OnStop)

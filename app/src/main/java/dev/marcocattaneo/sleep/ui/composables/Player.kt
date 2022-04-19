@@ -17,6 +17,7 @@
 package dev.marcocattaneo.sleep.ui.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -28,6 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.consumeAllChanges
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +47,7 @@ import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin32
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
+import kotlin.math.max
 
 /**
  * @param modifier
@@ -65,7 +69,8 @@ fun BottomPlayerBar(
     onChangePlayingStatus: (Boolean) -> Unit,
     onChangeStopTimer: (Minutes) -> Unit,
     onClickReplay: () -> Unit,
-    onClickForward: () -> Unit
+    onClickForward: () -> Unit,
+    onSeeking: (Seconds) -> Unit
 ) {
     var timerVisible by remember { mutableStateOf(false) }
     val onClickTimerButton: (Minutes) -> Unit = {
@@ -80,7 +85,7 @@ fun BottomPlayerBar(
             .then(modifier),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        SeekBar(duration = duration, position = position)
+        SeekBar(duration = duration, position = position, onSeeking = onSeeking)
         // Buttons
         Box(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -208,7 +213,8 @@ private fun ActionButton(
 @Composable
 private fun SeekBar(
     position: Seconds,
-    duration: Seconds
+    duration: Seconds,
+    onSeeking: (Seconds) -> Unit
 ) {
     val screenWidth = screenWidth()
     val progressWidth = (screenWidth * position.value).div(duration.value)
@@ -231,9 +237,22 @@ private fun SeekBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(4.dp)),
+            .clip(RoundedCornerShape(4.dp))
+            .pointerInput(Unit) {
+                detectDragGestures { change, _ ->
+                    change.consumeAllChanges()
+
+                    /*max(change.position.x, 0f)
+                        .times(duration.value)
+                        .div(screenWidth)
+                        .toLong()
+                        .sec
+                        .let(onSeeking)*/
+                }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Filled line
         Box(
             modifier = Modifier
                 .height(4.dp)
@@ -241,6 +260,7 @@ private fun SeekBar(
                 .clip(RoundedCornerShape(4.dp))
                 .background(MaterialTheme.colors.primaryVariant)
         )
+        // Empty line
         Box(
             modifier = Modifier
                 .height(2.dp)
@@ -261,6 +281,7 @@ fun BottomPlayerBarPreview() {
         onChangePlayingStatus = {},
         onChangeStopTimer = {},
         onClickForward = {},
-        onClickReplay = {}
+        onClickReplay = {},
+        onSeeking = {}
     )
 }
