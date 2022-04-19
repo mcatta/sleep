@@ -108,10 +108,11 @@ private fun MediaItem(
             )
             .then(modifier)
     ) {
+        val selected = mediaFile?.selected == true
         Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_play_circle_outline_24),
+            painter = painterResource(id = if (selected) R.drawable.ic_baseline_play_circle_filled_24 else R.drawable.ic_baseline_play_circle_outline_24),
             contentDescription = mediaFile?.name ?: "Undefined",
-            tint = if (mediaFile?.selected == true) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
+            tint = if (selected) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
         )
         Spacer8()
         Column {
