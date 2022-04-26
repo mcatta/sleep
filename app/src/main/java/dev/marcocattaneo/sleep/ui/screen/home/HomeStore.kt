@@ -49,6 +49,4 @@ sealed interface HomeAction: Action {
     object ShowLoading: HomeAction
     object CheckAudioList: HomeAction
     data class CheckAudioListResult(val result: Either<AppException, List<MediaFile>>): HomeAction
-
-    data class UpdateTrack(val trackId: String? = null): HomeAction
 }
