@@ -16,16 +16,7 @@
 
 package dev.marcocattaneo.sleep.ui.composables
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import dev.marcocattaneo.sleep.domain.model.Seconds
-
-@Composable
-fun screenWidth(): Float {
-    val context = LocalContext.current.resources
-    val displayMetrics = context.displayMetrics
-    return displayMetrics.widthPixels / displayMetrics.density
-}
 
 fun Seconds.format(): String {
     val hours = this.value.div(3_600)

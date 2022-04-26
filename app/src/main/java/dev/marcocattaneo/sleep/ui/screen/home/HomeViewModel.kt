@@ -16,28 +16,15 @@
 
 package dev.marcocattaneo.sleep.ui.screen.home
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.marcocattaneo.sleep.ui.screen.common.MviViewModel
-import dev.marcocattaneo.sleep.ui.screen.player.PlayerStore
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     store: HomeStore,
-    intentFactory: HomeIntentFactory,
-    private val playerStore: PlayerStore
+    intentFactory: HomeIntentFactory
 ) : MviViewModel<HomeState, HomeAction>(
     store = store,
     intentFactory = intentFactory
-) {
-    init {
-        viewModelScope.launch {
-            playerStore.stateFlow.collectLatest {
-                process(HomeAction.UpdateTrack(trackId = it.trackId))
-            }
-        }
-    }
-}
+)

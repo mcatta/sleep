@@ -17,20 +17,13 @@
 package dev.marcocattaneo.sleep.ui.composables
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.pointer.consumeAllChanges
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -216,13 +209,14 @@ private fun SeekBar(
     duration: Seconds,
     onSeeking: (Seconds) -> Unit
 ) {
-    val screenWidth = screenWidth()
-    val progressWidth = (screenWidth * position.value).div(duration.value)
+    // To avoid division by zero
+    val progress = position.value.toFloat().div(max(duration.value.toFloat(), 1f))
+
     Column {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = Margin8)
+                .padding(top = Margin8)
         ) {
             OverLine(
                 text = position.format(),
@@ -234,7 +228,18 @@ private fun SeekBar(
             )
         }
     }
-    Row(
+    Slider(
+        modifier = Modifier.fillMaxWidth(),
+        value = progress,
+        onValueChange = {
+            onSeeking(duration.value.times(it).toLong().sec)
+        },
+        colors = SliderDefaults.colors(
+            activeTrackColor = MaterialTheme.colors.primaryVariant,
+            inactiveTrackColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.4f)
+        )
+    )
+    /*Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(4.dp))
@@ -242,12 +247,17 @@ private fun SeekBar(
                 detectDragGestures { change, _ ->
                     change.consumeAllChanges()
 
-                    /*max(change.position.x, 0f)
-                        .times(duration.value)
-                        .div(screenWidth)
+                    // width: duration = x : position
+                    println("VALORE position ${change.position.x.div(displayMetrics.density)}")
+                    max(change.position.x.div(displayMetrics.density), 0f)
+                        .times(screenWidth)
+                        .also { println("VALORE dopo moltiplicazione $it") }
+                        .also { println("VALORE duration $it") }
+                        .div(duration.value.toFloat())
                         .toLong()
+                        .also { println("VALORE output $it") }
                         .sec
-                        .let(onSeeking)*/
+                        .let(onSeeking)
                 }
             },
         verticalAlignment = Alignment.CenterVertically
@@ -258,16 +268,16 @@ private fun SeekBar(
                 .height(4.dp)
                 .width(progressWidth.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(MaterialTheme.colors.primaryVariant)
+                .background()
         )
         // Empty line
         Box(
             modifier = Modifier
                 .height(2.dp)
                 .width(screenWidth.minus(progressWidth).dp)
-                .background(MaterialTheme.colors.primaryVariant.copy(alpha = 0.4f))
+                .background()
         )
-    }
+    }*/
 }
 
 @Composable
