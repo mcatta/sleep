@@ -36,7 +36,7 @@ class PlayerIntentFactory @Inject constructor(
     store = playerStore
 ) {
     override suspend fun buildIntent(action: PlayerAction): Intent<PlayerState> = when (action) {
-        is PlayerAction.InitPlayer -> sideEffects {
+        is PlayerAction.StartPlaying -> sideEffects {
             when (val result = mediaRepository.urlFromPath(action.mediaFile.path)) {
                 is Either.Left -> listOf(
                     PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))

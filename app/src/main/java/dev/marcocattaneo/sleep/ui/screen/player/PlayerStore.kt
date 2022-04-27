@@ -52,7 +52,7 @@ data class PlayerState(
 }
 
 sealed interface PlayerAction : Action {
-    data class InitPlayer(val mediaFile: MediaFile) : PlayerAction
+    data class StartPlaying(val mediaFile: MediaFile) : PlayerAction
     data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
     data class UpdateTrack(val trackId: String?) : PlayerAction
     data class UpdateDuration(
