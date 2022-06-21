@@ -38,8 +38,7 @@ data class PlayerState(
     val duration: Seconds = 0.sec,
     val position: Seconds = 0.sec,
     val playerStatus: PlayerStatus = PlayerStatus.Stop,
-    val stopTimer: Minutes? = null,
-    val trackId: String? = null
+    val stopTimer: Minutes? = null
 ) : State {
     sealed interface PlayerStatus {
         object Disposed : PlayerStatus
@@ -54,7 +53,6 @@ data class PlayerState(
 sealed interface PlayerAction : Action {
     data class StartPlaying(val mediaFile: MediaFile) : PlayerAction
     data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
-    data class UpdateTrack(val trackId: String?) : PlayerAction
     data class UpdateDuration(
         val duration: Seconds,
         val position: Seconds,

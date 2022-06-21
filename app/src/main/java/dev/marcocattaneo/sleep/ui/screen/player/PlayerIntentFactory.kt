@@ -31,20 +31,20 @@ import javax.inject.Singleton
 class PlayerIntentFactory @Inject constructor(
     private val mediaRepository: MediaRepository,
     private val audioPlayer: AudioPlayer,
+    private val playlist: Playlist,
     playerStore: PlayerStore
 ) : IntentFactory<PlayerState, PlayerAction>(
     store = playerStore
 ) {
     override suspend fun buildIntent(action: PlayerAction): Intent<PlayerState> = when (action) {
-        is PlayerAction.StartPlaying -> sideEffects {
+        is PlayerAction.StartPlaying -> sideEffect {
             when (val result = mediaRepository.urlFromPath(action.mediaFile.path)) {
-                is Either.Left -> listOf(
-                    PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))
-                )
-                is Either.Right -> listOf(
-                    PlayerAction.SideEffectStartPlayer(uri = Uri.parse(result.value)),
-                    PlayerAction.UpdateTrack(trackId = action.mediaFile.id)
-                )
+                is Either.Left -> PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(500))
+                is Either.Right -> {
+                    playlist.process(PlaylistAction.Update(trackId = action.mediaFile.id))
+
+                    PlayerAction.SideEffectStartPlayer(uri = Uri.parse(result.value))
+                }
             }
         }
         is PlayerAction.UpdateDuration -> intent {
@@ -54,8 +54,19 @@ class PlayerIntentFactory @Inject constructor(
                 stopTimer = action.stopAfterMinutes
             )
         }
-        is PlayerAction.UpdateTrack -> intent { copy(trackId = action.trackId) }
-        is PlayerAction.UpdateStatus -> intent { copy(playerStatus = action.status) }
+        is PlayerAction.UpdateStatus -> intent {
+            when (action.status) {
+                PlayerState.PlayerStatus.Disposed,
+                is PlayerState.PlayerStatus.Error,
+                PlayerState.PlayerStatus.Init,
+                PlayerState.PlayerStatus.Pause,
+                PlayerState.PlayerStatus.Playing -> Unit
+                PlayerState.PlayerStatus.Stop -> {
+                    playlist.process(PlaylistAction.Clear)
+                }
+            }
+            copy(playerStatus = action.status)
+        }
         is PlayerAction.SideEffectStartPlayer -> intent {
             audioPlayer.start(action.uri)
             this

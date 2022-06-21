@@ -48,5 +48,6 @@ data class HomeState(
 sealed interface HomeAction: Action {
     object ShowLoading: HomeAction
     object CheckAudioList: HomeAction
+    data class UpdateSelectedTrack(val trackId: String?): HomeAction
     data class CheckAudioListResult(val result: Either<AppException, List<MediaFile>>): HomeAction
 }
