@@ -21,7 +21,7 @@ import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
 import dev.marcocattaneo.sleep.ui.player.AudioPlayer
-import dev.marcocattaneo.sleep.ui.player.AudioPlayerState
+import dev.marcocattaneo.sleep.ui.player.AudioPlayerEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -55,19 +55,19 @@ class PlayerNotificationService: Service()  {
         scope.launch {
             audioPlayer.state().collect {
                 when (it) {
-                    AudioPlayerState.OnInit -> startForegroundService()
-                    is AudioPlayerState.PlayerStatus -> playerNotificationManager.updateNotification(
+                    AudioPlayerEvent.Init -> startForegroundService()
+                    is AudioPlayerEvent.PlayerStatus -> playerNotificationManager.updateNotification(
                         isPlaying = it.isPlaying
                     )
-                    is AudioPlayerState.OnPause -> playerNotificationManager.updateNotification(
+                    is AudioPlayerEvent.Pause -> playerNotificationManager.updateNotification(
                         isPlaying = false
                     )
 
-                    is AudioPlayerState.OnError,
-                    AudioPlayerState.OnStop,
-                    AudioPlayerState.Disposed -> stopForegroundService()
+                    is AudioPlayerEvent.Error,
+                    AudioPlayerEvent.Stop,
+                    AudioPlayerEvent.Disposed -> stopForegroundService()
 
-                    AudioPlayerState.None -> Unit
+                    AudioPlayerEvent.None -> Unit
                 }
             }
         }

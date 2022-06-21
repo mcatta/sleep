@@ -6,6 +6,8 @@
       <module name="android-compose-template.buildSrc" target="11" />
       <module name="sleep-app.app" target="11" />
       <module name="sleep-app.buildSrc" target="11" />
+      <module name="sleep-app.buildSrc.main" target="11" />
+      <module name="sleep-app.buildSrc.test" target="11" />
       <module name="sleep-app.data" target="11" />
     </bytecodeTargetLevel>
   </component>

@@ -19,7 +19,7 @@ package dev.marcocattaneo.sleep.ui.screen.player
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.marcocattaneo.sleep.ui.player.AudioPlayer
-import dev.marcocattaneo.sleep.ui.player.AudioPlayerState
+import dev.marcocattaneo.sleep.ui.player.AudioPlayerEvent
 import dev.marcocattaneo.sleep.ui.screen.common.MviViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -37,32 +37,29 @@ class PlayerViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            audioPlayer.state().collect {
-                when (it) {
-                    AudioPlayerState.OnInit -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Init))
-                    AudioPlayerState.OnPause -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Pause))
-                    AudioPlayerState.OnStop -> listOf(
+            audioPlayer.state().collect { playerEvent ->
+                when (playerEvent) {
+                    AudioPlayerEvent.Init -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Init))
+                    AudioPlayerEvent.Pause -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Pause))
+                    AudioPlayerEvent.Stop -> listOf(
                         PlayerAction.StopAfter(null),
                         PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Stop),
-                        PlayerAction.UpdateTrack(trackId = null)
                     )
 
-                    is AudioPlayerState.PlayerStatus -> listOf(
+                    is AudioPlayerEvent.PlayerStatus -> listOf(
                         PlayerAction.UpdateDuration(
-                            duration = it.duration,
-                            position = it.position,
-                            stopAfterMinutes = it.stopAt
+                            duration = playerEvent.duration,
+                            position = playerEvent.position,
+                            stopAfterMinutes = playerEvent.stopAt
                         ),
-                        PlayerAction.UpdateStatus(if (it.isPlaying) PlayerState.PlayerStatus.Playing else PlayerState.PlayerStatus.Pause)
+                        PlayerAction.UpdateStatus(if (playerEvent.isPlaying) PlayerState.PlayerStatus.Playing else PlayerState.PlayerStatus.Pause)
                     )
-                    is AudioPlayerState.OnError -> listOf(
-                        PlayerAction.UpdateStatus(
-                            PlayerState.PlayerStatus.Error(it.errorCode)
-                        )
+                    is AudioPlayerEvent.Error -> listOf(
+                        PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Error(playerEvent.errorCode))
                     )
 
-                    AudioPlayerState.Disposed -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Disposed))
-                    AudioPlayerState.None -> null
+                    AudioPlayerEvent.Disposed -> listOf(PlayerAction.UpdateStatus(PlayerState.PlayerStatus.Disposed))
+                    AudioPlayerEvent.None -> null
                 }?.map(::process)
             }
         }

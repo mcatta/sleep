@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface AudioPlayer {
 
-    fun state(): StateFlow<AudioPlayerState>
+    fun state(): StateFlow<AudioPlayerEvent>
 
     fun start(uri: Uri)
 

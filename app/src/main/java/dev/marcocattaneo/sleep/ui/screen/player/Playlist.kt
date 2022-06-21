@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2022 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,21 @@
  * limitations under the License.
  */
 
-object AppConfiguration {
-    const val APPLICATION_ID = "dev.marcocattaneo.sleep"
-    const val VERSION_CODE = 10
-    const val VERSION_NAME = "0.9"
+package dev.marcocattaneo.sleep.ui.screen.player
+
+import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class Playlist @Inject constructor(
+    private val playlistIntentFactory: PlaylistIntentFactory,
+    private val playlistStore: PlaylistStore
+){
+    suspend fun process(action: PlaylistAction) {
+        playlistStore.process(playlistIntentFactory.buildIntent(action))
+    }
+
+    val stateFlow: StateFlow<PlaylistState>
+        get() = playlistStore.stateFlow
 }

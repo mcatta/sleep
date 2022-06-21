@@ -36,7 +36,7 @@ class AudioPlayerImpl @Inject constructor(
     @CoroutineContextScope private val coroutineScope: CoroutineScope
 ) : AudioPlayer {
 
-    private val playerStateFlow = MutableStateFlow<AudioPlayerState>(AudioPlayerState.None)
+    private val playerStateFlow = MutableStateFlow<AudioPlayerEvent>(AudioPlayerEvent.None)
 
     private var stopDate: Long? = null
 
@@ -45,12 +45,11 @@ class AudioPlayerImpl @Inject constructor(
     private val timer = Timer()
 
     private val mediaPlayer = MediaPlayer().apply {
-        setAudioAttributes(
-            AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .build()
-        )
+        AudioAttributes.Builder()
+            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            .setUsage(AudioAttributes.USAGE_MEDIA)
+            .build()
+            .let(::setAudioAttributes)
 
         setOnPreparedListener {
             start()
@@ -58,12 +57,12 @@ class AudioPlayerImpl @Inject constructor(
         }
 
         setOnErrorListener { _, what, _ ->
-            emitState(AudioPlayerState.OnError(what))
+            emitState(AudioPlayerEvent.Error(what))
             false
         }
 
         setOnCompletionListener {
-            emitState(AudioPlayerState.OnStop)
+            emitState(AudioPlayerEvent.Stop)
         }
 
     }
@@ -90,7 +89,7 @@ class AudioPlayerImpl @Inject constructor(
     )
 
     private fun updatePlayerStatusWithPosition(mediaPlayer: MediaPlayer, position: Seconds) = emitState(
-        AudioPlayerState.PlayerStatus(
+        AudioPlayerEvent.PlayerStatus(
             isPlaying = mediaPlayer.isPlaying,
             duration = mediaPlayer.duration.div(1_000L).sec,
             position = position,
@@ -98,16 +97,16 @@ class AudioPlayerImpl @Inject constructor(
         )
     )
 
-    override fun state(): StateFlow<AudioPlayerState> = playerStateFlow
+    override fun state(): StateFlow<AudioPlayerEvent> = playerStateFlow
 
-    private fun emitState(audioPlayerState: AudioPlayerState) = coroutineScope.launch {
-        playerStateFlow.emit(audioPlayerState)
+    private fun emitState(audioPlayerEvent: AudioPlayerEvent) = coroutineScope.launch {
+        playerStateFlow.emit(audioPlayerEvent)
     }
 
     override fun start(uri: Uri) {
         stopDate = null
         stopAfterMinutes = null
-        emitState(AudioPlayerState.OnInit)
+        emitState(AudioPlayerEvent.Init)
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.apply {
@@ -117,7 +116,7 @@ class AudioPlayerImpl @Inject constructor(
     }
 
     override fun pause() = mediaPlayer.pause().also {
-        emitState(AudioPlayerState.OnPause)
+        emitState(AudioPlayerEvent.Pause)
     }
 
     override fun play() = mediaPlayer.start().also() {
@@ -136,7 +135,7 @@ class AudioPlayerImpl @Inject constructor(
         }
 
     override fun stop() = mediaPlayer.stop().also {
-        emitState(AudioPlayerState.OnStop)
+        emitState(AudioPlayerEvent.Stop)
     }
 
     override fun stopAfter(minutes: Minutes?) {
@@ -147,7 +146,7 @@ class AudioPlayerImpl @Inject constructor(
     override fun dispose() {
         mediaPlayer.release()
         timer.cancel()
-        emitState(AudioPlayerState.Disposed)
+        emitState(AudioPlayerEvent.Disposed)
     }
 
     override fun forwardOf(sec: Seconds) {
@@ -165,19 +164,19 @@ class AudioPlayerImpl @Inject constructor(
 
 }
 
-sealed interface AudioPlayerState {
-    object None : AudioPlayerState
-    object Disposed : AudioPlayerState
-    object OnInit : AudioPlayerState
+sealed interface AudioPlayerEvent {
+    object None : AudioPlayerEvent
+    object Disposed : AudioPlayerEvent
+    object Init : AudioPlayerEvent
 
-    data class OnError(val errorCode: Int) : AudioPlayerState
+    data class Error(val errorCode: Int) : AudioPlayerEvent
     data class PlayerStatus(
         val isPlaying: Boolean,
         val position: Seconds,
         val duration: Seconds,
         val stopAt: Minutes? = null
-    ) : AudioPlayerState
+    ) : AudioPlayerEvent
 
-    object OnPause : AudioPlayerState
-    object OnStop : AudioPlayerState
+    object Pause : AudioPlayerEvent
+    object Stop : AudioPlayerEvent
 }
