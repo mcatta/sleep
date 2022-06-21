@@ -14,36 +14,21 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.ui.player
+package dev.marcocattaneo.sleep.ui.screen.player
 
-import android.media.MediaPlayer
-import android.net.Uri
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface AudioPlayer {
+@Singleton
+class Playlist @Inject constructor(
+    private val playlistIntentFactory: PlaylistIntentFactory,
+    private val playlistStore: PlaylistStore
+){
+    suspend fun process(action: PlaylistAction) {
+        playlistStore.process(playlistIntentFactory.buildIntent(action))
+    }
 
-    fun state(): StateFlow<AudioPlayerEvent>
-
-    fun start(uri: Uri)
-
-    fun pause()
-
-    fun stop()
-
-    fun play()
-
-    fun seekTo(sec: Seconds)
-
-    fun stopAfter(minutes: Minutes?)
-
-    fun dispose()
-
-    fun forwardOf(sec: Seconds)
-
-    fun replayOf(sec: Seconds)
-
-    val player: MediaPlayer
-
+    val stateFlow: StateFlow<PlaylistState>
+        get() = playlistStore.stateFlow
 }
