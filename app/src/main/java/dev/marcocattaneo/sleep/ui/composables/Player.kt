@@ -212,6 +212,11 @@ private fun SeekBar(
     // To avoid division by zero
     val progress = position.value.toFloat().div(max(duration.value.toFloat(), 1f))
 
+    // To handle dragging
+    var isSeekingInProgress by remember { mutableStateOf(false) }
+    var selectedValue by remember { mutableStateOf(0f) }
+    fun getValue() = if (isSeekingInProgress) selectedValue else progress
+
     Column {
         Box(
             modifier = Modifier
@@ -230,54 +235,18 @@ private fun SeekBar(
     }
     Slider(
         modifier = Modifier.fillMaxWidth(),
-        value = progress,
+        value = getValue(),
         onValueChange = {
+            isSeekingInProgress = true
+            selectedValue = it
             onSeeking(duration.value.times(it).toLong().sec)
         },
+        onValueChangeFinished = { isSeekingInProgress = false },
         colors = SliderDefaults.colors(
             activeTrackColor = MaterialTheme.colors.primaryVariant,
             inactiveTrackColor = MaterialTheme.colors.primaryVariant.copy(alpha = 0.4f)
         )
     )
-    /*Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(4.dp))
-            .pointerInput(Unit) {
-                detectDragGestures { change, _ ->
-                    change.consumeAllChanges()
-
-                    // width: duration = x : position
-                    println("VALORE position ${change.position.x.div(displayMetrics.density)}")
-                    max(change.position.x.div(displayMetrics.density), 0f)
-                        .times(screenWidth)
-                        .also { println("VALORE dopo moltiplicazione $it") }
-                        .also { println("VALORE duration $it") }
-                        .div(duration.value.toFloat())
-                        .toLong()
-                        .also { println("VALORE output $it") }
-                        .sec
-                        .let(onSeeking)
-                }
-            },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        // Filled line
-        Box(
-            modifier = Modifier
-                .height(4.dp)
-                .width(progressWidth.dp)
-                .clip(RoundedCornerShape(4.dp))
-                .background()
-        )
-        // Empty line
-        Box(
-            modifier = Modifier
-                .height(2.dp)
-                .width(screenWidth.minus(progressWidth).dp)
-                .background()
-        )
-    }*/
 }
 
 @Composable
