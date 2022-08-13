@@ -18,7 +18,7 @@ object Versions {
     const val COMPOSE = "1.2.0"
     const val COMPOSE_NAVIGATION = "2.5.1"
     const val COMPOSE_HILT_NAVIGATION = "1.0.0"
-    const val ACTIVITY = "1.5.1"
+    const val ACTIVITY = "1.5.0"
     const val KOTLIN = "1.7.0"
     const val HILT = "2.42"
     const val COROUTINE = "1.6.4"
