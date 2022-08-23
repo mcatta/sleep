@@ -24,6 +24,10 @@ object Versions {
     const val COROUTINE = "1.6.4"
 }
 
+object PluginVersions {
+    const val DETEKT = "1.21.0"
+}
+
 object Sdk {
     const val COMPILE_SDK_VERSION = 32
     const val MIN_SDK_VERSION = 21

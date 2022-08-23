@@ -84,7 +84,7 @@ fun HomeScreen(
                     }
                 }
             } else {
-                uiState.homeMediaFile.forEach {
+                uiState.homeMediaFile.iterator().forEach {
                     item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                 }
             }

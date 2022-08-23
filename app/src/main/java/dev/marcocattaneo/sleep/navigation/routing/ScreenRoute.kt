@@ -38,7 +38,7 @@ abstract class ScreenRoute(
          * @return path
          */
         fun getRoutePath() = uriBuilder(routePath) {
-            argumentKeys.forEach { key ->
+            argumentKeys.iterator().forEach { key ->
                 appendQueryParameter(key.first, "{${key.first}}")
             }
             this
@@ -66,7 +66,7 @@ abstract class ScreenRoute(
             val arguments =
                 params.mapNotNull { if (it != null) it.first to it.second else null }.toMap()
             return uriBuilder(routePath) {
-                argumentKeys.forEach { key ->
+                argumentKeys.iterator().forEach { key ->
                     val value = arguments[key.first] ?: return@forEach
 
                     appendQueryParameter(key.first, value.toString())

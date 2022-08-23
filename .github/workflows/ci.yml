@@ -25,5 +25,7 @@ jobs:
         echo '${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }}' > app/google-services.json
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Sanity check
+      run: ./gradlew check
     - name: Build & test with Gradle
       run: ./gradlew test

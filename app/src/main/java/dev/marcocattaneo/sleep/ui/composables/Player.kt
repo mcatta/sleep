@@ -135,7 +135,7 @@ fun BottomPlayerBar(
                     .padding(Margin16),
                 horizontalArrangement = Arrangement.Center
             ) {
-                supportedStoppingTimeframes.forEach { timeFrame ->
+                supportedStoppingTimeframes.iterator().forEach { timeFrame ->
                     RoundedButton(
                         modifier = Modifier.padding(horizontal = Margin8),
                         onClick = { onClickTimerButton(timeFrame) },
