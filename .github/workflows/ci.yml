@@ -28,8 +28,8 @@ jobs:
     - name: Check & Test
       run: ./gradlew check test
     - name: Upload test report artifact
-      if: ${{ failure() }}
+      #if: ${{ failure() }}
       uses: actions/upload-artifact@v3
       with:
-          name: sleep-app-test-report
-          path: home/runner/work/sleep/sleep/app/build/reports/lint-results-debug.html
+        name: sleep-app-test-report
+        path: home/runner/work/sleep/sleep/app/build/reports/lint-results-debug.html
