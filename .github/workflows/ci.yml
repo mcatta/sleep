@@ -1,4 +1,4 @@
-name: Sleep App CI
+name: Build & Test
 
 on:
   push:

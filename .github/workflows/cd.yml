@@ -1,4 +1,4 @@
-name: Sleep App CD
+name: Deploy on Firebase
 
 on:
   pull_request:
