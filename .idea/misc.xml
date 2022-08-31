@@ -23,10 +23,14 @@
         <entry key="../../../../layout/compose-model-1649278032908.xml" value="0.3527777777777778" />
         <entry key="../../../../layout/compose-model-1655398298792.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_undraw_late_at_night.xml" value="0.204" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2635" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="corretto-11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
