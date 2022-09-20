@@ -96,6 +96,9 @@ dependencies {
     implementation(ComposeLibs.HILT_NAVIGATION)
     implementation(ComposeLibs.ACTIVITY)
 
+    implementation(FlowReduxLibs.CORE)
+    implementation(FlowReduxLibs.COMPOSE)
+
     implementation(ComposeAccompanistLibs.PLACEHOLDER)
     implementation(ComposeAccompanistLibs.SYSTEM_UI_CONTROLLER)
 

@@ -22,8 +22,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -41,13 +39,7 @@ fun HomeScreen(
     homeViewModel: HomeViewModel,
     onClickMediaFile: (MediaFile) -> Unit
 ) {
-    val uiState by homeViewModel.uiState.collectAsState()
-
-    LaunchedEffect(Unit) {
-        // Show the loading on first access
-        homeViewModel.process(HomeAction.ShowLoading)
-    }
-    homeViewModel.process(HomeAction.CheckAudioList)
+    val uiState by homeViewModel.rememberState()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -74,19 +66,24 @@ fun HomeScreen(
         }
 
         LazyColumn {
-            if (uiState.showLoading) {
-                repeat(5) {
-                    item {
-                        MediaItem(
-                            modifier = Modifier.placeholder(true),
-                            mediaFile = null
-                        ) {}
+            when (uiState) {
+                is TracksState.Content -> {
+                    (uiState as TracksState.Content).homeMediaFile.iterator().forEach {
+                        item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                     }
                 }
-            } else {
-                uiState.homeMediaFile.iterator().forEach {
-                    item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
+                TracksState.Loading -> {
+                    repeat(5) {
+                        item {
+                            MediaItem(
+                                modifier = Modifier.placeholder(true),
+                                mediaFile = null
+                            ) {}
+                        }
+                    }
                 }
+                is TracksState.Error,
+                null -> Unit
             }
         }
     }

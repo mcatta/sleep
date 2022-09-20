@@ -22,6 +22,7 @@ object Versions {
     const val KOTLIN = "1.7.0"
     const val HILT = "2.42"
     const val COROUTINE = "1.6.4"
+    const val FLOW_REDUX = "1.0.0"
 }
 
 object PluginVersions {
@@ -59,6 +60,11 @@ object HiltLibs {
     const val CORE = "com.google.dagger:hilt-core:${Versions.HILT}"
     const val COMPILER = "com.google.dagger:hilt-compiler:${Versions.HILT}"
     const val ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
+}
+
+object FlowReduxLibs {
+    const val CORE = "com.freeletics.flowredux:flowredux-jvm:${Versions.FLOW_REDUX}"
+    const val COMPOSE = "com.freeletics.flowredux:compose:${Versions.FLOW_REDUX}"
 }
 
 object ThirdPartyLibs {
