@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
                                 navigationController = controller
                             ) { _, vm ->
                                 HomeScreen(vm, onClickMediaFile = {
-                                    playerViewModel.process(PlayerAction.StartPlaying(it))
+                                    playerViewModel.dispatch(PlayerAction.StartPlaying(it))
                                 })
                             }
 

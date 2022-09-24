@@ -18,10 +18,12 @@ package dev.marcocattaneo.sleep.ui.screen.player
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import dev.marcocattaneo.sleep.domain.model.Minutes
+import dev.marcocattaneo.sleep.domain.model.Seconds
+import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.ui.composables.BottomPlayerBar
 import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
@@ -31,40 +33,59 @@ fun PlayerScreen(
     playerViewModel: PlayerViewModel,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val uiState by playerViewModel.uiState.collectAsState()
+    val uiState by playerViewModel.rememberState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.align(Alignment.TopCenter),
             content = content
         )
+        val isVisible = uiState is PlayerState.Playing || uiState is PlayerState.Pause
+        val position: Seconds
+        val duration: Seconds
+        val isPlaying: Boolean
+        val stopTimer: Minutes?
+        when (uiState) {
+            is PlayerState.Pause,
+            is PlayerState.Playing -> (uiState as PlayerState.CommonPlayingState).let {
+                position = it.position
+                duration = it.duration
+                isPlaying = uiState is PlayerState.Playing
+                stopTimer = it.stopTimer
+            }
+
+            else -> {
+                position = 0.sec
+                duration = 0.sec
+                isPlaying = false
+                stopTimer = null
+            }
+        }
         CollapseAnimation(
-            visible = uiState.playerStatus !in listOf(
-                PlayerState.PlayerStatus.Disposed,
-                PlayerState.PlayerStatus.Stop,
-            ),
+            visible = isVisible,
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             BottomPlayerBar(
                 modifier = Modifier.padding(horizontal = Margin16),
-                position = uiState.position,
-                duration = uiState.duration,
-                isPlaying = uiState.playerStatus is PlayerState.PlayerStatus.Playing,
-                selectedStopTimer = uiState.stopTimer,
+                position = position,
+                duration = duration,
+                isPlaying = isPlaying,
+                selectedStopTimer = stopTimer,
                 onChangePlayingStatus = { isPlaying ->
                     if (isPlaying) {
-                        playerViewModel.process(PlayerAction.Play)
+                        playerViewModel.dispatch(PlayerAction.Play)
                     } else {
-                        playerViewModel.process(PlayerAction.Pause)
+                        playerViewModel.dispatch(PlayerAction.Pause)
                     }
                 },
                 onChangeStopTimer = {
-                    playerViewModel.process(PlayerAction.StopAfter(it))
+                    playerViewModel.dispatch(PlayerAction.StopAfter(it))
                 },
-                onClickReplay = { playerViewModel.process(PlayerAction.ReplayOf) },
-                onClickForward = { playerViewModel.process(PlayerAction.ForwardOf) },
-                onSeeking = { playerViewModel.process(PlayerAction.SeekTo(it)) }
+                onClickReplay = { playerViewModel.dispatch(PlayerAction.ReplayOf) },
+                onClickForward = { playerViewModel.dispatch(PlayerAction.ForwardOf) },
+                onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) }
             )
         }
+
     }
 }
