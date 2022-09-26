@@ -36,7 +36,7 @@ import javax.inject.Inject
 class PlayerStateMachine @Inject constructor(
     private val mediaRepository: MediaRepository,
     private val audioPlayer: AudioPlayer,
-    private val playlist: Playlist,
+    private val playlistStateMachine: PlaylistStateMachine
 ) : FlowReduxStateMachine<PlayerState, PlayerAction>(
     initialState = PlayerState.Stop
 ) {
@@ -77,7 +77,7 @@ class PlayerStateMachine @Inject constructor(
                     mediaRepository.urlFromPath(action.mediaFile.path).fold(
                         ifLeft = { state.override { PlayerState.Error(500) } },
                         ifRight = {
-                            playlist.process(PlaylistAction.Update(trackId = action.mediaFile.id))
+                            playlistStateMachine.dispatch(PlaylistAction.Update(trackId = action.mediaFile.id))
 
                             audioPlayer.start(Uri.parse(it))
                             state.noChange()

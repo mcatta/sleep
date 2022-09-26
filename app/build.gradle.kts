@@ -110,6 +110,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(TestLibs.MOCKK)
     testImplementation(TestLibs.COROUTINE_TEST)
+    testImplementation(TestLibs.TURBINE)
 
     androidTestImplementation(AndroidXTestLibs.JUNIT)
     androidTestImplementation(ComposeLibs.UI_TEST)

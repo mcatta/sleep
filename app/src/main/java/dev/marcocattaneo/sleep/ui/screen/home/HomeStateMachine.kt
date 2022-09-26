@@ -16,10 +16,9 @@
 
 package dev.marcocattaneo.sleep.ui.screen.home
 
-import arrow.core.Either
 import com.freeletics.flowredux.dsl.FlowReduxStateMachine
+import com.freeletics.flowredux.dsl.State
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -36,14 +35,21 @@ class HomeStateMachine @Inject constructor(
 
     init {
         spec {
-              inState<TracksState.Loading> {
-                  onEnter { state ->
-                      mediaRepository.listMedia().fold(
-                          ifLeft = { err -> state.override { TracksState.Error(err.message) } },
-                          ifRight = { list -> state.override { TracksState.Content(list) }}
-                      )
-                  }
-              }
+            inState<TracksState.Loading> {
+                onEnter { state ->
+                    mediaRepository.listMedia().fold(
+                        ifLeft = { err -> state.override { TracksState.Error(err.message) } },
+                        ifRight = { list -> state.override { TracksState.Content(list) } }
+                    )
+                }
+            }
+
+            inState {
+                on { action: TracksAction.UpdateSelectedTrack, state: State<TracksState.Content> ->
+                    state.override { copy(selectedTrackId = action.trackId) }
+                }
+            }
+
         }
     }
 
@@ -62,8 +68,5 @@ sealed interface TracksState {
 }
 
 sealed interface TracksAction {
-    object ShowLoading: TracksAction
-    object CheckAudioList: TracksAction
     data class UpdateSelectedTrack(val trackId: String?): TracksAction
-    data class CheckAudioListResult(val result: Either<AppException, List<MediaFile>>): TracksAction
 }

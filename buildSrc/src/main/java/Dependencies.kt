@@ -23,6 +23,7 @@ object Versions {
     const val HILT = "2.42"
     const val COROUTINE = "1.6.4"
     const val FLOW_REDUX = "1.0.0"
+    const val TURBINE = "0.11.0"
 }
 
 object PluginVersions {
@@ -89,6 +90,7 @@ object TestLibs {
     const val COROUTINE_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     const val MOCKK = "io.mockk:mockk:1.12.5"
     const val MOCKK_ANDROID = "io.mockk:mockk-android:1.12.5"
+    const val TURBINE = "app.cash.turbine:turbine:${Versions.TURBINE}"
 }
 
 object AndroidLibs {
