@@ -80,7 +80,6 @@ kapt {
 }
 
 dependencies {
-    implementation(project(mapOf("path" to ":mvi")))
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
 
