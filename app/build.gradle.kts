@@ -73,6 +73,11 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 kapt {
@@ -106,16 +111,17 @@ dependencies {
     implementation(ThirdPartyLibs.ARROW_CORE)
     implementation(ThirdPartyLibs.TIMBER)
 
+    implementation(HiltLibs.ANDROID)
+    kapt(HiltLibs.ANDROID_COMPILER)
+
     testImplementation(kotlin("test"))
     testImplementation(TestLibs.MOCKK)
     testImplementation(TestLibs.COROUTINE_TEST)
     testImplementation(TestLibs.TURBINE)
+    testImplementation(TestLibs.ROBOLETRIC)
 
     androidTestImplementation(AndroidXTestLibs.JUNIT)
     androidTestImplementation(ComposeLibs.UI_TEST)
-
-    implementation(HiltLibs.ANDROID)
-    kapt(HiltLibs.ANDROID_COMPILER)
 
     debugImplementation(ComposeLibs.TOOLING)
     debugImplementation(ComposeLibs.TOOLING_PREVIEW)
