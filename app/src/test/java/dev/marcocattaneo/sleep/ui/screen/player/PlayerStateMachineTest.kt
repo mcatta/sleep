@@ -72,6 +72,7 @@ internal class PlayerStateMachineTest {
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromPath(any()) }
             coVerify { audioPlayer.start(any()) }
+            coVerify { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
         }
     }
 

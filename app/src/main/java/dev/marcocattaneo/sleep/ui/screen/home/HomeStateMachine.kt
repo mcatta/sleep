@@ -50,6 +50,12 @@ class HomeStateMachine @Inject constructor(
                 }
             }
 
+            inState {
+                on { _: TracksAction.Reload, state: State<TracksState.Error> ->
+                    state.override { TracksState.Loading }
+                }
+            }
+
         }
     }
 
@@ -69,4 +75,5 @@ sealed interface TracksState {
 
 sealed interface TracksAction {
     data class UpdateSelectedTrack(val trackId: String?): TracksAction
+    object Reload: TracksAction
 }
