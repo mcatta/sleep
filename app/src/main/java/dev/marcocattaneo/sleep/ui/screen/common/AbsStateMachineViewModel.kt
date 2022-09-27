@@ -16,24 +16,25 @@
 
 package dev.marcocattaneo.sleep.ui.screen.common
 
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewModelScope
-import dev.marcocattaneo.mvi.State
-import dev.marcocattaneo.mvi.intent.Action
-import dev.marcocattaneo.mvi.intent.IntentFactory
-import dev.marcocattaneo.mvi.store.Store
-import kotlinx.coroutines.flow.StateFlow
+import com.freeletics.flowredux.compose.rememberState
+import com.freeletics.flowredux.dsl.FlowReduxStateMachine
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
-abstract class MviViewModel<S : State, A : Action> constructor(
-    private val store: Store<S>,
-    private val intentFactory: IntentFactory<S, A>
-) : BaseViewModel() {
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+abstract class AbsStateMachineViewModel <S : Any, A: Any> constructor(
+    private val stateMachine: FlowReduxStateMachine<S, A>
+): BaseViewModel() {
 
-    val uiState: StateFlow<S>
-        get() = store.stateFlow
+    @Composable
+    fun rememberState() = stateMachine.rememberState()
 
-    fun process(action: A) {
-        viewModelScope.launch { store.process(intentFactory.buildIntent(action)) }
+
+    fun dispatch(action: A) = viewModelScope.launch { 
+        stateMachine.dispatch(action)
     }
-
+    
 }

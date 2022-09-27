@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.ui.screen.player
+package dev.marcocattaneo.sleep
 
-import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
-import javax.inject.Singleton
+import dev.marcocattaneo.sleep.domain.model.MediaFile
+import java.util.UUID
 
-@Singleton
-class Playlist @Inject constructor(
-    private val playlistIntentFactory: PlaylistIntentFactory,
-    private val playlistStore: PlaylistStore
-){
-    suspend fun process(action: PlaylistAction) {
-        playlistStore.process(playlistIntentFactory.buildIntent(action))
-    }
-
-    val stateFlow: StateFlow<PlaylistState>
-        get() = playlistStore.stateFlow
-}
+fun fakeMediaFile() = MediaFile(UUID.randomUUID().toString(), "File name", "Description", "path")

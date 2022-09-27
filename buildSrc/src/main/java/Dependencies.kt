@@ -22,6 +22,9 @@ object Versions {
     const val KOTLIN = "1.7.0"
     const val HILT = "2.42"
     const val COROUTINE = "1.6.4"
+    const val FLOW_REDUX = "1.0.0"
+    const val TURBINE = "0.11.0"
+    const val ROBOLETRIC = "4.8"
 }
 
 object PluginVersions {
@@ -61,6 +64,11 @@ object HiltLibs {
     const val ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${Versions.HILT}"
 }
 
+object FlowReduxLibs {
+    const val CORE = "com.freeletics.flowredux:flowredux-jvm:${Versions.FLOW_REDUX}"
+    const val COMPOSE = "com.freeletics.flowredux:compose:${Versions.FLOW_REDUX}"
+}
+
 object ThirdPartyLibs {
     const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage-ktx:20.0.1"
     const val FIREBASE_FIRESTORE = "com.google.firebase:firebase-firestore-ktx:24.1.0"
@@ -83,6 +91,8 @@ object TestLibs {
     const val COROUTINE_TEST = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     const val MOCKK = "io.mockk:mockk:1.12.5"
     const val MOCKK_ANDROID = "io.mockk:mockk-android:1.12.5"
+    const val TURBINE = "app.cash.turbine:turbine:${Versions.TURBINE}"
+    const val ROBOLETRIC = "org.robolectric:robolectric:${Versions.ROBOLETRIC}"
 }
 
 object AndroidLibs {

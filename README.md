@@ -14,7 +14,7 @@ Features "Wanna be"
 
 ### Technology 🔮
 - Android Clean Architecture
-- MVI pattern on the presentation layer
+- Used [Flow Redux library](https://github.com/freeletics/FlowRedux)
 - Jetpack Compose
 
 ### Contributions ♥️

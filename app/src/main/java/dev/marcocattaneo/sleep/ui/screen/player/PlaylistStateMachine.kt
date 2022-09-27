@@ -16,27 +16,40 @@
 
 package dev.marcocattaneo.sleep.ui.screen.player
 
-import dev.marcocattaneo.mvi.State
-import dev.marcocattaneo.mvi.intent.Action
-import dev.marcocattaneo.mvi.store.ChannelStore
-import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
-import kotlinx.coroutines.CoroutineScope
+import com.freeletics.flowredux.dsl.FlowReduxStateMachine
+import com.freeletics.flowredux.dsl.State
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Singleton
-class PlaylistStore @Inject constructor(
-    @CoroutineContextScope scope: CoroutineScope
-): ChannelStore<PlaylistState>(
-    scope = scope,
-    initialState = PlaylistState()
-)
+class PlaylistStateMachine @Inject constructor(
+
+): FlowReduxStateMachine<PlaylistState, PlaylistAction>(
+    initialState = PlaylistState(currentTrackId = null)
+) {
+    init {
+        spec {
+            inState {
+                on { action: PlaylistAction.Update, state: State<PlaylistState> ->
+                    state.override { copy(currentTrackId = action.trackId) }
+                }
+
+                on { _: PlaylistAction.Clear, state: State<PlaylistState> ->
+                    state.override { copy(currentTrackId = null) }
+                }
+            }
+        }
+    }
+}
 
 data class PlaylistState(
     val currentTrackId: String? = null
-) : State
+)
 
-sealed interface PlaylistAction : Action {
+sealed interface PlaylistAction {
     data class Update(val trackId: String) : PlaylistAction
     object Clear : PlaylistAction
 }

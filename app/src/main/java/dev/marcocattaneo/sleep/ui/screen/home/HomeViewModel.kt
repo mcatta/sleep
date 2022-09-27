@@ -18,25 +18,26 @@ package dev.marcocattaneo.sleep.ui.screen.home
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.marcocattaneo.sleep.ui.screen.common.MviViewModel
-import dev.marcocattaneo.sleep.ui.screen.player.PlaylistStore
+import dev.marcocattaneo.sleep.ui.screen.common.AbsStateMachineViewModel
+import dev.marcocattaneo.sleep.ui.screen.player.PlaylistStateMachine
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    store: HomeStore,
-    intentFactory: HomeIntentFactory,
-    playlistStore: PlaylistStore
-) : MviViewModel<HomeState, HomeAction>(
-    store = store,
-    intentFactory = intentFactory
+    private val playlistStateMachine: PlaylistStateMachine,
+    homeStateMachine: HomeStateMachine
+) : AbsStateMachineViewModel<TracksState, TracksAction>(
+    stateMachine = homeStateMachine
 ) {
+
     init {
         viewModelScope.launch {
-            playlistStore.stateFlow.collectLatest { state ->
-                process(HomeAction.UpdateSelectedTrack(trackId = state.currentTrackId))
+            playlistStateMachine.state.collectLatest { playlistState ->
+                if (playlistState.currentTrackId != null) {
+                    dispatch(TracksAction.UpdateSelectedTrack(trackId = playlistState.currentTrackId))
+                }
             }
         }
     }
