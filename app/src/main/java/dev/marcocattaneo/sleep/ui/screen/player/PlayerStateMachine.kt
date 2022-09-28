@@ -29,6 +29,7 @@ import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.ui.player.AudioPlayer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -43,6 +44,14 @@ class PlayerStateMachine @Inject constructor(
 
     init {
         spec {
+
+            inState<PlayerState.Error> {
+                onEnter { state ->
+                    delay(3_000L)
+                    state.override { PlayerState.Stop }
+                }
+            }
+
             inState {
                 on { _: PlayerAction.Play, state: State<PlayerState.Pause> ->
                     audioPlayer.play()
@@ -127,7 +136,6 @@ class PlayerStateMachine @Inject constructor(
 }
 
 sealed interface PlayerState {
-    object Disposed : PlayerState
     object Init : PlayerState
     data class Playing(
         override val duration: Seconds = 0.sec,

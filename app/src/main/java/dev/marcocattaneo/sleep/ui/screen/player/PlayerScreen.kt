@@ -21,10 +21,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.Seconds
 import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.ui.composables.BottomPlayerBar
+import dev.marcocattaneo.sleep.ui.composables.Snackbar
 import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 
@@ -61,31 +64,40 @@ fun PlayerScreen(
                 stopTimer = null
             }
         }
-        CollapseAnimation(
-            visible = isVisible,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        ) {
-            BottomPlayerBar(
-                modifier = Modifier.padding(horizontal = Margin16),
-                position = position,
-                duration = duration,
-                isPlaying = isPlaying,
-                selectedStopTimer = stopTimer,
-                onChangePlayingStatus = { isPlaying ->
-                    if (isPlaying) {
-                        playerViewModel.dispatch(PlayerAction.Play)
-                    } else {
-                        playerViewModel.dispatch(PlayerAction.Pause)
-                    }
-                },
-                onChangeStopTimer = {
-                    playerViewModel.dispatch(PlayerAction.StopAfter(it))
-                },
-                onClickReplay = { playerViewModel.dispatch(PlayerAction.ReplayOf) },
-                onClickForward = { playerViewModel.dispatch(PlayerAction.ForwardOf) },
-                onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) },
-                onClickStop = { playerViewModel.dispatch(PlayerAction.Stop) }
-            )
+        Column(modifier = Modifier.align(Alignment.BottomCenter)) {
+            CollapseAnimation(
+                visible = uiState is PlayerState.Error,
+            ) {
+                Snackbar(
+                    message = stringResource(id = R.string.player_error_occurred),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            CollapseAnimation(
+                visible = isVisible,
+            ) {
+                BottomPlayerBar(
+                    modifier = Modifier.padding(horizontal = Margin16),
+                    position = position,
+                    duration = duration,
+                    isPlaying = isPlaying,
+                    selectedStopTimer = stopTimer,
+                    onChangePlayingStatus = { isPlaying ->
+                        if (isPlaying) {
+                            playerViewModel.dispatch(PlayerAction.Play)
+                        } else {
+                            playerViewModel.dispatch(PlayerAction.Pause)
+                        }
+                    },
+                    onChangeStopTimer = {
+                        playerViewModel.dispatch(PlayerAction.StopAfter(it))
+                    },
+                    onClickReplay = { playerViewModel.dispatch(PlayerAction.ReplayOf) },
+                    onClickForward = { playerViewModel.dispatch(PlayerAction.ForwardOf) },
+                    onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) },
+                    onClickStop = { playerViewModel.dispatch(PlayerAction.Stop) }
+                )
+            }
         }
 
     }

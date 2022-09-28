@@ -18,6 +18,7 @@ package dev.marcocattaneo.sleep.ui.screen.player
 
 import app.cash.turbine.test
 import arrow.core.Either
+import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.fakeMediaFile
@@ -68,11 +69,32 @@ internal class PlayerStateMachineTest {
 
             // Then
             assertIs<PlayerState>(awaitItem())
+            assertIs<PlayerState.Init>(awaitItem())
 
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromPath(any()) }
             coVerify { audioPlayer.start(any()) }
             coVerify { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
+        }
+    }
+
+    @Test
+    fun `Test PlayerAction StartPlaying upon failure`() = runTest {
+        // Given
+        coEvery { mediaRepository.urlFromPath(any()) } returns Either.Left(AppException.FileNotFound)
+
+        playerStateMachine.state.test {
+            // When
+            playerStateMachine.dispatch(PlayerAction.StartPlaying(fakeMediaFile()))
+
+            // Then
+            assertIs<PlayerState>(awaitItem())
+            assertIs<PlayerState.Error>(awaitItem())
+
+            coVerify { audioPlayer.stop() }
+            coVerify { mediaRepository.urlFromPath(any()) }
+            coVerify(exactly = 0) { audioPlayer.start(any()) }
+            coVerify(exactly = 0) { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
         }
     }
 

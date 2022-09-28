@@ -18,6 +18,8 @@ package dev.marcocattaneo.sleep.domain
 
 sealed class AppException(message: String? = null): Throwable(message = message) {
 
-    object GenericError: AppException("Generic error")
+    object GenericError : AppException("Generic error")
+
+    object FileNotFound : AppException("File not found")
 
 }

@@ -61,6 +61,6 @@ class MediaRepositoryImpl @Inject constructor(
             .child(path)
             .downloadUrl
             .addOnSuccessListener { url -> continuation.resume(Either.Right(url.toString())) }
-            .addOnFailureListener { continuation.resume(Either.Left(AppException.GenericError)) }
+            .addOnFailureListener { continuation.resume(Either.Left(AppException.FileNotFound)) }
     }
 }
