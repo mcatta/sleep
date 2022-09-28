@@ -40,7 +40,7 @@ fun PlayerScreen(
             modifier = Modifier.align(Alignment.TopCenter),
             content = content
         )
-        val isVisible = uiState is PlayerState.Playing || uiState is PlayerState.Pause
+        val isVisible = uiState is PlayerState.Playing || uiState is PlayerState.Pause || uiState is PlayerState.Init
         val position: Seconds
         val duration: Seconds
         val isPlaying: Boolean
@@ -83,7 +83,8 @@ fun PlayerScreen(
                 },
                 onClickReplay = { playerViewModel.dispatch(PlayerAction.ReplayOf) },
                 onClickForward = { playerViewModel.dispatch(PlayerAction.ForwardOf) },
-                onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) }
+                onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) },
+                onClickStop = { playerViewModel.dispatch(PlayerAction.Stop) }
             )
         }
 

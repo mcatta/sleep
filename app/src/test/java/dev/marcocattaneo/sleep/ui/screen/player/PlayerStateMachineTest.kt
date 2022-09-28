@@ -84,6 +84,7 @@ internal class PlayerStateMachineTest {
 
             // Then
             assertIs<PlayerState.Stop>(awaitItem())
+            coVerify { audioPlayer.stop() }
         }
     }
 

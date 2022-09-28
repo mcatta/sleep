@@ -69,6 +69,7 @@ class PlayerStateMachine @Inject constructor(
                     }
                 }
                 on { _: PlayerAction.Stop, state: State<PlayerState> ->
+                    audioPlayer.stop()
                     state.override { PlayerState.Stop }
                 }
                 on { action: PlayerAction.StartPlaying, state: State<PlayerState> ->
@@ -80,7 +81,7 @@ class PlayerStateMachine @Inject constructor(
                             playlistStateMachine.dispatch(PlaylistAction.Update(trackId = action.mediaFile.id))
 
                             audioPlayer.start(Uri.parse(it))
-                            state.noChange()
+                            state.override { PlayerState.Init }
                         }
                     )
                 }

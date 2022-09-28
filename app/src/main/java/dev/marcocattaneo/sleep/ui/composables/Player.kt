@@ -63,6 +63,7 @@ fun BottomPlayerBar(
     onChangeStopTimer: (Minutes) -> Unit,
     onClickReplay: () -> Unit,
     onClickForward: () -> Unit,
+    onClickStop: () -> Unit,
     onSeeking: (Seconds) -> Unit
 ) {
     var timerVisible by remember { mutableStateOf(false) }
@@ -121,6 +122,16 @@ fun BottomPlayerBar(
                 ActionButton(
                     painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
                     onClick = { timerVisible = !timerVisible }
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(all = Margin8)
+                    .align(Alignment.CenterStart)
+            ) {
+                ActionButton(
+                    painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                    onClick = onClickStop
                 )
             }
         }
@@ -261,6 +272,7 @@ fun BottomPlayerBarPreview() {
         onChangeStopTimer = {},
         onClickForward = {},
         onClickReplay = {},
-        onSeeking = {}
+        onSeeking = {},
+        onClickStop = {}
     )
 }
