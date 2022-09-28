@@ -90,6 +90,7 @@ internal class PlayerStateMachineTest {
             // Then
             assertIs<PlayerState>(awaitItem())
             assertIs<PlayerState.Error>(awaitItem())
+            assertIs<PlayerState.Stop>(awaitItem())
 
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromPath(any()) }
