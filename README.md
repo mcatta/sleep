@@ -12,6 +12,8 @@ Features done:
 Features "Wanna be"
 - Add statistics
 
+![](https://github.com/mcatta/sleep/blob/main/extra/sample.gif)
+
 ### Technology 🔮
 - Android Clean Architecture
 - Used [Flow Redux library](https://github.com/freeletics/FlowRedux)
