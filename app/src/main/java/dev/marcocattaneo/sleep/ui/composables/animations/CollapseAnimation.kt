@@ -20,8 +20,6 @@ import androidx.compose.animation.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun CollapseAnimation(
@@ -29,18 +27,17 @@ fun CollapseAnimation(
     modifier: Modifier = Modifier,
     content: @Composable AnimatedVisibilityScope.() -> Unit
 ) {
-    val density = LocalDensity.current
     AnimatedVisibility(
         modifier = modifier,
         visible = visible,
-        enter = slideInVertically {
-            with(density) { -40.dp.roundToPx() }
-        } + expandVertically(
+        enter = expandVertically(
             expandFrom = Alignment.Top
         ) + fadeIn(
             initialAlpha = 0.3f
         ),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut(),
+        exit = shrinkVertically(
+            shrinkTowards = Alignment.Top
+        ) + fadeOut(),
         content = content
     )
 }
