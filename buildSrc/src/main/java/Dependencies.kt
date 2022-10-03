@@ -20,7 +20,7 @@ object Versions {
     const val COMPOSE_HILT_NAVIGATION = "1.0.0"
     const val ACTIVITY = "1.5.0"
     const val KOTLIN = "1.7.0"
-    const val HILT = "2.42"
+    const val HILT = "2.44"
     const val COROUTINE = "1.6.4"
     const val FLOW_REDUX = "1.0.0"
     const val TURBINE = "0.11.0"
@@ -70,8 +70,8 @@ object FlowReduxLibs {
 }
 
 object ThirdPartyLibs {
-    const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage-ktx:20.0.1"
-    const val FIREBASE_FIRESTORE = "com.google.firebase:firebase-firestore-ktx:24.1.0"
+    const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage-ktx:20.0.2"
+    const val FIREBASE_FIRESTORE = "com.google.firebase:firebase-firestore-ktx:24.3.1"
     const val TIMBER = "com.jakewharton.timber:timber:5.0.1"
     const val ARROW_CORE = "io.arrow-kt:arrow-core:1.0.1"
 }
