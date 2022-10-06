@@ -22,6 +22,8 @@ plugins {
     kotlin("kapt")
 }
 
+apply(from = "../jacoco/modules.gradle")
+
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION
 

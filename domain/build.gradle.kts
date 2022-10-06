@@ -19,6 +19,8 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
 }
 
+apply(from = "../jacoco/modules.gradle")
+
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8

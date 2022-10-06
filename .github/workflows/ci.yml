@@ -26,7 +26,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Check & Test
-      run: ./gradlew check test
+      run: ./gradlew check app:testDebugUnitTest data:testDebugUnitTest domain:jacocoTestReport
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true
     - name: Upload test report artifact
       if: ${{ failure() }}
       uses: actions/upload-artifact@v3

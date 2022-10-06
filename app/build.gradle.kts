@@ -22,6 +22,8 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+apply(from = "../jacoco/modules.gradle")
+
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION
 
