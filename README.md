@@ -1,6 +1,6 @@
 
 # Sleep App 😴
-[![Android CI](https://github.com/mcatta/sleep/actions/workflows/ci.yml/badge.svg)](https://github.com/mcatta/sleep/actions/workflows/ci.yml) ![Language](https://img.shields.io/github/languages/top/mcatta/sleep?color=green&logo=kotlin)
+[![Android CI](https://github.com/mcatta/sleep/actions/workflows/ci.yml/badge.svg)](https://github.com/mcatta/sleep/actions/workflows/ci.yml) ![Language](https://img.shields.io/github/languages/top/mcatta/sleep?color=green&logo=kotlin) [![codecov](https://codecov.io/gh/mcatta/sleep/branch/main/graph/badge.svg?token=RK2LFXKL39)](https://codecov.io/gh/mcatta/sleep)
 
 This is a pet project we are building a Audio Player that reproduce a playlist hosted on Firebase Storage.
 
