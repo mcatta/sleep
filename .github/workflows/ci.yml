@@ -31,6 +31,7 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}
         files: "app/build/reports/jacoco/testDebugUnitTestCoverage/testDebugUnitTestCoverage.xml,data/build/reports/jacoco/testDebugUnitTestCoverage/testDebugUnitTestCoverage.xml"
     - name: Upload test report artifact
       if: ${{ failure() }}
