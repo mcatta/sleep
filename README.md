@@ -11,6 +11,7 @@ Features done:
 
 Features "Wanna be"
 - Add statistics
+- Add track info
 
 ![](https://github.com/mcatta/sleep/blob/main/extra/sample.gif)
 
