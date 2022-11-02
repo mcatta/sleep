@@ -30,75 +30,107 @@ import dev.marcocattaneo.sleep.ui.composables.BottomPlayerBar
 import dev.marcocattaneo.sleep.ui.composables.Snackbar
 import dev.marcocattaneo.sleep.ui.composables.animations.CollapseAnimation
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
+import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin8
 
 @Composable
 fun PlayerScreen(
     playerViewModel: PlayerViewModel,
-    content: @Composable ColumnScope.() -> Unit
+    isLandscape: Boolean,
+    content: @Composable (ColumnScope.() -> Unit),
 ) {
     val uiState by playerViewModel.rememberState()
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.align(Alignment.TopCenter),
-            content = content
-        )
-        val isVisible = uiState is PlayerState.Playing || uiState is PlayerState.Pause || uiState is PlayerState.Init
-        val position: Seconds
-        val duration: Seconds
-        val isPlaying: Boolean
-        val stopTimer: Minutes?
-        when (uiState) {
-            is PlayerState.Pause,
-            is PlayerState.Playing -> (uiState as PlayerState.CommonPlayingState).let {
-                position = it.position
-                duration = it.duration
-                isPlaying = uiState is PlayerState.Playing
-                stopTimer = it.stopTimer
-            }
-
-            else -> {
-                position = 0.sec
-                duration = 0.sec
-                isPlaying = false
-                stopTimer = null
-            }
+    if (isLandscape) {
+        Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.Bottom) {
+            Column(
+                modifier = Modifier.weight(0.6f),
+                content = content
+            )
+            PlayerController(
+                modifier = Modifier
+                    .weight(0.4f)
+                    .padding(Margin8),
+                uiState = uiState,
+                playerViewModel = playerViewModel
+            )
         }
-        Column(modifier = Modifier.align(Alignment.BottomCenter)) {
-            CollapseAnimation(
-                visible = uiState is PlayerState.Error,
-            ) {
-                Snackbar(
-                    message = stringResource(id = R.string.player_error_occurred),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            CollapseAnimation(
-                visible = isVisible,
-            ) {
-                BottomPlayerBar(
-                    modifier = Modifier.padding(horizontal = Margin16),
-                    position = position,
-                    duration = duration,
-                    isPlaying = isPlaying,
-                    selectedStopTimer = stopTimer,
-                    onChangePlayingStatus = { isPlaying ->
-                        if (isPlaying) {
-                            playerViewModel.dispatch(PlayerAction.Play)
-                        } else {
-                            playerViewModel.dispatch(PlayerAction.Pause)
-                        }
-                    },
-                    onChangeStopTimer = {
-                        playerViewModel.dispatch(PlayerAction.StopAfter(it))
-                    },
-                    onClickReplay = { playerViewModel.dispatch(PlayerAction.ReplayOf) },
-                    onClickForward = { playerViewModel.dispatch(PlayerAction.ForwardOf) },
-                    onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) },
-                    onClickStop = { playerViewModel.dispatch(PlayerAction.Stop) }
-                )
-            }
+    } else {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier.align(Alignment.TopCenter),
+                content = content
+            )
+            PlayerController(
+                modifier = Modifier.Companion.align(Alignment.BottomCenter).padding(bottom = Margin8),
+                uiState = uiState,
+                playerViewModel = playerViewModel
+            )
+        }
+    }
+}
+
+@Composable
+private fun PlayerController(
+    uiState: PlayerState?,
+    playerViewModel: PlayerViewModel,
+    modifier: Modifier = Modifier
+) {
+    val isVisible = uiState is PlayerState.Playing || uiState is PlayerState.Pause || uiState is PlayerState.Init
+    val position: Seconds
+    val duration: Seconds
+    val isPlaying: Boolean
+    val stopTimer: Minutes?
+    when (uiState) {
+        is PlayerState.Pause,
+        is PlayerState.Playing -> (uiState as PlayerState.CommonPlayingState).let {
+            position = it.position
+            duration = it.duration
+            isPlaying = uiState is PlayerState.Playing
+            stopTimer = it.stopTimer
         }
 
+        else -> {
+            position = 0.sec
+            duration = 0.sec
+            isPlaying = false
+            stopTimer = null
+        }
+    }
+    Column(
+        modifier = modifier
+    ) {
+        CollapseAnimation(
+            visible = uiState is PlayerState.Error,
+        ) {
+            Snackbar(
+                message = stringResource(id = R.string.player_error_occurred),
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        CollapseAnimation(
+            visible = isVisible,
+        ) {
+            BottomPlayerBar(
+                modifier = Modifier.padding(horizontal = Margin16),
+                position = position,
+                duration = duration,
+                isPlaying = isPlaying,
+                selectedStopTimer = stopTimer,
+                onChangePlayingStatus = { isPlaying ->
+                    if (isPlaying) {
+                        playerViewModel.dispatch(PlayerAction.Play)
+                    } else {
+                        playerViewModel.dispatch(PlayerAction.Pause)
+                    }
+                },
+                onChangeStopTimer = {
+                    playerViewModel.dispatch(PlayerAction.StopAfter(it))
+                },
+                onClickReplay = { playerViewModel.dispatch(PlayerAction.ReplayOf) },
+                onClickForward = { playerViewModel.dispatch(PlayerAction.ForwardOf) },
+                onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) },
+                onClickStop = { playerViewModel.dispatch(PlayerAction.Stop) }
+            )
+        }
     }
 }

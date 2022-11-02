@@ -21,22 +21,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import dev.marcocattaneo.sleep.navigation.NavigationComponent
-import dev.marcocattaneo.sleep.navigation.NavigationControllerImpl
-import dev.marcocattaneo.sleep.navigation.composable
+import dev.marcocattaneo.sleep.ui.SleepApp
 import dev.marcocattaneo.sleep.ui.notification.PlayerNotificationService
-import dev.marcocattaneo.sleep.ui.screen.Routes
-import dev.marcocattaneo.sleep.ui.screen.home.HomeScreen
-import dev.marcocattaneo.sleep.ui.screen.home.HomeViewModel
-import dev.marcocattaneo.sleep.ui.screen.player.PlayerAction
-import dev.marcocattaneo.sleep.ui.screen.player.PlayerScreen
-import dev.marcocattaneo.sleep.ui.screen.player.PlayerViewModel
-import dev.marcocattaneo.sleep.ui.theme.SleepTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -55,35 +42,7 @@ class MainActivity : ComponentActivity() {
             }
 
         setContent {
-            val navHostState = rememberNavController()
-            val controller = NavigationControllerImpl(navHostState)
-            SleepTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    val playerViewModel = hiltViewModel<PlayerViewModel>()
-
-                    PlayerScreen(
-                        playerViewModel
-                    ) {
-                        NavigationComponent(
-                            startRoute = Routes.Login,
-                            navigationController = controller
-                        ) {
-
-                            composable<HomeViewModel>(
-                                route = Routes.Login,
-                                navigationController = controller
-                            ) { _, vm ->
-                                HomeScreen(vm, onClickMediaFile = {
-                                    playerViewModel.dispatch(PlayerAction.StartPlaying(it))
-                                })
-                            }
-
-                            // ... other routes
-
-                        }
-                    }
-                }
-            }
+            SleepApp()
         }
     }
 }

@@ -16,7 +16,6 @@
 
 package dev.marcocattaneo.sleep.ui.composables
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -72,98 +71,102 @@ fun BottomPlayerBar(
         timerVisible = false
     }
 
-    Column(
-        modifier = Modifier
-            .background(MaterialTheme.colors.surface)
-            .padding(top = Margin16)
-            .then(modifier),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Card(
+        modifier = modifier,
+        backgroundColor = MaterialTheme.colors.surface
     ) {
-        SeekBar(duration = duration, position = position, onSeeking = onSeeking)
-        // Buttons
-        Box(modifier = Modifier.fillMaxWidth()) {
-            Row(
-                modifier = Modifier
-                    .padding(all = Margin16)
-                    .align(Alignment.TopCenter),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ActionButton(
-                    painter = painterResource(id = R.drawable.ic_baseline_replay_30_24),
-                    internalMargin = 4.dp,
-                    onClick = onClickReplay
-                )
-                Spacer8()
-                PlayButton(
-                    isPlaying = isPlaying,
-                    onChangePlayingStatus = onChangePlayingStatus
-                )
-                Spacer8()
-                ActionButton(
-                    painter = painterResource(id = R.drawable.ic_baseline_forward_30_24),
-                    internalMargin = 4.dp,
-                    onClick = onClickForward
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .padding(all = Margin8)
-                    .align(Alignment.CenterEnd)
-            ) {
-                selectedStopTimer?.let { minutes ->
-                    Text(
-                        modifier = Modifier
-                            .padding(top = Margin32)
-                            .align(Alignment.TopEnd),
-                        style = TextStyle.Default.copy(fontSize = 8.sp),
-                        text = "${minutes}m"
+        Column(
+            modifier = Modifier
+                .padding(top = Margin16)
+                .then(modifier),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SeekBar(duration = duration, position = position, onSeeking = onSeeking)
+            // Buttons
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier
+                        .padding(all = Margin16)
+                        .align(Alignment.TopCenter),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ActionButton(
+                        painter = painterResource(id = R.drawable.ic_baseline_replay_30_24),
+                        internalMargin = 4.dp,
+                        onClick = onClickReplay
+                    )
+                    Spacer8()
+                    PlayButton(
+                        isPlaying = isPlaying,
+                        onChangePlayingStatus = onChangePlayingStatus
+                    )
+                    Spacer8()
+                    ActionButton(
+                        painter = painterResource(id = R.drawable.ic_baseline_forward_30_24),
+                        internalMargin = 4.dp,
+                        onClick = onClickForward
                     )
                 }
-                ActionButton(
-                    painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
-                    onClick = { timerVisible = !timerVisible }
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .padding(all = Margin8)
-                    .align(Alignment.CenterStart)
-            ) {
-                ActionButton(
-                    painter = painterResource(id = R.drawable.ic_baseline_close_24),
-                    onClick = onClickStop
-                )
-            }
-        }
-
-        // StopAt selection
-        CollapseAnimation(
-            visible = timerVisible
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Margin16),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                supportedStoppingTimeframes.iterator().forEach { timeFrame ->
-                    RoundedButton(
-                        modifier = Modifier.padding(horizontal = Margin8),
-                        onClick = { onClickTimerButton(timeFrame) },
-                        content = {
-                            Caption(
-                                text = "${timeFrame.value}m",
-                                color = if (selectedStopTimer == timeFrame)
-                                    MaterialTheme.colors.onSecondary
-                                else
-                                    MaterialTheme.colors.onPrimary
-                            )
-                        },
-                        backgroundColor = if (selectedStopTimer == timeFrame)
-                            MaterialTheme.colors.secondary
-                        else
-                            MaterialTheme.colors.primary
+                Box(
+                    modifier = Modifier
+                        .padding(all = Margin8)
+                        .align(Alignment.CenterEnd)
+                ) {
+                    selectedStopTimer?.let { minutes ->
+                        Text(
+                            modifier = Modifier
+                                .padding(top = Margin32)
+                                .align(Alignment.TopEnd),
+                            style = TextStyle.Default.copy(fontSize = 8.sp),
+                            text = "${minutes}m"
+                        )
+                    }
+                    ActionButton(
+                        painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
+                        onClick = { timerVisible = !timerVisible }
                     )
+                }
+                Box(
+                    modifier = Modifier
+                        .padding(all = Margin8)
+                        .align(Alignment.CenterStart)
+                ) {
+                    ActionButton(
+                        painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                        onClick = onClickStop
+                    )
+                }
+            }
+
+            // StopAt selection
+            CollapseAnimation(
+                visible = timerVisible
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(Margin16),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    supportedStoppingTimeframes.iterator().forEach { timeFrame ->
+                        RoundedButton(
+                            modifier = Modifier.padding(horizontal = Margin8),
+                            onClick = { onClickTimerButton(timeFrame) },
+                            content = {
+                                Caption(
+                                    text = "${timeFrame.value}m",
+                                    color = if (selectedStopTimer == timeFrame)
+                                        MaterialTheme.colors.onSecondary
+                                    else
+                                        MaterialTheme.colors.onPrimary
+                                )
+                            },
+                            backgroundColor = if (selectedStopTimer == timeFrame)
+                                MaterialTheme.colors.secondary
+                            else
+                                MaterialTheme.colors.primary
+                        )
+                    }
                 }
             }
         }

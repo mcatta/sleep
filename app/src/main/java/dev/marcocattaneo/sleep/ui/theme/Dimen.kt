@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 
 object Dimen {
     val Margin8 = 8.dp
+    val Margin12 = 12.dp
     val Margin16 = 16.dp
     val Margin32 = 32.dp
 }

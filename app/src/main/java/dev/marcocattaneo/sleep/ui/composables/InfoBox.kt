@@ -16,15 +16,15 @@
 
 package dev.marcocattaneo.sleep.ui.composables
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
 
 @Composable
@@ -34,8 +34,7 @@ fun InfoBox(
 ) {
     Card(
         modifier = modifier,
-        backgroundColor = MaterialTheme.colors.surface,
-        shape = RoundedCornerShape(12.dp)
+        backgroundColor = MaterialTheme.colors.surface
     ) {
         Row(
             modifier = Modifier.padding(all = Margin16),
