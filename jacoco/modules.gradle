@@ -79,9 +79,10 @@ def setupAndroidReporting() {
                 sourcePath = "${productFlavorName}/${buildTypeName}"
             }
             def testTaskName = "test${sourceName.capitalize()}UnitTest"
+            def androidTestTaskName = "connected${sourceName.capitalize()}AndroidTest"
 
             // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-            task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+            task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: ["$testTaskName", "$androidTestTaskName"]) {
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
