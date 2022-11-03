@@ -16,7 +16,6 @@ private static boolean isAndroidModule(Project project) {
 }
 
 afterEvaluate { project ->
-    def projectName = project.name
     if (isAndroidModule(project)) setupAndroidReporting()
     else setupKotlinReporting()
 }
