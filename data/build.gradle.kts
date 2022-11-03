@@ -38,6 +38,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isTestCoverageEnabled = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
