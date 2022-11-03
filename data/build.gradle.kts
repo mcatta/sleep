@@ -1,3 +1,5 @@
+@file:Suppress("ImplicitThis")
+
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 /*
@@ -36,6 +38,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isTestCoverageEnabled = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(

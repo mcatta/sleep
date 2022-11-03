@@ -140,9 +140,9 @@ def setupAndroidReporting() {
                 def javaTree = fileTree(dir: "${project.buildDir}/intermediates/javac/$sourceName/classes", excludes: fileFilter)
                 def kotlinTree = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/$sourceName", excludes: fileFilter)
                 classDirectories.from = files([javaTree], [kotlinTree])
-                executionData.from = fileTree(dir: "$buildDir", includes: [
+                executionData.from = fileTree(dir: "$project.buildDir", includes: [
                         "jacoco/${testTaskName}.exec",
-                        "outputs/code-coverage/connected/*coverage.ec"
+                        "outputs/code_coverage/${sourceName}AndroidTest/connected/*coverage.ec"
                 ])
                 def coverageSourceDirs = ["src/main/java", "src/$productFlavorName/java", "src/$buildTypeName/java"]
 
