@@ -35,7 +35,7 @@ jobs:
       with:
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: "app/build/reports/coverage/androidTest/debug/report.xml,data/build/reports/coverage/androidTest/debug/report.xml"
+        files: "app/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,data/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,app/build/reports/coverage/androidTest/debug/report.xml,data/build/reports/coverage/androidTest/debug/report.xml"
     - name: Upload test report artifact
       if: ${{ failure() }}
       uses: actions/upload-artifact@v3
