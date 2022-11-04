@@ -1,7 +1,9 @@
 apply plugin: 'jacoco'
 
+def jacocoVersion = '0.8.8'
+
 jacoco {
-    toolVersion '0.8.7'
+    toolVersion jacocoVersion
 }
 
 tasks.withType(Test) {
@@ -30,7 +32,6 @@ def setupKotlinReporting() {
             }
             html {
                 enabled true
-                destination file("${buildDir}/coverage-report")
             }
         }
         afterEvaluate {
@@ -58,6 +59,7 @@ def setupAndroidReporting() {
     tasks.withType(Test) {
         // Whether or not classes without source location should be instrumented
         jacoco.includeNoLocationClasses true
+        jacoco.excludes = ['jdk.internal.*']
     }
 
     // Grab all build types and product flavors
@@ -79,10 +81,10 @@ def setupAndroidReporting() {
                 sourcePath = "${productFlavorName}/${buildTypeName}"
             }
             def testTaskName = "test${sourceName.capitalize()}UnitTest"
-            def androidTestTaskName = "connected${sourceName.capitalize()}AndroidTest"
+            def androidTestTaskName = "create${sourceName.capitalize()}CoverageReport"
 
             // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-            task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: ["$testTaskName", "$androidTestTaskName"]) {
+            task "create${sourceName.capitalize()}Coverage"(type: JacocoReport, dependsOn: ["$testTaskName", "$androidTestTaskName"]) {
                 group = "Reporting"
                 description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
@@ -156,6 +158,17 @@ def setupAndroidReporting() {
                     xml.enabled true
                     html.enabled true
                 }
+            }
+        }
+    }
+}
+
+// Use the resolution strategy along with the version in the app.gradle. It will fix the issue.
+configurations.all {
+    resolutionStrategy {
+        eachDependency { details ->
+            if ('org.jacoco' == details.requested.group) {
+                details.useVersion jacocoVersion
             }
         }
     }
