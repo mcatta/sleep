@@ -21,7 +21,7 @@ import dev.marcocattaneo.sleep.AbsComposableTest
 import dev.marcocattaneo.sleep.domain.model.sec
 import org.junit.Test
 
-internal class ComposablePlayerTest : AbsComposableTest() {
+internal class ComposableBottomPlayerBarTest : AbsComposableTest() {
 
     @Test
     fun testPlayerInit() {
