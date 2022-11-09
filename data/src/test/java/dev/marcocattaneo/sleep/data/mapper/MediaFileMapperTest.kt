@@ -44,13 +44,29 @@ class MediaFileMapperTest {
         assertEquals("path", mapped.path)
     }
 
+    @Test
+    fun `Test MediaFileMapper with nulls`() {
+        // Given
+        val storageReference = mockStorageReference(name = null, storage = null)
+
+        // When
+        val mapped = mediaFileMapper.mapTo(storageReference)
+
+        // Then
+        assertIs<MediaFile>(mapped)
+        assertEquals("description", mapped.description)
+        assertEquals("UUID", mapped.id)
+        assertEquals("", mapped.name)
+        assertEquals("", mapped.path)
+    }
+
 }
 
-fun mockStorageReference(): DocumentSnapshot {
+fun mockStorageReference(name: String? = "name", storage: String? = "path" ): DocumentSnapshot {
     val ref = mockk<DocumentSnapshot>()
     every { ref.id } returns "UUID"
-    every { ref.getString("name") } returns "name"
-    every { ref.getString("storage") } returns "path"
+    every { ref.getString("name") } returns name
+    every { ref.getString("storage") } returns storage
     every { ref.getString("description") } returns "description"
     return ref
 }

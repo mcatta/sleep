@@ -41,50 +41,51 @@ fun HomeScreen(
 ) {
     val uiState by homeViewModel.rememberState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.padding(all = Dimen.Margin16)
-        ) {
-            H4(
-                text = stringResource(id = R.string.home_header),
-                color = MaterialTheme.colors.onBackground
-            )
-            Body2(
-                text = stringResource(id = R.string.home_header_claim),
-                color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
-            )
-            Spacer16()
-            InfoBox(modifier = Modifier.fillMaxWidth()) {
-                Illustration(
-                    modifier = Modifier.size(48.dp),
-                    resource = R.drawable.ui_undraw_late_at_night
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        item {
+            Column(
+                modifier = Modifier.padding(all = Dimen.Margin16)
+            ) {
+                H4(
+                    text = stringResource(id = R.string.home_header),
+                    color = MaterialTheme.colors.onBackground
+                )
+                Body2(
+                    text = stringResource(id = R.string.home_header_claim),
+                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
                 )
                 Spacer16()
-                Body2(text = stringResource(id = R.string.home_info_banner))
-            }
+                InfoBox(modifier = Modifier.fillMaxWidth()) {
+                    Illustration(
+                        modifier = Modifier.size(48.dp),
+                        resource = R.drawable.ui_undraw_late_at_night
+                    )
+                    Spacer16()
+                    Body2(text = stringResource(id = R.string.home_info_banner))
+                }
 
+            }
         }
-
-        LazyColumn {
-            when (uiState) {
-                is TracksState.Content -> {
-                    (uiState as TracksState.Content).homeMediaFile.iterator().forEach {
-                        item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
-                    }
+        when (uiState) {
+            is TracksState.Content -> {
+                (uiState as TracksState.Content).homeMediaFile.iterator().forEach {
+                    item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                 }
-                TracksState.Loading -> {
-                    repeat(5) {
-                        item {
-                            MediaItem(
-                                modifier = Modifier.placeholder(true),
-                                mediaFile = null
-                            ) {}
-                        }
-                    }
-                }
-                is TracksState.Error,
-                null -> Unit
             }
+            TracksState.Loading -> {
+                repeat(5) {
+                    item {
+                        MediaItem(
+                            modifier = Modifier.placeholder(true),
+                            mediaFile = null
+                        ) {}
+                    }
+                }
+            }
+            is TracksState.Error,
+            null -> Unit
         }
     }
 }
