@@ -33,7 +33,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class AudioPlayerImpl @Inject constructor(
-    @CoroutineContextScope private val coroutineScope: CoroutineScope
+    @CoroutineContextScope private val coroutineScope: CoroutineScope,
+    private val mediaPlayer: MediaPlayer
 ) : AudioPlayer {
 
     private val playerStateFlow = MutableStateFlow<AudioPlayerEvent>(AudioPlayerEvent.None)
@@ -44,30 +45,30 @@ class AudioPlayerImpl @Inject constructor(
 
     private val timer = Timer()
 
-    private val mediaPlayer = MediaPlayer().apply {
-        AudioAttributes.Builder()
-            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-            .setUsage(AudioAttributes.USAGE_MEDIA)
-            .build()
-            .let(::setAudioAttributes)
-
-        setOnPreparedListener {
-            start()
-            updatePlayerStatus(it)
-        }
-
-        setOnErrorListener { _, what, _ ->
-            emitState(AudioPlayerEvent.Error(what))
-            false
-        }
-
-        setOnCompletionListener {
-            emitState(AudioPlayerEvent.Stop)
-        }
-
-    }
-
     init {
+        mediaPlayer.apply {
+            AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build()
+                .let(::setAudioAttributes)
+
+            setOnPreparedListener {
+                start()
+                updatePlayerStatus(it)
+            }
+
+            setOnErrorListener { _, what, _ ->
+                emitState(AudioPlayerEvent.Error(what))
+                false
+            }
+
+            setOnCompletionListener {
+                emitState(AudioPlayerEvent.Stop)
+            }
+
+        }
+
         timer.schedule(object : TimerTask() {
             override fun run() {
                 if (mediaPlayer.isPlaying) {
