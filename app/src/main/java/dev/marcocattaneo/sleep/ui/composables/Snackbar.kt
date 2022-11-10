@@ -26,6 +26,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import dev.marcocattaneo.sleep.R
@@ -39,6 +40,8 @@ fun Snackbar(
 ) {
     Row(
         modifier = modifier
+            .padding(all = Dimen.Margin16)
+            .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colors.error)
             .padding(all = Dimen.Margin16),
         verticalAlignment = Alignment.CenterVertically
