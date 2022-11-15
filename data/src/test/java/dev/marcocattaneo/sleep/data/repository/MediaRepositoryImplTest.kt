@@ -28,14 +28,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.data.mapper.mockStorageReference
+import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.cache.CacheService
 import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
-import io.mockk.MockKAnnotations
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import io.mockk.slot
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
@@ -66,12 +64,15 @@ class MediaRepositoryImplTest {
 
         every { storageReference.child(any()) } returns storageReference
         every { firebaseStorage.reference } returns storageReference
+        coEvery { mediaFileCache.getValue(any(), any()) } returns null
+        coEvery { mediaFileCache.setValue(any(), any(), any()) } just Runs
 
         mediaRepository = MediaRepositoryImpl(
             mediaFileMapper = MediaFileMapper(),
             firebaseStorage = firebaseStorage,
             firebaseFirestore = firestore,
-            mediaFileCache = mediaFileCache
+            mediaFileCache = mediaFileCache,
+            baseRepository = BaseRepositoryImpl()
         )
     }
 
@@ -159,6 +160,5 @@ class MediaRepositoryImplTest {
         // Then
         assertIs<Either.Left<*>>(res)
     }
-
 
 }

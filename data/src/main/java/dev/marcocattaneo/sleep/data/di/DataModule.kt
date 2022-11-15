@@ -26,9 +26,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.marcocattaneo.sleep.data.cache.InMemoryCache
+import dev.marcocattaneo.sleep.data.repository.BaseRepositoryImpl
 import dev.marcocattaneo.sleep.data.repository.MediaRepositoryImpl
 import dev.marcocattaneo.sleep.domain.cache.CacheService
 import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.repository.BaseRepository
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import javax.inject.Singleton
 
@@ -39,6 +41,10 @@ abstract class DataModule {
     @Binds
     @Singleton
     abstract fun provideMediaRepository(mediaRepositoryImpl: MediaRepositoryImpl): MediaRepository
+
+    @Binds
+    @Singleton
+    abstract fun provideBaseRepository(baseRepository: BaseRepositoryImpl): BaseRepository
 
 }
 

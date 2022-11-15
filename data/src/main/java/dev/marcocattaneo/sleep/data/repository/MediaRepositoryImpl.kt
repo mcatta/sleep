@@ -22,9 +22,11 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.cache.CacheService
 import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.model.Path
+import dev.marcocattaneo.sleep.domain.repository.BaseRepository
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
@@ -34,27 +36,37 @@ class MediaRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val firebaseFirestore: FirebaseFirestore,
     private val mediaFileMapper: MediaFileMapper,
-    private val mediaFileCache: CacheService<String, List<MediaFile>>
-) : MediaRepository {
+    private val mediaFileCache: CacheService<String, List<MediaFile>>,
+    baseRepository: BaseRepository
+) : MediaRepository, BaseRepository by baseRepository {
 
     companion object {
         const val AUDIO_COLLECTION = "audio"
+
+        private const val MEDIA_FILE_CACHE_KEY = "media_files"
     }
 
-    override suspend fun listMedia(): Either<AppException, List<MediaFile>> =
-        suspendCancellableCoroutine { continuation ->
-            firebaseFirestore.collection(AUDIO_COLLECTION)
-                .orderBy("order", Query.Direction.ASCENDING)
-                .get()
-                .addOnSuccessListener { listResult ->
-                    listResult.documents
-                        .map(mediaFileMapper::mapTo)
-                        .let { list -> continuation.resume(Either.Right(list)) }
-                }
-                .addOnFailureListener {
-                    continuation.resume(Either.Left(AppException.GenericError))
-                }
+    override suspend fun listMedia(cachePolicy: CachePolicy): Either<AppException, List<MediaFile>> {
+        return handleCachedValue(
+            cacheKey = MEDIA_FILE_CACHE_KEY,
+            cachePolicy = cachePolicy,
+            cacheService = mediaFileCache
+        ) {
+            suspendCancellableCoroutine { continuation ->
+                firebaseFirestore.collection(AUDIO_COLLECTION)
+                    .orderBy("order", Query.Direction.ASCENDING)
+                    .get()
+                    .addOnSuccessListener { listResult ->
+                        listResult.documents
+                            .map(mediaFileMapper::mapTo)
+                            .let { list -> continuation.resume(Either.Right(list)) }
+                    }
+                    .addOnFailureListener {
+                        continuation.resume(Either.Left(AppException.GenericError))
+                    }
+            }
         }
+    }
 
     override suspend fun urlFromPath(
         path: Path
