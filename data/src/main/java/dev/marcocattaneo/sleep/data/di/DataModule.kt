@@ -25,7 +25,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.marcocattaneo.sleep.data.cache.InMemoryCache
 import dev.marcocattaneo.sleep.data.repository.MediaRepositoryImpl
+import dev.marcocattaneo.sleep.domain.cache.CacheService
+import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import javax.inject.Singleton
 
@@ -50,5 +53,9 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideFirestore(): FirebaseFirestore = Firebase.firestore
+
+    @Provides
+    @Singleton
+    fun provideMediaFileCache(): CacheService<String, List<MediaFile>> = InMemoryCache()
 
 }

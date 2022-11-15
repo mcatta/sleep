@@ -28,6 +28,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.data.mapper.mockStorageReference
+import dev.marcocattaneo.sleep.domain.cache.CacheService
+import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
@@ -55,6 +57,9 @@ class MediaRepositoryImplTest {
     @MockK
     lateinit var firestore: FirebaseFirestore
 
+    @MockK
+    lateinit var mediaFileCache: CacheService<String, List<MediaFile>>
+
     @BeforeTest
     fun setup() {
         MockKAnnotations.init(this)
@@ -65,7 +70,8 @@ class MediaRepositoryImplTest {
         mediaRepository = MediaRepositoryImpl(
             mediaFileMapper = MediaFileMapper(),
             firebaseStorage = firebaseStorage,
-            firebaseFirestore = firestore
+            firebaseFirestore = firestore,
+            mediaFileCache = mediaFileCache
         )
     }
 

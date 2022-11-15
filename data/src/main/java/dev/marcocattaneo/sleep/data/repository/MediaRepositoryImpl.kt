@@ -20,7 +20,9 @@ import arrow.core.Either
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
+import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.cache.CacheService
 import dev.marcocattaneo.sleep.domain.model.MediaFile
 import dev.marcocattaneo.sleep.domain.model.Path
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
@@ -31,7 +33,8 @@ import kotlin.coroutines.resume
 class MediaRepositoryImpl @Inject constructor(
     private val firebaseStorage: FirebaseStorage,
     private val firebaseFirestore: FirebaseFirestore,
-    private val mediaFileMapper: dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
+    private val mediaFileMapper: MediaFileMapper,
+    private val mediaFileCache: CacheService<String, List<MediaFile>>
 ) : MediaRepository {
 
     companion object {
