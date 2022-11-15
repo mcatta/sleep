@@ -24,6 +24,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "sleep-app"
 include ':app'
-include ':mvi'
 include ':domain'
 include ':data'
