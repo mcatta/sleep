@@ -18,6 +18,7 @@ package dev.marcocattaneo.sleep.ui.composables
 
 import androidx.compose.ui.test.*
 import dev.marcocattaneo.sleep.AbsComposableTest
+import dev.marcocattaneo.sleep.domain.model.min
 import dev.marcocattaneo.sleep.domain.model.sec
 import org.junit.Test
 
@@ -56,6 +57,7 @@ internal class ComposableBottomPlayerBarTest : AbsComposableTest() {
                 isPlaying = true,
                 duration = 120.sec,
                 position = 20.sec,
+                supportedStoppingTimeframes = setOf(10.min, 20.min, 30.min),
                 onChangePlayingStatus = {},
                 onChangeStopTimer = {},
                 onClickReplay = {},

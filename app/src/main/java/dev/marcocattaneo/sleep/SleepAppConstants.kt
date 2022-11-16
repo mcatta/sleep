@@ -23,5 +23,5 @@ object SleepAppConstants {
     /**
      * This represents the supported time frame used to auto-stop the player
      */
-    val SUPPORTED_STOP_TIME_FRAMES = setOf(10.min, 20.min, 30.min)
+    val SUPPORTED_STOP_TIME_FRAMES = setOf(20.min, 30.min, 40.min)
 }

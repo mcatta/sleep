@@ -50,7 +50,7 @@ internal class HomeStateMachineTest {
     @Test
     fun `Test loading upon failure`() = runTest {
         // Given
-        coEvery { mediaRepository.listMedia() } returns Either.Left(AppException.GenericError)
+        coEvery { mediaRepository.listMedia(any()) } returns Either.Left(AppException.GenericError)
 
         // When
         homeStateMachine.state.test {
@@ -58,14 +58,14 @@ internal class HomeStateMachineTest {
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Error>(awaitItem())
 
-            coVerify { mediaRepository.listMedia() }
+            coVerify { mediaRepository.listMedia(any()) }
         }
     }
 
     @Test
     fun `Test loading upon success`() = runTest {
         // Given
-        coEvery { mediaRepository.listMedia() } returns Either.Right(emptyList())
+        coEvery { mediaRepository.listMedia(any()) } returns Either.Right(emptyList())
 
         // When
         homeStateMachine.state.test {
@@ -73,14 +73,14 @@ internal class HomeStateMachineTest {
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Content>(awaitItem())
 
-            coVerify { mediaRepository.listMedia() }
+            coVerify { mediaRepository.listMedia(any()) }
         }
     }
 
     @Test
     fun `Test loading upon failure and reload`() = runTest {
         // Given
-        coEvery { mediaRepository.listMedia() } returns Either.Left(AppException.GenericError)
+        coEvery { mediaRepository.listMedia(any()) } returns Either.Left(AppException.GenericError)
 
         // When
         homeStateMachine.state.test {
@@ -92,7 +92,7 @@ internal class HomeStateMachineTest {
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Error>(awaitItem())
 
-            coVerify(exactly = 2) { mediaRepository.listMedia() }
+            coVerify(exactly = 2) { mediaRepository.listMedia(any()) }
         }
     }
 }
