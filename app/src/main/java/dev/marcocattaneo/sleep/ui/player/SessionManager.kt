@@ -16,37 +16,17 @@
 
 package dev.marcocattaneo.sleep.ui.player
 
-import android.media.MediaPlayer
-import android.net.Uri
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
-import kotlinx.coroutines.flow.StateFlow
 
-interface AudioPlayer {
+interface SessionManager {
+    fun setCallback(callback: MediaSessionCompat.Callback)
 
-    fun state(): StateFlow<AudioPlayerEvent>
+    fun initMetaData(title: String, description: String?)
 
-    fun start(uri: Uri, title: String, description: String?)
+    fun setMediaPlaybackState(state: Int)
 
-    fun pause()
-
-    fun stop()
-
-    fun play()
-
-    fun seekTo(sec: Seconds)
-
-    fun stopAfter(minutes: Minutes?)
-
-    fun dispose()
-
-    fun forwardOf(sec: Seconds)
-
-    fun replayOf(sec: Seconds)
-
-    val player: MediaPlayer
+    var isActive: Boolean
 
     val sessionToken: MediaSessionCompat.Token
 

@@ -25,12 +25,15 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.media.app.NotificationCompat.MediaStyle
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.marcocattaneo.sleep.R
+import dev.marcocattaneo.sleep.ui.player.AudioPlayer
 import javax.inject.Inject
 
 class PlayerNotificationManager @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val audioPlayer: AudioPlayer
 ) {
 
     companion object {
@@ -40,15 +43,18 @@ class PlayerNotificationManager @Inject constructor(
     }
 
     private val pausePendingIntent: PendingIntent
-        get() = createPendingIntent(PlayerNotificationService.ACTION_PAUSE)
+        get() = createPendingIntent(PlayerNotificationService.Action.PAUSE)
 
     private val playPendingIntent: PendingIntent
-        get() = createPendingIntent(PlayerNotificationService.ACTION_PLAY)
+        get() = createPendingIntent(PlayerNotificationService.Action.PLAY)
 
-    private fun createPendingIntent(action: String) = PendingIntent.getService(
+    private val stopPendingIntent: PendingIntent
+        get() = createPendingIntent(PlayerNotificationService.Action.STOP)
+
+    private fun createPendingIntent(action: PlayerNotificationService.Action) = PendingIntent.getService(
         context,
         0,
-        Intent(context, PlayerNotificationService::class.java).setAction(action),
+        Intent(context, PlayerNotificationService::class.java).setAction(action.key),
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
     )
 
@@ -72,26 +78,34 @@ class PlayerNotificationManager @Inject constructor(
     private fun NotificationCompat.Builder.show() =
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, build())
 
-    private fun baseNotification(cancelable: Boolean) = NotificationCompat.Builder(context, CHANNEL_ID)
+    private fun baseNotification(
+        cancelable: Boolean
+    ) = NotificationCompat.Builder(context, CHANNEL_ID)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+        .setContentTitle(context.getString(R.string.app_name))
+        .setContentIntent(audioPlayer.controller.sessionActivity)
+        .setDeleteIntent(createPendingIntent(PlayerNotificationService.Action.STOP))
         .setSmallIcon(R.mipmap.ic_launcher)
         .setAutoCancel(cancelable)
 
+
     fun updateNotification(
-        isPlaying: Boolean
+        isPlaying: Boolean,
     ) = baseNotification(cancelable = !isPlaying)
         .apply {
+            addAction(NotificationCompat.Action.Builder(R.drawable.ic_baseline_close_24, "Stop", stopPendingIntent).build())
             if (isPlaying) {
-                addAction(R.drawable.ic_baseline_pause_24, "Pause", pausePendingIntent)
+                addAction(NotificationCompat.Action.Builder(R.drawable.ic_baseline_pause_24, "Pause", pausePendingIntent).build())
             } else {
-                addAction(R.drawable.ic_baseline_play_arrow_24, "Play", playPendingIntent)
+                addAction(NotificationCompat.Action.Builder(R.drawable.ic_baseline_play_arrow_24, "Play", playPendingIntent).build())
             }
         }
-        .setStyle(androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0))
+        .setStyle(MediaStyle().setShowActionsInCompactView(1).setMediaSession(audioPlayer.sessionToken))
         .show()
 
     fun removeNotification() = NotificationManagerCompat.from(context).cancel(NOTIFICATION_ID)
 
-    fun foregroundNotification(): Notification = baseNotification(true).build()
+    fun foregroundNotification(): Notification = baseNotification(cancelable = true)
+        .build()
 
 }

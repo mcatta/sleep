@@ -23,6 +23,7 @@ import dev.marcocattaneo.sleep.CoroutinesTestRule
 import dev.marcocattaneo.sleep.domain.model.sec
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -38,18 +39,21 @@ import kotlin.test.assertIs
 @RunWith(RobolectricTestRunner::class)
 internal class AudioPlayerImplTest {
 
-    @MockK
-    lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayer: MediaPlayer
+
+    @RelaxedMockK
+    lateinit var sessionManager: SessionManager
 
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
     @BeforeTest
     fun setup() {
+        MockKAnnotations.init(this)
         mediaPlayer = spyk(MediaPlayer())
     }
 
-    private fun getImpl(): AudioPlayer = AudioPlayerImpl(coroutinesTestRule.scope, mediaPlayer)
+    private fun getImpl(): AudioPlayer = AudioPlayerImpl(coroutinesTestRule.scope, sessionManager, mediaPlayer)
 
     @Test
     fun `Test init`() {
@@ -58,6 +62,7 @@ internal class AudioPlayerImplTest {
 
         // Then
         verify { mediaPlayer.setAudioAttributes(any()) }
+        verify { sessionManager.setCallback(any()) }
     }
 
     @Test
@@ -69,7 +74,7 @@ internal class AudioPlayerImplTest {
 
         audioPlayer.state().test {
             // When
-            audioPlayer.start(Uri.parse("https://my-url"))
+            audioPlayer.start(Uri.parse("https://my-url"), "title", "description")
 
             // Then
             verify { mediaPlayer.stop() }
@@ -79,6 +84,8 @@ internal class AudioPlayerImplTest {
 
             assertIs<AudioPlayerEvent.None>(awaitItem())
             assertIs<AudioPlayerEvent.Init>(awaitItem())
+
+            verify { sessionManager.initMetaData(eq("title"), eq("description")) }
         }
     }
 

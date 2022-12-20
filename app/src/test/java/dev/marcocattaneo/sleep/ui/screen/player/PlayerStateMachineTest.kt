@@ -73,7 +73,7 @@ internal class PlayerStateMachineTest {
 
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromPath(any()) }
-            coVerify { audioPlayer.start(any()) }
+            coVerify { audioPlayer.start(any(), any(), any()) }
             coVerify { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
         }
     }
@@ -94,7 +94,7 @@ internal class PlayerStateMachineTest {
 
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromPath(any()) }
-            coVerify(exactly = 0) { audioPlayer.start(any()) }
+            coVerify(exactly = 0) { audioPlayer.start(any(), any(), any()) }
             coVerify(exactly = 0) { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
         }
     }

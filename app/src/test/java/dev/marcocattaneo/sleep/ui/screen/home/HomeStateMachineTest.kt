@@ -20,7 +20,6 @@ import app.cash.turbine.test
 import arrow.core.Either
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
-import dev.marcocattaneo.sleep.ui.screen.player.PlayerStateMachine
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -37,7 +36,7 @@ internal class HomeStateMachineTest {
     @RelaxedMockK
     lateinit var mediaRepository: MediaRepository
 
-    lateinit var homeStateMachine: HomeStateMachine
+    private lateinit var homeStateMachine: HomeStateMachine
 
     @Before
     fun setup() {
