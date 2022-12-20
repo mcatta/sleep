@@ -25,17 +25,18 @@ import dev.marcocattaneo.sleep.ui.player.AudioPlayerEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class PlayerNotificationService: Service()  {
+class PlayerNotificationService : Service() {
 
+    sealed class Action(val key: String) {
+        object PLAY : Action("dev.marcocattaneo.sleep.PlayerNotificationService.PLAY")
 
-    companion object {
-        const val ACTION_PLAY = "dev.marcocattaneo.sleep.PlayerNotificationService.PLAY"
-        const val ACTION_PAUSE = "dev.marcocattaneo.sleep.PlayerNotificationService.PAUSE"
+        object PAUSE : Action("dev.marcocattaneo.sleep.PlayerNotificationService.PAUSE")
+
+        object STOP : Action("dev.marcocattaneo.sleep.PlayerNotificationService.STOP")
     }
 
     @Inject
@@ -56,9 +57,10 @@ class PlayerNotificationService: Service()  {
             audioPlayer.state().collect {
                 when (it) {
                     AudioPlayerEvent.Init -> startForegroundService()
-                    is AudioPlayerEvent.PlayerStatus -> playerNotificationManager.updateNotification(
-                        isPlaying = it.isPlaying
+                    is AudioPlayerEvent.PlayerStatus -> if (it.isPlaying) playerNotificationManager.updateNotification(
+                        isPlaying = true
                     )
+
                     is AudioPlayerEvent.Pause -> playerNotificationManager.updateNotification(
                         isPlaying = false
                     )
@@ -75,8 +77,9 @@ class PlayerNotificationService: Service()  {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         when (intent.action) {
-            ACTION_PAUSE -> audioPlayer.pause()
-            ACTION_PLAY -> audioPlayer.play()
+            Action.PAUSE.key -> audioPlayer.pause()
+            Action.PLAY.key -> audioPlayer.play()
+            Action.STOP.key -> audioPlayer.stop()
         }
 
         return START_STICKY

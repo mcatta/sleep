@@ -16,9 +16,17 @@
 
 package dev.marcocattaneo.sleep.ui.player
 
+import android.content.Context
+import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
+import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.session.MediaControllerCompat
+import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
 import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.Seconds
@@ -32,10 +40,30 @@ import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
+
 class AudioPlayerImpl @Inject constructor(
     @CoroutineContextScope private val coroutineScope: CoroutineScope,
+    private val sessionManager: SessionManager,
     private val mediaPlayer: MediaPlayer
 ) : AudioPlayer {
+
+    init {
+        sessionManager.setCallback(object : MediaSessionCompat.Callback() {
+            override fun onPlay() {
+                super.onPlay()
+                sessionManager.isActive = true
+                sessionManager.setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                play()
+            }
+
+            override fun onPause() {
+                super.onPause()
+                sessionManager.setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED)
+                pause()
+            }
+
+        })
+    }
 
     private val playerStateFlow = MutableStateFlow<AudioPlayerEvent>(AudioPlayerEvent.None)
 
@@ -104,7 +132,8 @@ class AudioPlayerImpl @Inject constructor(
         playerStateFlow.emit(audioPlayerEvent)
     }
 
-    override fun start(uri: Uri) {
+    override fun start(uri: Uri, title: String, description: String?) {
+        sessionManager.initMetaData(title, description)
         stopDate = null
         stopAfterMinutes = null
         emitState(AudioPlayerEvent.Init)
@@ -162,6 +191,12 @@ class AudioPlayerImpl @Inject constructor(
 
     override val player: MediaPlayer
         get() = mediaPlayer
+
+    override val sessionToken: MediaSessionCompat.Token
+        get() = sessionManager.sessionToken
+
+    override val controller: MediaControllerCompat
+        get() = sessionManager.controller
 
 }
 

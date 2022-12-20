@@ -17,7 +17,6 @@
 package dev.marcocattaneo.sleep.ui.screen.player
 
 import android.net.Uri
-import com.freeletics.flowredux.dsl.ChangedState
 import com.freeletics.flowredux.dsl.FlowReduxStateMachine
 import com.freeletics.flowredux.dsl.State
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -89,7 +88,7 @@ class PlayerStateMachine @Inject constructor(
                         ifRight = {
                             playlistStateMachine.dispatch(PlaylistAction.Update(trackId = action.mediaFile.id))
 
-                            audioPlayer.start(Uri.parse(it))
+                            audioPlayer.start(Uri.parse(it), action.mediaFile.name, action. mediaFile.description)
                             state.override { PlayerState.Init }
                         }
                     )

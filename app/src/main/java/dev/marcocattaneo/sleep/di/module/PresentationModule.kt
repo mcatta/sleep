@@ -17,25 +17,41 @@
 package dev.marcocattaneo.sleep.di.module
 
 import android.media.MediaPlayer
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
 import dev.marcocattaneo.sleep.ui.player.AudioPlayer
 import dev.marcocattaneo.sleep.ui.player.AudioPlayerImpl
-import kotlinx.coroutines.CoroutineScope
+import dev.marcocattaneo.sleep.ui.player.SessionManager
+import dev.marcocattaneo.sleep.ui.player.SessionManagerImpl
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class PresentationModule {
+abstract class PresentationModule {
+
+    @Binds
+    @Singleton
+    abstract fun provideAudioPlayer(
+        player: AudioPlayerImpl
+    ): AudioPlayer
+
+    @Binds
+    @Singleton
+    abstract fun provideSessionManager(
+        sessionManager: SessionManagerImpl
+    ): SessionManager
+
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class PresentationProviderModule {
 
     @Provides
     @Singleton
-    fun provideAudioPlayer(@CoroutineContextScope coroutineScope: CoroutineScope): AudioPlayer = AudioPlayerImpl(
-        coroutineScope = coroutineScope,
-        mediaPlayer = MediaPlayer()
-    )
+    fun provideMediaPlayer(): MediaPlayer = MediaPlayer()
 
 }
