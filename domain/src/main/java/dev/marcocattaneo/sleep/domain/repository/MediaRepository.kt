@@ -19,7 +19,7 @@ package dev.marcocattaneo.sleep.domain.repository
 import arrow.core.Either
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.cache.CachePolicy
-import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.model.Path
 import dev.marcocattaneo.sleep.domain.model.sec
 
@@ -27,7 +27,7 @@ interface MediaRepository {
 
     suspend fun listMedia(
         cachePolicy: CachePolicy = CachePolicy.CacheFirst(120.sec)
-    ): Either<AppException, List<MediaFile>>
+    ): Either<AppException, List<MediaFileEntity>>
 
     suspend fun urlFromPath(path: Path): Either<AppException, String>
 

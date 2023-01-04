@@ -20,7 +20,7 @@ import android.net.Uri
 import com.freeletics.flowredux.dsl.FlowReduxStateMachine
 import com.freeletics.flowredux.dsl.State
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.Seconds
 import dev.marcocattaneo.sleep.domain.model.sec
@@ -159,7 +159,7 @@ sealed interface PlayerState {
 }
 
 sealed interface PlayerAction {
-    data class StartPlaying(val mediaFile: MediaFile) : PlayerAction
+    data class StartPlaying(val mediaFile: MediaFileEntity) : PlayerAction
 
     //data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
     data class UpdateDuration(

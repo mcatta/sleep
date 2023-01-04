@@ -30,21 +30,22 @@ class BaseRepositoryImpl @Inject constructor() : BaseRepository {
         cacheService: CacheService<K, V>,
         cacheKey: K,
         cachePolicy: CachePolicy,
-        block: suspend () -> Either<AppException, V>
+        block: suspend () -> V
     ): Either<AppException, V> = eitherResult {
-        cacheService.getValue(cacheKey, cachePolicy)?.let {
-            Either.Right(it)
-        } ?: block().map { value ->
+        cacheService.getValue(cacheKey, cachePolicy) ?: block().also { value ->
             cacheService.setValue(cacheKey, value, cachePolicy)
-            value
         }
     }
 
+    override suspend fun <V : Any> handleValue(
+        block: suspend () -> V
+    ): Either<AppException, V> = eitherResult(block)
+
     private suspend fun <T : Any> eitherResult(
-        block: suspend () -> Either<AppException, T>
+        block: suspend () -> T
     ): Either<AppException, T> {
         return try {
-            block()
+            Either.Right(block())
         } catch (e: Exception) {
             Either.Left(AppException.GenericError)
         }

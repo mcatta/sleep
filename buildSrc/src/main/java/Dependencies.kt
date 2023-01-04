@@ -71,10 +71,12 @@ object FlowReduxLibs {
 }
 
 object ThirdPartyLibs {
-    const val FIREBASE_STORAGE = "com.google.firebase:firebase-storage-ktx:20.0.2"
-    const val FIREBASE_FIRESTORE = "com.google.firebase:firebase-firestore-ktx:24.3.1"
+    const val FIREBASE_AUTH = "com.google.firebase:firebase-auth-ktx:21.0.3"
     const val TIMBER = "com.jakewharton.timber:timber:5.0.1"
     const val ARROW_CORE = "io.arrow-kt:arrow-core:1.0.1"
+    const val RETROFIT_CLIENT = "com.squareup.retrofit2:retrofit:2.9.0"
+    const val RETROFIT_GSON_CONVERTER = "com.squareup.retrofit2:converter-gson:2.9.0"
+    const val RETROFIT_LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:4.10.0"
 }
 
 object AndroidXLibs {

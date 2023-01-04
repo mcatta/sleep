@@ -16,22 +16,25 @@
 
 package dev.marcocattaneo.sleep.data.di
 
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.marcocattaneo.sleep.data.BuildConfig
 import dev.marcocattaneo.sleep.data.cache.InMemoryCache
+import dev.marcocattaneo.sleep.data.http.SleepService
 import dev.marcocattaneo.sleep.data.repository.BaseRepositoryImpl
 import dev.marcocattaneo.sleep.data.repository.MediaRepositoryImpl
 import dev.marcocattaneo.sleep.domain.cache.CacheService
-import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.BaseRepository
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -50,18 +53,35 @@ abstract class DataModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-class FirebaseModule {
+class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseStorage(): FirebaseStorage = FirebaseStorage.getInstance()
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
+        .baseUrl(BuildConfig.BASE_URL)
+        .client(
+            OkHttpClient.Builder()
+                .apply {
+                    if (BuildConfig.DEBUG)
+                        addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                }
+                .build()
+        )
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
 
     @Provides
     @Singleton
-    fun provideFirestore(): FirebaseFirestore = Firebase.firestore
+    fun provideService(
+        retrofit: Retrofit
+    ): SleepService = retrofit.create(SleepService::class.java)
 
     @Provides
     @Singleton
-    fun provideMediaFileCache(): CacheService<String, List<MediaFile>> = InMemoryCache()
+    fun provideMediaFileCache(): CacheService<String, List<MediaFileEntity>> =
+        InMemoryCache()
 
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }

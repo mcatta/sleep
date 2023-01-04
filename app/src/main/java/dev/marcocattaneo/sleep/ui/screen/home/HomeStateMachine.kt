@@ -19,7 +19,7 @@ package dev.marcocattaneo.sleep.ui.screen.home
 import com.freeletics.flowredux.dsl.FlowReduxStateMachine
 import com.freeletics.flowredux.dsl.State
 import dagger.hilt.android.scopes.ViewModelScoped
-import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -65,10 +65,10 @@ sealed interface TracksState {
     object Loading: TracksState
     data class Error(val message: String? = null): TracksState
     data class Content(
-        val mediaFiles: List<MediaFile> = emptyList(),
+        val mediaFiles: List<MediaFileEntity> = emptyList(),
         val selectedTrackId: String? = null,
     ): TracksState {
-        val homeMediaFile: List<MediaFile>
+        val homeMediaFile: List<MediaFileEntity>
             get() = mediaFiles.map { it.copy(selected = it.id == selectedTrackId) }
     }
 }

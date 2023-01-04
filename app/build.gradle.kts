@@ -113,8 +113,6 @@ dependencies {
     implementation(ComposeAccompanistLibs.PLACEHOLDER)
     implementation(ComposeAccompanistLibs.SYSTEM_UI_CONTROLLER)
 
-    implementation(ThirdPartyLibs.FIREBASE_STORAGE)
-    implementation(ThirdPartyLibs.FIREBASE_FIRESTORE)
     implementation(ThirdPartyLibs.ARROW_CORE)
     implementation(ThirdPartyLibs.TIMBER)
 

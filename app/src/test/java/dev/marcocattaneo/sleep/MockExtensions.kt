@@ -16,7 +16,7 @@
 
 package dev.marcocattaneo.sleep
 
-import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import java.util.UUID
 
-fun fakeMediaFile() = MediaFile(UUID.randomUUID().toString(), "File name", "Description", "path")
+fun fakeMediaFile() = MediaFileEntity(UUID.randomUUID().toString(), "File name", "Description", "path")

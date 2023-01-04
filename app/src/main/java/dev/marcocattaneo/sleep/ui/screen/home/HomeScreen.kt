@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.R
-import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.ui.composables.*
 import dev.marcocattaneo.sleep.ui.theme.Dimen
 import dev.marcocattaneo.sleep.ui.theme.placeholder
@@ -37,7 +37,7 @@ import dev.marcocattaneo.sleep.ui.theme.placeholder
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
-    onClickMediaFile: (MediaFile) -> Unit
+    onClickMediaFile: (MediaFileEntity) -> Unit
 ) {
     val uiState by homeViewModel.rememberState()
 
@@ -84,7 +84,11 @@ fun HomeScreen(
                     }
                 }
             }
-            is TracksState.Error,
+            is TracksState.Error -> {
+                item {
+                    Snackbar(message = "Error")
+                }
+            }
             null -> Unit
         }
     }
@@ -93,8 +97,8 @@ fun HomeScreen(
 @Composable
 private fun MediaItem(
     modifier: Modifier = Modifier,
-    mediaFile: MediaFile?,
-    onClick: (MediaFile) -> Unit
+    mediaFile: MediaFileEntity?,
+    onClick: (MediaFileEntity) -> Unit
 ) {
     Row(
         modifier = Modifier

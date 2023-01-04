@@ -27,6 +27,10 @@ interface BaseRepository {
         cacheService: CacheService<K, V>,
         cacheKey: K,
         cachePolicy: CachePolicy,
-        block: suspend () -> Either<AppException, V>
+        block: suspend () -> V
+    ): Either<AppException, V>
+
+    suspend fun <V : Any> handleValue(
+        block: suspend () -> V
     ): Either<AppException, V>
 }

@@ -16,149 +16,121 @@
 
 package dev.marcocattaneo.sleep.data.repository
 
-import android.net.Uri
 import arrow.core.Either
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import dev.marcocattaneo.sleep.data.auth.AuthDataSource
+import dev.marcocattaneo.sleep.data.http.SleepService
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
-import dev.marcocattaneo.sleep.data.mapper.mockStorageReference
-import dev.marcocattaneo.sleep.domain.cache.CachePolicy
+import dev.marcocattaneo.sleep.data.model.MediaFile
+import dev.marcocattaneo.sleep.data.model.MediaUrl
+import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.cache.CacheService
-import dev.marcocattaneo.sleep.domain.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
+import dev.marcocattaneo.sleep.mock
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import java.net.SocketException
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 @ExperimentalCoroutinesApi
 class MediaRepositoryImplTest {
 
-    lateinit var mediaRepository: MediaRepository
+    private lateinit var mediaRepository: MediaRepository
 
     @MockK
-    lateinit var firebaseStorage: FirebaseStorage
+    lateinit var sleepService: SleepService
 
     @MockK
-    lateinit var storageReference: StorageReference
+    lateinit var mediaFileCache: CacheService<String, List<MediaFileEntity>>
 
     @MockK
-    lateinit var firestore: FirebaseFirestore
-
-    @MockK
-    lateinit var mediaFileCache: CacheService<String, List<MediaFile>>
+    lateinit var authDataSource: AuthDataSource
 
     @BeforeTest
     fun setup() {
         MockKAnnotations.init(this)
 
-        every { storageReference.child(any()) } returns storageReference
-        every { firebaseStorage.reference } returns storageReference
         coEvery { mediaFileCache.getValue(any(), any()) } returns null
         coEvery { mediaFileCache.setValue(any(), any(), any()) } just Runs
+        coEvery { authDataSource.getAuthToken() } returns Either.Right("token")
 
         mediaRepository = MediaRepositoryImpl(
             mediaFileMapper = MediaFileMapper(),
-            firebaseStorage = firebaseStorage,
-            firebaseFirestore = firestore,
             mediaFileCache = mediaFileCache,
+            authDataSource = authDataSource,
+            sleepService = sleepService,
             baseRepository = BaseRepositoryImpl()
         )
     }
 
     @Test
-    fun `Test listMedia upon a success`() = runTest {
+    fun `Test API without token`() = runTest {
         // Given
-        val mockedCollection = mockk<CollectionReference>()
-        val taskMocked = mockk<Task<QuerySnapshot>>()
-        val slot = slot<OnSuccessListener<QuerySnapshot>>()
-        val result = mockk<QuerySnapshot>()
-        every { result.documents } returns listOf(mockStorageReference(), mockStorageReference())
-        every { mockedCollection.orderBy(any<String>(), any()) } returns mockedCollection
-        every { mockedCollection.get() } returns taskMocked
-        every { taskMocked.addOnSuccessListener(capture(slot)) } answers {
-            slot.captured.onSuccess(result)
-            taskMocked
-        }
-        every { taskMocked.addOnFailureListener(any()) } returns taskMocked
-        every { firestore.collection(any()) } returns mockedCollection
+        coEvery { authDataSource.getAuthToken() } returns Either.Left(AppException.GenericError)
+        coEvery { sleepService.tracks(any()) } returns emptyList()
 
         // When
         val res = mediaRepository.listMedia()
 
         // Then
-        assertIs<Either.Right<*>>(res)
+        assertEquals(true, res.isLeft())
+    }
+
+    @Test
+    fun `Test listMedia upon a success`() = runTest {
+        // Given
+        coEvery { sleepService.tracks(any()) } returns listOf(
+            MediaFile.mock(id = "1"), MediaFile.mock(id = "2")
+        )
+
+        // When
+        val res = mediaRepository.listMedia()
+
+        // Then
+        assertEquals(true, res.isRight())
         assertEquals(2, (res as Either.Right).value.size)
     }
 
     @Test
     fun `Test listMedia upon a failure`() = runTest {
         // Given
-        val mockedCollection = mockk<CollectionReference>()
-        val taskMocked = mockk<Task<QuerySnapshot>>()
-        val slot = slot<OnFailureListener>()
-        every { mockedCollection.get() } returns taskMocked
-        every { mockedCollection.orderBy(any<String>(), any()) } returns mockedCollection
-        every { taskMocked.addOnSuccessListener(any()) } returns taskMocked
-        every { taskMocked.addOnFailureListener(capture(slot)) } answers {
-            slot.captured.onFailure(IllegalStateException("Something goes wrong"))
-            taskMocked
-        }
-        every { firestore.collection(any()) } returns mockedCollection
+        coEvery { sleepService.tracks(any()) } throws SocketException("Failure")
 
         // When
         val res = mediaRepository.listMedia()
 
         // Then
-        assertIs<Either.Left<*>>(res)
+        assertEquals(true, res.isLeft())
     }
 
     @Test
     fun `Test urlFromPath upon a success`() = runTest {
         // Given
-        val taskMocked = mockk<Task<Uri>>()
-        val slot = slot<OnSuccessListener<Uri>>()
-        every { taskMocked.addOnFailureListener(any()) } returns taskMocked
-        every { taskMocked.addOnSuccessListener(capture(slot)) } answers {
-            slot.captured.onSuccess(mockk())
-            taskMocked
-        }
-        every { storageReference.downloadUrl } returns taskMocked
+        coEvery { sleepService.downloadUrl(any(), any()) } returns  MediaUrl("url", "path")
 
         // When
         val res = mediaRepository.urlFromPath("path")
 
         // Then
-        assertIs<Either.Right<*>>(res)
+        assertEquals(true, res.isRight())
+        coVerify { sleepService.downloadUrl(any(), eq("path")) }
     }
 
     @Test
     fun `Test urlFromPath upon a failure`() = runTest {
         // Given
-        val taskMocked = mockk<Task<Uri>>()
-        val slot = slot<OnFailureListener>()
-        every { taskMocked.addOnFailureListener(capture(slot)) } answers {
-            slot.captured.onFailure(IllegalStateException("Something goes wrong"))
-            taskMocked
-        }
-        every { taskMocked.addOnSuccessListener(any()) } returns taskMocked
-        every { storageReference.downloadUrl } returns taskMocked
+        coEvery { sleepService.downloadUrl(any(), any()) } throws SocketException("Failure")
 
         // When
         val res = mediaRepository.urlFromPath("path")
 
         // Then
-        assertIs<Either.Left<*>>(res)
+        assertEquals(true, res.isLeft())
+        coVerify { sleepService.downloadUrl(any(), eq("path")) }
     }
 
 }
