@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,11 @@
 
 package dev.marcocattaneo.sleep
 
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import java.util.UUID
+import dev.marcocattaneo.sleep.data.model.MediaFile
 
-fun fakeMediaFile() = MediaFileEntity(UUID.randomUUID().toString(), "File name", "Description", "path")
+internal fun MediaFile.Companion.mock(
+    id: String = "id",
+    name: String = "name",
+    description: String? = null,
+    path: String = "http://path"
+) = MediaFile(id, name, description, path)

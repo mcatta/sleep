@@ -16,17 +16,12 @@
 
 package dev.marcocattaneo.sleep.ui.player
 
-import android.content.Context
-import android.graphics.BitmapFactory
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
-import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
 import dev.marcocattaneo.sleep.domain.model.Minutes
 import dev.marcocattaneo.sleep.domain.model.Seconds

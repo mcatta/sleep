@@ -33,13 +33,16 @@ android {
         minSdk = Sdk.MIN_SDK_VERSION
         targetSdk = Sdk.TARGET_SDK_VERSION
 
+        buildConfigField("String", "BASE_URL", "\"https://europe-west2-sleep-app-mobile.cloudfunctions.net/\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         debug {
-            isTestCoverageEnabled = true
+            enableAndroidTestCoverage = true
+            enableAndroidTestCoverage = true
         }
         release {
             isMinifyEnabled = false
@@ -61,10 +64,13 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
-    implementation(ThirdPartyLibs.FIREBASE_STORAGE)
-    implementation(ThirdPartyLibs.FIREBASE_FIRESTORE)
+    implementation(ThirdPartyLibs.FIREBASE_AUTH)
     implementation(ThirdPartyLibs.ARROW_CORE)
     implementation(KotlinLibs.COROUTINE_CORE)
+
+    implementation(ThirdPartyLibs.RETROFIT_CLIENT)
+    implementation(ThirdPartyLibs.RETROFIT_GSON_CONVERTER)
+    implementation(ThirdPartyLibs.RETROFIT_LOGGING_INTERCEPTOR)
 
     implementation(HiltLibs.CORE)
     kapt(HiltLibs.ANDROID_COMPILER)

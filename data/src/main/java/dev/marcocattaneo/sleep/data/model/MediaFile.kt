@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep
+package dev.marcocattaneo.sleep.data.model
 
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import java.util.UUID
+import com.google.gson.annotations.SerializedName
 
-fun fakeMediaFile() = MediaFileEntity(UUID.randomUUID().toString(), "File name", "Description", "path")
+data class MediaFile(
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("description")
+    val description: String?,
+    @SerializedName("storage")
+    val path: String
+) {
+    companion object
+}

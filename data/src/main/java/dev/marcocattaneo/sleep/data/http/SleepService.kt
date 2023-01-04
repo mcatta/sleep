@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep
+package dev.marcocattaneo.sleep.data.http
 
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import java.util.UUID
+import dev.marcocattaneo.sleep.data.model.MediaFile
+import dev.marcocattaneo.sleep.data.model.MediaUrl
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Query
 
-fun fakeMediaFile() = MediaFileEntity(UUID.randomUUID().toString(), "File name", "Description", "path")
+interface SleepService {
+
+    @GET("media")
+    suspend fun tracks(@Header("Authorization") authorization: String): List<MediaFile>
+
+    @GET("media/url")
+    suspend fun downloadUrl(
+        @Header("Authorization") authorization: String,
+        @Query("path") path: String
+    ): MediaUrl
+
+}

@@ -16,10 +16,8 @@
 
 package dev.marcocattaneo.sleep.data.mapper
 
-import com.google.firebase.firestore.DocumentSnapshot
-import dev.marcocattaneo.sleep.domain.model.MediaFile
-import io.mockk.every
-import io.mockk.mockk
+import dev.marcocattaneo.sleep.data.model.MediaFile
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -31,42 +29,17 @@ class MediaFileMapperTest {
     @Test
     fun `Test MediaFileMapper`() {
         // Given
-        val storageReference = mockStorageReference()
+        val storageReference = MediaFile("UUID", "name", "description", "path")
 
         // When
         val mapped = mediaFileMapper.mapTo(storageReference)
 
         // Then
-        assertIs<MediaFile>(mapped)
+        assertIs<MediaFileEntity>(mapped)
         assertEquals("description", mapped.description)
         assertEquals("UUID", mapped.id)
         assertEquals("name", mapped.name)
         assertEquals("path", mapped.path)
     }
 
-    @Test
-    fun `Test MediaFileMapper with nulls`() {
-        // Given
-        val storageReference = mockStorageReference(name = null, storage = null)
-
-        // When
-        val mapped = mediaFileMapper.mapTo(storageReference)
-
-        // Then
-        assertIs<MediaFile>(mapped)
-        assertEquals("description", mapped.description)
-        assertEquals("UUID", mapped.id)
-        assertEquals("", mapped.name)
-        assertEquals("", mapped.path)
-    }
-
-}
-
-fun mockStorageReference(name: String? = "name", storage: String? = "path" ): DocumentSnapshot {
-    val ref = mockk<DocumentSnapshot>()
-    every { ref.id } returns "UUID"
-    every { ref.getString("name") } returns name
-    every { ref.getString("storage") } returns storage
-    every { ref.getString("description") } returns "description"
-    return ref
 }

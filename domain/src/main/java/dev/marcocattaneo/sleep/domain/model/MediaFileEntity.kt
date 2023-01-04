@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep
+package dev.marcocattaneo.sleep.domain.model
 
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import java.util.UUID
-
-fun fakeMediaFile() = MediaFileEntity(UUID.randomUUID().toString(), "File name", "Description", "path")
+data class MediaFileEntity(
+    val id: String,
+    val name: String,
+    val description: String?,
+    val path: String,
+    val selected: Boolean = false
+)
