@@ -19,3 +19,9 @@ object AppConfiguration {
     const val VERSION_CODE = 14
     const val VERSION_NAME = "1.2.0"
 }
+
+object Sdk {
+    const val COMPILE_SDK_VERSION = 32
+    const val MIN_SDK_VERSION = 21
+    const val TARGET_SDK_VERSION = 32
+}

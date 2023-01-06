@@ -29,6 +29,8 @@ apply(from = "../jacoco/modules.gradle")
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION
 
+    namespace = "dev.marcocattaneo.sleep.data"
+
     defaultConfig {
         minSdk = Sdk.MIN_SDK_VERSION
         targetSdk = Sdk.TARGET_SDK_VERSION
@@ -64,18 +66,16 @@ android {
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
 
-    implementation(ThirdPartyLibs.FIREBASE_AUTH)
-    implementation(ThirdPartyLibs.ARROW_CORE)
-    implementation(KotlinLibs.COROUTINE_CORE)
+    implementation(libs.firebase.auth)
+    implementation(libs.arrow)
+    implementation(libs.coroutine.core)
 
-    implementation(ThirdPartyLibs.RETROFIT_CLIENT)
-    implementation(ThirdPartyLibs.RETROFIT_GSON_CONVERTER)
-    implementation(ThirdPartyLibs.RETROFIT_LOGGING_INTERCEPTOR)
+    implementation(libs.bundles.retrofit)
 
-    implementation(HiltLibs.CORE)
-    kapt(HiltLibs.ANDROID_COMPILER)
+    implementation(libs.hilt.core)
+    kapt(libs.hilt.androidCompiler)
 
     testImplementation(kotlin("test"))
-    testImplementation(TestLibs.MOCKK)
-    testImplementation(TestLibs.COROUTINE_TEST)
+    testImplementation(libs.mockk.core)
+    testImplementation(libs.coroutine.test)
 }

@@ -29,6 +29,8 @@ apply(from = "../jacoco/modules.gradle")
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION
 
+    namespace = "dev.marcocattaneo.sleep"
+
     signingConfigs {
         create("release") {
             keyAlias = "sleep"
@@ -53,7 +55,8 @@ android {
 
     buildTypes {
         debug {
-            isTestCoverageEnabled = true
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
         release {
             isMinifyEnabled = true
@@ -73,7 +76,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE
+        kotlinCompilerExtensionVersion = "1.2.0"
     }
     packagingOptions {
         resources {
@@ -95,40 +98,27 @@ dependencies {
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
 
-    implementation(AndroidXLibs.CORE)
-    implementation(AndroidXLibs.APP_COMPACT)
-    implementation(AndroidLibs.MATERIAL)
-    implementation(AndroidXLibs.MEDIA)
+    implementation(libs.bundles.androidx)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.flowredux)
 
-    implementation(ComposeLibs.UI)
-    implementation(ComposeLibs.MATERIAL)
-    implementation(ComposeLibs.TOOLING_PREVIEW)
-    implementation(ComposeLibs.NAVIGATION)
-    implementation(ComposeLibs.HILT_NAVIGATION)
-    implementation(ComposeLibs.ACTIVITY)
+    implementation(libs.compose.accompanist.placeholder)
+    implementation(libs.compose.accompanist.uiController)
 
-    implementation(FlowReduxLibs.CORE)
-    implementation(FlowReduxLibs.COMPOSE)
+    implementation(libs.arrow)
+    implementation(libs.timber)
 
-    implementation(ComposeAccompanistLibs.PLACEHOLDER)
-    implementation(ComposeAccompanistLibs.SYSTEM_UI_CONTROLLER)
-
-    implementation(ThirdPartyLibs.ARROW_CORE)
-    implementation(ThirdPartyLibs.TIMBER)
-
-    implementation(HiltLibs.ANDROID)
-    kapt(HiltLibs.ANDROID_COMPILER)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.androidCompiler)
 
     testImplementation(kotlin("test"))
-    testImplementation(TestLibs.MOCKK)
-    testImplementation(TestLibs.COROUTINE_TEST)
-    testImplementation(TestLibs.TURBINE)
-    testImplementation(TestLibs.ROBOLETRIC)
+    testImplementation(libs.mockk.core)
+    testImplementation(libs.coroutine.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.roboeletric)
 
-    androidTestImplementation(AndroidXTestLibs.JUNIT)
-    androidTestImplementation(ComposeLibs.UI_TEST)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.compose.test.uiJunit4)
 
-    debugImplementation(ComposeLibs.UI_TEST_MANIFEST)
-    debugImplementation(ComposeLibs.TOOLING)
-    debugImplementation(ComposeLibs.TOOLING_PREVIEW)
+    debugImplementation(libs.bundles.compose.debug)
 }

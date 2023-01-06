@@ -27,6 +27,6 @@ java {
 }
 
 dependencies {
-    implementation(KotlinLibs.COROUTINE_CORE)
-    implementation(ThirdPartyLibs.ARROW_CORE)
+    implementation(libs.coroutine.core)
+    implementation(libs.arrow)
 }
