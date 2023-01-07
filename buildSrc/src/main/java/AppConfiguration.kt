@@ -16,8 +16,8 @@
 
 object AppConfiguration {
     const val APPLICATION_ID = "dev.marcocattaneo.sleep"
-    const val VERSION_CODE = 16
-    const val VERSION_NAME = "1.3.1"
+    const val VERSION_CODE = 17
+    const val VERSION_NAME = "1.3.2"
 }
 
 object Sdk {
