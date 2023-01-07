@@ -83,7 +83,7 @@ class PlayerStateMachine @Inject constructor(
                 on { action: PlayerAction.StartPlaying, state: State<PlayerState> ->
                     audioPlayer.stop()
 
-                    mediaRepository.urlFromPath(action.mediaFile.path).fold(
+                    mediaRepository.urlFromId(action.mediaFile.id).fold(
                         ifLeft = { state.override { PlayerState.Error(500) } },
                         ifRight = {
                             playlistStateMachine.dispatch(PlaylistAction.Update(trackId = action.mediaFile.id))

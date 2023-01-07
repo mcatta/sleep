@@ -113,7 +113,7 @@ class MediaRepositoryImplTest {
         coEvery { sleepService.downloadUrl(any(), any()) } returns  MediaUrl("url", "path")
 
         // When
-        val res = mediaRepository.urlFromPath("path")
+        val res = mediaRepository.urlFromId("path")
 
         // Then
         assertEquals(true, res.isRight())
@@ -126,7 +126,7 @@ class MediaRepositoryImplTest {
         coEvery { sleepService.downloadUrl(any(), any()) } throws SocketException("Failure")
 
         // When
-        val res = mediaRepository.urlFromPath("path")
+        val res = mediaRepository.urlFromId("path")
 
         // Then
         assertEquals(true, res.isLeft())

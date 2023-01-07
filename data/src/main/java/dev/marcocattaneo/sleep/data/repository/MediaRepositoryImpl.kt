@@ -25,7 +25,6 @@ import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.cache.CacheService
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.domain.model.Path
 import dev.marcocattaneo.sleep.domain.repository.BaseRepository
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import javax.inject.Inject
@@ -58,8 +57,8 @@ class MediaRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun urlFromPath(
-        path: Path
+    override suspend fun urlFromId(
+        id: String
     ): Either<AppException, String> {
         return either {
             val token = authDataSource.getAuthToken().bind()
@@ -67,7 +66,7 @@ class MediaRepositoryImpl @Inject constructor(
             handleValue {
                 sleepService.downloadUrl(
                     authorization = "Bearer $token",
-                    path = path
+                    id = id
                 )
             }.map { it.url }.bind()
         }

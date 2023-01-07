@@ -17,7 +17,7 @@
 package dev.marcocattaneo.sleep.domain.model
 
 data class MediaFileEntity(
-    val id: String,
+    val id: TrackId,
     val name: String,
     val description: String?,
     val path: String,

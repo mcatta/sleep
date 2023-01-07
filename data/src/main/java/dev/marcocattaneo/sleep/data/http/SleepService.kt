@@ -20,17 +20,17 @@ import dev.marcocattaneo.sleep.data.model.MediaFile
 import dev.marcocattaneo.sleep.data.model.MediaUrl
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface SleepService {
 
     @GET("media")
     suspend fun tracks(@Header("Authorization") authorization: String): List<MediaFile>
 
-    @GET("media/url")
+    @GET("media/{id}/url")
     suspend fun downloadUrl(
         @Header("Authorization") authorization: String,
-        @Query("path") path: String
+        @Path("id") id: String
     ): MediaUrl
 
 }

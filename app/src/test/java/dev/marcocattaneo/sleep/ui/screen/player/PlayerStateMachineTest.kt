@@ -61,7 +61,7 @@ internal class PlayerStateMachineTest {
     @Test
     fun `Test PlayerAction StartPlaying`() = runTest {
         // Given
-        coEvery { mediaRepository.urlFromPath(any()) } returns Either.Right("https://resource")
+        coEvery { mediaRepository.urlFromId(any()) } returns Either.Right("https://resource")
 
         playerStateMachine.state.test {
             // When
@@ -72,7 +72,7 @@ internal class PlayerStateMachineTest {
             assertIs<PlayerState.Init>(awaitItem())
 
             coVerify { audioPlayer.stop() }
-            coVerify { mediaRepository.urlFromPath(any()) }
+            coVerify { mediaRepository.urlFromId(any()) }
             coVerify { audioPlayer.start(any(), any(), any()) }
             coVerify { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
         }
@@ -81,7 +81,7 @@ internal class PlayerStateMachineTest {
     @Test
     fun `Test PlayerAction StartPlaying upon failure`() = runTest {
         // Given
-        coEvery { mediaRepository.urlFromPath(any()) } returns Either.Left(AppException.FileNotFound)
+        coEvery { mediaRepository.urlFromId(any()) } returns Either.Left(AppException.FileNotFound)
 
         playerStateMachine.state.test {
             // When
@@ -93,7 +93,7 @@ internal class PlayerStateMachineTest {
             assertIs<PlayerState.Stop>(awaitItem())
 
             coVerify { audioPlayer.stop() }
-            coVerify { mediaRepository.urlFromPath(any()) }
+            coVerify { mediaRepository.urlFromId(any()) }
             coVerify(exactly = 0) { audioPlayer.start(any(), any(), any()) }
             coVerify(exactly = 0) { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
         }
