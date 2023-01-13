@@ -42,9 +42,6 @@ class SessionManagerImpl @Inject constructor(
         stateBuilder = PlaybackStateCompat.Builder()
             .setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
         setPlaybackState(stateBuilder.build())
-
-        // MySessionCallback() has methods that handle callbacks from a media controller
-
     }
 
     override fun setCallback(callback: MediaSessionCompat.Callback) = mediaSession.setCallback(callback)

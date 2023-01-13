@@ -246,4 +246,26 @@ internal class PlayerStateMachineTest {
         }
     }
 
+    @Test
+    fun `Test PlayerAction PropagateError`() = runTest {
+        playerStateMachine.state.test {
+            // When
+            playerStateMachine.dispatch(
+                PlayerAction.UpdateDuration(
+                    duration = 100.sec,
+                    position = 20.sec,
+                    stopAfterMinutes = null,
+                    playing = true
+                )
+            )
+            playerStateMachine.dispatch(PlayerAction.PropagateError(500))
+
+            // Then
+            assertIs<PlayerState.Stop>(awaitItem())
+            assertIs<PlayerState.Playing>(awaitItem())
+            assertIs<PlayerState.Error>(awaitItem())
+            assertIs<PlayerState.Stop>(awaitItem())
+        }
+    }
+
 }

@@ -93,6 +93,10 @@ class PlayerStateMachine @Inject constructor(
                         }
                     )
                 }
+                on { action: PlayerAction.PropagateError, state: State<PlayerState> ->
+                    state.override { PlayerState.Error(action.errorCode) }
+                }
+
             }
 
             inState {
