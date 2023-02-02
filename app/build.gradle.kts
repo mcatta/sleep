@@ -95,6 +95,8 @@ kapt {
 }
 
 dependencies {
+    implementation(platform(libs.androidx.compose.bom))
+
     implementation(project(mapOf("path" to ":domain")))
     implementation(project(mapOf("path" to ":data")))
 
