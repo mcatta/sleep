@@ -18,7 +18,6 @@ package dev.marcocattaneo.sleep.ui.player
 
 import android.media.AudioAttributes
 import android.media.MediaPlayer
-import android.net.Uri
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -127,7 +126,7 @@ class AudioPlayerImpl @Inject constructor(
         playerStateFlow.emit(audioPlayerEvent)
     }
 
-    override fun start(uri: Uri, title: String, description: String?) {
+    override fun start(url: String, title: String, description: String?) {
         sessionManager.initMetaData(title, description)
         stopDate = null
         stopAfterMinutes = null
@@ -135,7 +134,7 @@ class AudioPlayerImpl @Inject constructor(
         mediaPlayer.stop()
         mediaPlayer.reset()
         mediaPlayer.apply {
-            setDataSource(uri.toString())
+            setDataSource(url)
             prepareAsync()
         }
     }

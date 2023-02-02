@@ -28,7 +28,7 @@ interface AudioPlayer {
 
     fun state(): StateFlow<AudioPlayerEvent>
 
-    fun start(uri: Uri, title: String, description: String?)
+    fun start(url: String, title: String, description: String?)
 
     fun pause()
 

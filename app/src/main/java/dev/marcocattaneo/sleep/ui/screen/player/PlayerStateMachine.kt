@@ -88,7 +88,7 @@ class PlayerStateMachine @Inject constructor(
                         ifRight = {
                             playlistStateMachine.dispatch(PlaylistAction.Update(trackId = action.mediaFile.id))
 
-                            audioPlayer.start(Uri.parse(it), action.mediaFile.name, action. mediaFile.description)
+                            audioPlayer.start(it, action.mediaFile.name, action. mediaFile.description)
                             state.override { PlayerState.Init }
                         }
                     )
