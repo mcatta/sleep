@@ -17,6 +17,7 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
+    alias(libs.plugins.versions)
 }
 
 apply(from = "../jacoco/modules.gradle")

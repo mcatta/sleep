@@ -22,6 +22,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
     id("com.google.gms.google-services")
+    alias(libs.plugins.versions)
 }
 
 apply(from = "../jacoco/modules.gradle")
