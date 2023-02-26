@@ -15,6 +15,7 @@ mockk = "1.12.5"
 accompanist = "0.25.1"
 flowRedux = "1.0.0"
 versionsCheck = "0.45.0"
+androidGradlePlugin = "7.3.1"
 
 [libraries]
 androidx-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "activity" }
@@ -60,11 +61,6 @@ flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref =
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
-gms = { module = "com.google.gms:google-services", version = "4.3.14" }
-androidGradlePlugin = { module = "com.android.tools.build:gradle", version = "7.3.1" }
-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-hiltGradlePlugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
-
 [bundles]
 compose = ["compose-ui", "compose-material", "compose-preview", "compose-navigation", "compose-navigationHilt", "compose-activity"]
 compose-debug = ["compose-test-uiManifest", "compose-tooling", "compose-preview"]
@@ -73,5 +69,10 @@ androidx = ["androidx-core", "androidx-material", "androidx-media", "androidx-ap
 retrofit = ["retrofit-client", "retrofit-gson", "retrofit-logger"]
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "versionsCheck"}
+google-gms = { id = "com.google.gms.google-services", version = "4.3.14" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versionsCheck" }

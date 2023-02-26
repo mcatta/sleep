@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-plugins {
-    alias(libs.plugins.detekt)
-    alias(libs.plugins.versions)
-}
-
 buildscript {
     repositories {
         google()
         mavenCentral()
     }
-    dependencies {
-        classpath(libs.androidGradlePlugin)
-        classpath(libs.kotlinGradlePlugin)
-        classpath(libs.hiltGradlePlugin)
-        classpath(libs.gms)
-    }
+}
+
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.hilt) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.google.gms) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.versions)
 }
 
 detekt {
