@@ -1,0 +1,21 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group = "sleep.buildtools.jvm"
+
+gradlePlugin {
+    plugins {
+        jvm {
+            id = 'sleep.jvm'
+            description = 'Jvm plugin'
+            implementationClass = 'sleep.buildtools.jvm.JvmPlugin'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    implementation libs.gradle.kotlin
+}

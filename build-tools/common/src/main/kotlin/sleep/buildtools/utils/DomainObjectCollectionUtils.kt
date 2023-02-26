@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-plugins {
-    alias(libs.plugins.versions)
-    alias(libs.plugins.sleep.jvm)
-}
+package sleep.buildtools.utils
 
-apply(from = "../jacoco/modules.gradle")
+import org.gradle.api.DomainObjectCollection
 
-dependencies {
-    implementation(libs.coroutine.core)
-    implementation(libs.arrow)
-}
+/**
+ * Invokes Groovy's [DomainObjectCollection.withType] reifying the type [T].
+ * @author @fondesa
+ */
+inline fun <reified T : Any> DomainObjectCollection<in T>.withType(
+    noinline configuration: (T) -> Unit
+): DomainObjectCollection<T> = withType(T::class.java, configuration)

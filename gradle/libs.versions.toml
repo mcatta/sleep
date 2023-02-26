@@ -61,6 +61,8 @@ flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref =
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
+gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
 [bundles]
 compose = ["compose-ui", "compose-material", "compose-preview", "compose-navigation", "compose-navigationHilt", "compose-activity"]
 compose-debug = ["compose-test-uiManifest", "compose-tooling", "compose-preview"]
@@ -76,4 +78,5 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-gms = { id = "com.google.gms.google-services", version = "4.3.14" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+sleep-jvm = { id = "sleep.jvm", version = "?" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsCheck" }

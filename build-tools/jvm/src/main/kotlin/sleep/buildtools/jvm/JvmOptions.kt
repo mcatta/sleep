@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-plugins {
-    alias(libs.plugins.versions)
-    alias(libs.plugins.sleep.jvm)
-}
+package sleep.buildtools.jvm
 
-apply(from = "../jacoco/modules.gradle")
+import org.gradle.api.JavaVersion
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 
-dependencies {
-    implementation(libs.coroutine.core)
-    implementation(libs.arrow)
+object JvmOptions {
+    const val JAVA_VERSION = 11
+    const val ALL_WARNINGS_AS_ERRORS = false
 }

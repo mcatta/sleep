@@ -14,7 +14,7 @@
 
 # Other
 .DS_Store
-/build
+build
 /buildSrc/build
 /captures
 .externalNativeBuild
