@@ -75,4 +75,5 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-gms = { id = "com.google.gms.google-services", version = "4.3.14" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsCheck" }
