@@ -62,6 +62,7 @@ flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref =
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
+gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
@@ -75,10 +76,10 @@ retrofit = ["retrofit-client", "retrofit-gson", "retrofit-logger"]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 google-gms = { id = "com.google.gms.google-services", version = "4.3.14" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+sleep-detekt = { id = "sleep.detekt", version = "?" }
 sleep-jacoco = { id = "sleep.jacoco", version = "?" }
 sleep-jvm = { id = "sleep.jvm", version = "?" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versionsCheck" }

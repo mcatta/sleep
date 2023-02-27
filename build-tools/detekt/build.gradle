@@ -1,0 +1,22 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group = "sleep.buildtools.detekt"
+
+gradlePlugin {
+    plugins {
+        detekt {
+            id = 'sleep.detekt'
+            description = 'Detekt plugin'
+            implementationClass = 'sleep.buildtools.detekt.DetektPlugin'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    implementation libs.gradle.kotlin
+    implementation libs.gradle.detekt
+}

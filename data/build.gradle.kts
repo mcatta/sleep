@@ -24,6 +24,7 @@ plugins {
     kotlin("kapt")
     alias(libs.plugins.versions)
     alias(libs.plugins.sleep.jacoco)
+    alias(libs.plugins.sleep.detekt)
 }
 
 android {

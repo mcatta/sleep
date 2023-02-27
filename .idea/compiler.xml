@@ -6,6 +6,9 @@
       <module name="android-compose-template.buildSrc" target="11" />
       <module name="build-tools.common" target="11" />
       <module name="build-tools.common.main" target="11" />
+      <module name="build-tools.detekt" target="11" />
+      <module name="build-tools.detekt.main" target="11" />
+      <module name="build-tools.detekt.test" target="11" />
       <module name="build-tools.jacoco" target="11" />
       <module name="build-tools.jacoco.main" target="11" />
       <module name="build-tools.jacoco.test" target="11" />
