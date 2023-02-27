@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,12 @@
  * limitations under the License.
  */
 
-pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
+package sleep.buildtools.jvm
+
+import org.gradle.api.JavaVersion
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+
+object JvmOptions {
+    const val JAVA_VERSION = 11
+    const val ALL_WARNINGS_AS_ERRORS = false
 }
-
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-
-    includeBuild 'build-tools'
-
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-rootProject.name = "sleep-app"
-include ':app'
-include ':domain'
-include ':data'

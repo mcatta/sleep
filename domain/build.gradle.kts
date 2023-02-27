@@ -15,16 +15,10 @@
  */
 
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
     alias(libs.plugins.versions)
-}
-
-apply(from = "../jacoco/modules.gradle")
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    alias(libs.plugins.sleep.jvm)
+    alias(libs.plugins.sleep.jacoco)
+    alias(libs.plugins.sleep.detekt)
 }
 
 dependencies {

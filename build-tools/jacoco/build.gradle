@@ -1,0 +1,21 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+group = "sleep.buildtools.jacoco"
+
+gradlePlugin {
+    plugins {
+        jacoco {
+            id = 'sleep.jacoco'
+            description = 'Jacoco plugin for Code Coverage'
+            implementationClass = 'sleep.buildtools.jacoco.JacocoCoveragePlugin'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    implementation libs.gradle.kotlin
+}

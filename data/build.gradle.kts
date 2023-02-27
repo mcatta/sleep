@@ -23,9 +23,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     alias(libs.plugins.versions)
+    alias(libs.plugins.sleep.jacoco)
+    alias(libs.plugins.sleep.detekt)
 }
-
-apply(from = "../jacoco/modules.gradle")
 
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION
@@ -56,11 +56,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 

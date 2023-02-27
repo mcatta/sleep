@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,14 @@
  * limitations under the License.
  */
 
-pluginManagement {
-    repositories {
-        google()
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
+package sleep.buildtools.utils
 
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+import org.gradle.api.DomainObjectCollection
 
-    includeBuild 'build-tools'
-
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-rootProject.name = "sleep-app"
-include ':app'
-include ':domain'
-include ':data'
+/**
+ * Invokes Groovy's [DomainObjectCollection.withType] reifying the type [T].
+ * @author @fondesa
+ */
+inline fun <reified T : Any> DomainObjectCollection<in T>.withType(
+    noinline configuration: (T) -> Unit
+): DomainObjectCollection<T> = withType(T::class.java, configuration)

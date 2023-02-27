@@ -4,6 +4,21 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/build-tools" name="build-tools">
+                <projects>
+                  <project path="$PROJECT_DIR$/build-tools" />
+                  <project path="$PROJECT_DIR$/build-tools/common" />
+                  <project path="$PROJECT_DIR$/build-tools/detekt" />
+                  <project path="$PROJECT_DIR$/build-tools/jacoco" />
+                  <project path="$PROJECT_DIR$/build-tools/jvm" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -11,6 +26,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/build-tools" />
+            <option value="$PROJECT_DIR$/build-tools/common" />
+            <option value="$PROJECT_DIR$/build-tools/detekt" />
+            <option value="$PROJECT_DIR$/build-tools/jacoco" />
+            <option value="$PROJECT_DIR$/build-tools/jvm" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />

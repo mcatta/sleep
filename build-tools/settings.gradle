@@ -1,0 +1,10 @@
+dependencyResolutionManagement.versionCatalogs {
+    libs.from files("../gradle/libs.versions.toml")
+}
+
+rootProject.name = 'build-tools'
+
+include 'common'
+include 'detekt'
+include 'jacoco'
+include 'jvm'

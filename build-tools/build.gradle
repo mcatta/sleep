@@ -1,0 +1,11 @@
+plugins {
+    alias(libs.plugins.kotlin.jvm) apply false
+}
+
+allprojects {
+    apply from: rootProject.file("repositories.gradle")
+}
+
+subprojects {
+    apply plugin: "org.jetbrains.kotlin.jvm"
+}
