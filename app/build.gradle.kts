@@ -23,9 +23,8 @@ plugins {
     kotlin("kapt")
     id("com.google.gms.google-services")
     alias(libs.plugins.versions)
+    alias(libs.plugins.sleep.jacoco)
 }
-
-apply(from = "../jacoco/modules.gradle")
 
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION

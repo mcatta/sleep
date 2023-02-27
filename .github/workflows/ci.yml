@@ -29,7 +29,7 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
-        script: ./gradlew clean app:createDebugCoverage data:createDebugCoverage domain:jacocoTestReport
+        script: ./gradlew clean createDebugCoverage
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:

@@ -11,6 +11,7 @@
                 <projects>
                   <project path="$PROJECT_DIR$/build-tools" />
                   <project path="$PROJECT_DIR$/build-tools/common" />
+                  <project path="$PROJECT_DIR$/build-tools/jacoco" />
                   <project path="$PROJECT_DIR$/build-tools/jvm" />
                 </projects>
               </build>
@@ -26,6 +27,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/build-tools" />
             <option value="$PROJECT_DIR$/build-tools/common" />
+            <option value="$PROJECT_DIR$/build-tools/jacoco" />
             <option value="$PROJECT_DIR$/build-tools/jvm" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/data" />

@@ -17,9 +17,8 @@
 plugins {
     alias(libs.plugins.versions)
     alias(libs.plugins.sleep.jvm)
+    alias(libs.plugins.sleep.jacoco)
 }
-
-apply(from = "../jacoco/modules.gradle")
 
 dependencies {
     implementation(libs.coroutine.core)

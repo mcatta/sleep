@@ -23,9 +23,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     alias(libs.plugins.versions)
+    alias(libs.plugins.sleep.jacoco)
 }
-
-apply(from = "../jacoco/modules.gradle")
 
 android {
     compileSdk = Sdk.COMPILE_SDK_VERSION
