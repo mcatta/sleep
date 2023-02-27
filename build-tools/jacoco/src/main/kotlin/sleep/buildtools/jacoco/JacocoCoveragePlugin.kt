@@ -86,8 +86,7 @@ internal class JacocoCoveragePlugin : Plugin<Project> {
                 .let(::setDependsOn)
 
             reports { report ->
-                report.html.required.set(true)
-                report.csv.required.set(true)
+                report.xml.required.set(true)
             }
 
             val androidDebugTree =
@@ -126,8 +125,7 @@ internal class JacocoCoveragePlugin : Plugin<Project> {
             setDependsOn(setOf(getTaskByNameOrNull("test")))
 
             reports { report ->
-                report.html.required.set(true)
-                report.csv.required.set(true)
+                report.xml.required.set(true)
             }
 
             classDirectories.setFrom(
