@@ -22,7 +22,6 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
-    alias(libs.plugins.versions)
     alias(libs.plugins.sleep.jacoco)
     alias(libs.plugins.sleep.detekt)
 }

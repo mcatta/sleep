@@ -82,4 +82,3 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 sleep-detekt = { id = "sleep.detekt", version = "?" }
 sleep-jacoco = { id = "sleep.jacoco", version = "?" }
 sleep-jvm = { id = "sleep.jvm", version = "?" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "versionsCheck" }

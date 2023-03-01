@@ -22,7 +22,6 @@ plugins {
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
     id("com.google.gms.google-services")
-    alias(libs.plugins.versions)
     alias(libs.plugins.sleep.jacoco)
     alias(libs.plugins.sleep.detekt)
 }

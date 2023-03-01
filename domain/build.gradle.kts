@@ -15,7 +15,6 @@
  */
 
 plugins {
-    alias(libs.plugins.versions)
     alias(libs.plugins.sleep.jvm)
     alias(libs.plugins.sleep.jacoco)
     alias(libs.plugins.sleep.detekt)
