@@ -33,7 +33,7 @@ import kotlin.test.assertIs
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@Ignore("We need RobolectricTestRunner but it's not compatbile for the target 33")
+@Ignore("We need RobolectricTestRunner but it's not compatible for the target 33")
 internal class AudioPlayerImplTest {
 
     private lateinit var mediaPlayer: MediaPlayer

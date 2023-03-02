@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package sleep.buildtools.jvm
+package sleep.buildtools.android.common
 
-import org.gradle.api.JavaVersion
-import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-object JvmOptions {
-    const val JAVA_VERSION = 11
-    const val ALL_WARNINGS_AS_ERRORS = false
+internal abstract class BaseAndroidPlugin : Plugin<Project> {
+
+    abstract fun onApplyPlugins(target: Project)
+
+    abstract fun onPluginsApplied(target: Project)
+
+    override fun apply(target: Project) {
+        onApplyPlugins(target)
+        onPluginsApplied(target)
+    }
 }

@@ -19,47 +19,16 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
  */
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    alias(libs.plugins.sleep.android.library)
     alias(libs.plugins.sleep.jacoco)
     alias(libs.plugins.sleep.detekt)
 }
 
 android {
-    compileSdk = Sdk.COMPILE_SDK_VERSION
-
     namespace = "dev.marcocattaneo.sleep.data"
 
     defaultConfig {
-        minSdk = Sdk.MIN_SDK_VERSION
-        targetSdk = Sdk.TARGET_SDK_VERSION
-
         buildConfigField("String", "BASE_URL", "\"https://europe-west2-sleep-app-mobile.cloudfunctions.net/\"")
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        debug {
-            enableAndroidTestCoverage = true
-            enableAndroidTestCoverage = true
-        }
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 }
 
@@ -73,9 +42,7 @@ dependencies {
     implementation(libs.bundles.retrofit)
 
     implementation(libs.hilt.core)
-    kapt(libs.hilt.androidCompiler)
 
-    testImplementation(kotlin("test"))
     testImplementation(libs.mockk.core)
     testImplementation(libs.coroutine.test)
 }

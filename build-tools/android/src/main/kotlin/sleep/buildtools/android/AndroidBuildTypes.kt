@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-object AppConfiguration {
-    const val APPLICATION_ID = "dev.marcocattaneo.sleep"
-    const val VERSION_CODE = 17
-    const val VERSION_NAME = "1.3.2"
-}
+package sleep.buildtools.android
 
-object Sdk {
-    const val COMPILE_SDK_VERSION = 33
-    const val MIN_SDK_VERSION = 21
-    const val TARGET_SDK_VERSION = 33
+sealed class AndroidBuildTypes(val key: String) {
+    object DEBUG : AndroidBuildTypes("debug")
+    object RELEASE : AndroidBuildTypes("release")
 }

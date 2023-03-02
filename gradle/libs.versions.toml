@@ -59,10 +59,13 @@ roboeletric = { module = "org.robolectric:robolectric", version = "4.8" }
 flowredux-core = { module = "com.freeletics.flowredux:flowredux-jvm", version.ref = "flowRedux" }
 flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref = "flowRedux" }
 
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
 gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+gradle-android-api = { module = "com.android.tools.build:gradle-api", version.ref = "androidGradlePlugin" }
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
@@ -79,6 +82,8 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 google-gms = { id = "com.google.gms.google-services", version = "4.3.14" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+sleep-android-application = { id = "sleep.android.application", version = "?" }
+sleep-android-library = { id = "sleep.android.library", version = "?" }
 sleep-detekt = { id = "sleep.detekt", version = "?" }
 sleep-jacoco = { id = "sleep.jacoco", version = "?" }
 sleep-jvm = { id = "sleep.jvm", version = "?" }

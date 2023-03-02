@@ -4,6 +4,9 @@
     <bytecodeTargetLevel target="1.8">
       <module name="android-compose-template.app" target="11" />
       <module name="android-compose-template.buildSrc" target="11" />
+      <module name="build-tools.android" target="11" />
+      <module name="build-tools.android.main" target="11" />
+      <module name="build-tools.android.test" target="11" />
       <module name="build-tools.common" target="11" />
       <module name="build-tools.common.main" target="11" />
       <module name="build-tools.detekt" target="11" />
@@ -24,6 +27,7 @@
       <module name="sleep-app.domain.test" target="11" />
       <module name="sleep.build-tools.common.test" target="11" />
       <module name="sleep.build-tools.jvm.test" target="11" />
+      <module name="sleep.buildtools.jvm.build-tools.jvm.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

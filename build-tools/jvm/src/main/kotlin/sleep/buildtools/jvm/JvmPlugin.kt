@@ -22,9 +22,7 @@ import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import sleep.buildtools.utils.apply
-import sleep.buildtools.utils.configure
-import sleep.buildtools.utils.withType
+import sleep.buildtools.utils.*
 
 
 internal class JvmPlugin : Plugin<Project> {
@@ -32,12 +30,12 @@ internal class JvmPlugin : Plugin<Project> {
         target.pluginManager.apply<KotlinPluginWrapper>()
 
         target.tasks.withType<KotlinCompile> { task ->
-            task.kotlinOptions.allWarningsAsErrors = JvmOptions.ALL_WARNINGS_AS_ERRORS
+            task.kotlinOptions.allWarningsAsErrors = target.getBooleanProperty("sleep.jvm.warning-as-error")
         }
 
         target.extensions.configure<KotlinTopLevelExtension> { ext ->
             ext.jvmToolchain {
-                it.languageVersion.set(JavaLanguageVersion.of(JvmOptions.JAVA_VERSION))
+                it.languageVersion.set(JavaLanguageVersion.of(target.getIntProperty("sleep.jvm.version")))
             }
         }
     }

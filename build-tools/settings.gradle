@@ -4,6 +4,7 @@ dependencyResolutionManagement.versionCatalogs {
 
 rootProject.name = 'build-tools'
 
+include 'android'
 include 'common'
 include 'detekt'
 include 'jacoco'

@@ -17,18 +17,12 @@
 */
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("dagger.hilt.android.plugin")
-    kotlin("kapt")
-    id("com.google.gms.google-services")
+    alias(libs.plugins.sleep.android.application)
     alias(libs.plugins.sleep.jacoco)
     alias(libs.plugins.sleep.detekt)
 }
 
 android {
-    compileSdk = Sdk.COMPILE_SDK_VERSION
-
     namespace = "dev.marcocattaneo.sleep"
 
     signingConfigs {
@@ -41,57 +35,17 @@ android {
     }
 
     defaultConfig {
-        applicationId = AppConfiguration.APPLICATION_ID
-        minSdk = Sdk.MIN_SDK_VERSION
-        targetSdk = Sdk.TARGET_SDK_VERSION
-        versionCode = AppConfiguration.VERSION_CODE
-        versionName = AppConfiguration.VERSION_NAME
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        applicationId = "dev.marcocattaneo.sleep"
+        versionCode = 17
+        versionName = "1.3.2"
     }
 
     buildTypes {
-        debug {
-            enableUnitTestCoverage = true
-            enableAndroidTestCoverage = true
-        }
         release {
-            isMinifyEnabled = true
-            proguardFile(getDefaultProguardFile("proguard-android-optimize.txt"))
-
             signingConfig = signingConfigs.getByName("release")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
-    }
-    packagingOptions {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-        }
-    }
-}
 
-kapt {
-    correctErrorTypes = true
 }
 
 dependencies {
@@ -111,9 +65,7 @@ dependencies {
     implementation(libs.timber)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.androidCompiler)
 
-    testImplementation(kotlin("test"))
     testImplementation(libs.mockk.core)
     testImplementation(libs.coroutine.test)
     testImplementation(libs.turbine)

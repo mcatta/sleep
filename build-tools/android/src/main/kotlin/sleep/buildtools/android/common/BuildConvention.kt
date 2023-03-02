@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    `kotlin-dsl`
-}
-repositories {
-    mavenCentral()
-    google()
+package sleep.buildtools.android.common
+
+import org.gradle.api.Project
+
+internal interface BuildConvention {
+    fun apply(target: Project)
 }
