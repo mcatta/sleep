@@ -20,8 +20,8 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
-import dev.marcocattaneo.sleep.ui.player.AudioPlayer
-import dev.marcocattaneo.sleep.ui.player.AudioPlayerEvent
+import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.state.AudioPlayerEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

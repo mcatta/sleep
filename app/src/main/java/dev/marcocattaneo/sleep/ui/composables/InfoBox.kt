@@ -25,7 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.marcocattaneo.sleep.ui.theme.Dimen.Margin16
+import dev.marcocattaneo.core.design.theme.Dimen.Margin16
 
 @Composable
 fun InfoBox(

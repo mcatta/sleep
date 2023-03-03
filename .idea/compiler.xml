@@ -21,10 +21,15 @@
       <module name="sleep-app.buildSrc" target="11" />
       <module name="sleep-app.buildSrc.main" target="11" />
       <module name="sleep-app.buildSrc.test" target="11" />
+      <module name="sleep-app.core.design" target="11" />
+      <module name="sleep-app.core.di" target="11" />
+      <module name="sleep-app.core.testing" target="11" />
+      <module name="sleep-app.core.utils" target="11" />
       <module name="sleep-app.data" target="11" />
       <module name="sleep-app.domain" target="11" />
       <module name="sleep-app.domain.main" target="11" />
       <module name="sleep-app.domain.test" target="11" />
+      <module name="sleep-app.features.player.presentation" target="11" />
       <module name="sleep.build-tools.common.test" target="11" />
       <module name="sleep.build-tools.jvm.test" target="11" />
       <module name="sleep.buildtools.jvm.build-tools.jvm.test" target="11" />

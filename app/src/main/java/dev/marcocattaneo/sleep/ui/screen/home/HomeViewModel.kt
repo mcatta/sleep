@@ -18,8 +18,8 @@ package dev.marcocattaneo.sleep.ui.screen.home
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.marcocattaneo.sleep.ui.screen.common.AbsStateMachineViewModel
-import dev.marcocattaneo.sleep.ui.screen.player.PlaylistStateMachine
+import dev.marcocattaneo.sleep.core.utils.AbsStateMachineViewModel
+import dev.marcocattaneo.sleep.player.presentation.screen.PlaylistStateMachine
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject

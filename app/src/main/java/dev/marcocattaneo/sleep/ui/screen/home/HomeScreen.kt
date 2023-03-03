@@ -31,8 +31,9 @@ import androidx.compose.ui.unit.dp
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.ui.composables.*
-import dev.marcocattaneo.sleep.ui.theme.Dimen
-import dev.marcocattaneo.sleep.ui.theme.placeholder
+import dev.marcocattaneo.core.design.composables.*
+import dev.marcocattaneo.core.design.theme.Dimen
+import dev.marcocattaneo.core.design.theme.placeholder
 
 @Composable
 fun HomeScreen(

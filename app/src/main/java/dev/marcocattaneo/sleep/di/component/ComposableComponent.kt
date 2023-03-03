@@ -20,7 +20,7 @@ import dagger.hilt.DefineComponent
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dev.marcocattaneo.sleep.di.scope.ComposableScope
+import dev.marcocattaneo.sleep.core.di.scope.ComposableScope
 
 @ComposableScope
 @DefineComponent(parent = ActivityComponent::class)

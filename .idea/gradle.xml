@@ -33,8 +33,16 @@
             <option value="$PROJECT_DIR$/build-tools/detekt" />
             <option value="$PROJECT_DIR$/build-tools/jacoco" />
             <option value="$PROJECT_DIR$/build-tools/jvm" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/design" />
+            <option value="$PROJECT_DIR$/core/di" />
+            <option value="$PROJECT_DIR$/core/testing" />
+            <option value="$PROJECT_DIR$/core/utils" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/player" />
+            <option value="$PROJECT_DIR$/features/player/presentation" />
           </set>
         </option>
       </GradleProjectSettings>
