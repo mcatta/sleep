@@ -28,7 +28,9 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
+    implementation(libs.bundles.androidx)
     implementation(libs.bundles.compose)
+
     api(libs.compose.accompanist.placeholder)
     api(libs.compose.accompanist.uiController)
 
