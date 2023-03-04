@@ -19,7 +19,7 @@ package dev.marcocattaneo.sleep
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
-import dev.marcocattaneo.sleep.ui.theme.SleepTheme
+import dev.marcocattaneo.core.design.theme.SleepTheme
 import org.junit.Rule
 
 internal abstract class AbsComposableTest {
@@ -28,7 +28,7 @@ internal abstract class AbsComposableTest {
     val composeTestRule = createComposeRule()
 
 
-    protected fun ComposeContentTestRule.setContentWithTheme(content: @Composable() () -> Unit) = this.setContent {
+    protected fun ComposeContentTestRule.setContentWithTheme(content: @Composable () -> Unit) = this.setContent {
         SleepTheme(content = content)
     }
 

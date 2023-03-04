@@ -19,5 +19,4 @@
     <string name="home_header">Sleep tracks</string>
     <string name="home_header_claim">The sound of silence</string>
     <string name="home_info_banner">Welcome, to start the listening tap on the track below. If you want you can set an auto-stop after a set of minutes.</string>
-    <string name="player_error_occurred">Something goes wrong...</string>
 </resources>

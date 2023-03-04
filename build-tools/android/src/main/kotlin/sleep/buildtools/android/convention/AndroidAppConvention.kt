@@ -44,14 +44,6 @@ internal class AndroidAppConvention : BuildConvention {
 
             ext.compileSdk = AndroidConfigs.COMPILE_SDK
 
-            ext.buildFeatures {
-                compose = true
-            }
-
-            ext.composeOptions {
-                kotlinCompilerExtensionVersion = target.libsCatalog.findVersion("compose").get().toString()
-            }
-
             ext.packagingOptions {
                 resources {
                     excludes += "/META-INF/{AL2.0,LGPL2.1}"

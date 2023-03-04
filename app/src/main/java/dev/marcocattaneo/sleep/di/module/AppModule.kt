@@ -20,7 +20,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.marcocattaneo.sleep.di.scope.CoroutineContextScope
+import dev.marcocattaneo.sleep.core.di.scope.CoroutineContextScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton

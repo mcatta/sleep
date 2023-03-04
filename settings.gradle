@@ -1,3 +1,5 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
 /*
  * Copyright 2021 Marco Cattaneo
  *
@@ -37,3 +39,8 @@ rootProject.name = "sleep-app"
 include ':app'
 include ':domain'
 include ':data'
+include ':features:player:presentation'
+include ':core:di'
+include ':core:design'
+include ':core:testing'
+include ':core:utils'

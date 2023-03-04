@@ -22,10 +22,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.marcocattaneo.sleep.ui.player.AudioPlayer
-import dev.marcocattaneo.sleep.ui.player.AudioPlayerImpl
-import dev.marcocattaneo.sleep.ui.player.SessionManager
-import dev.marcocattaneo.sleep.ui.player.SessionManagerImpl
+import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.AudioPlayerImpl
+import dev.marcocattaneo.sleep.player.presentation.session.SessionManager
+import dev.marcocattaneo.sleep.player.presentation.session.SessionManagerImpl
 import javax.inject.Singleton
 
 @Module

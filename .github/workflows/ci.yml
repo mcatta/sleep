@@ -3,8 +3,6 @@ name: Build & Test
 on:
   push:
     branches: [ main, 'feat/**', 'chore/**', 'fix/**' ]
-  pull_request:
-    branches: [ main, 'feat/**', 'chore/**', 'fix/**' ]
 
 jobs:
   test:

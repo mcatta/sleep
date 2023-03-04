@@ -28,7 +28,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.marcocattaneo.sleep.R
-import dev.marcocattaneo.sleep.ui.player.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import javax.inject.Inject
 
 class PlayerNotificationManager @Inject constructor(

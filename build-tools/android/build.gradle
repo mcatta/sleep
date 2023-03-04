@@ -6,15 +6,20 @@ group = "sleep.buildtools.android"
 
 gradlePlugin {
     plugins {
-        app {
+        appPlugin {
             id = 'sleep.android.application'
             description = 'Android application plugin'
             implementationClass = 'sleep.buildtools.android.plugin.AndroidAppPlugin'
         }
-        library {
+        libraryPlugin {
             id = 'sleep.android.library'
             description = 'Android application plugin'
             implementationClass = 'sleep.buildtools.android.plugin.AndroidLibraryPlugin'
+        }
+        composePlugin {
+            id = 'sleep.android.compose'
+            description = 'Android Compose plugin'
+            implementationClass = 'sleep.buildtools.android.plugin.AndroidComposePlugin'
         }
     }
 }
