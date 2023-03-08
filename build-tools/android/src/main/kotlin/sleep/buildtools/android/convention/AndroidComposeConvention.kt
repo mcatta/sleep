@@ -25,9 +25,12 @@ import sleep.buildtools.utils.libsCatalog
 internal class AndroidComposeConvention : BuildConvention {
     override fun apply(target: Project) {
         target.extensions.configure<CommonExtension<*, *, *, *>> { ext ->
-            ext.buildFeatures.compose = true
-            ext.composeOptions.kotlinCompilerExtensionVersion =
-                target.libsCatalog.findVersion("compose").get().toString()
+            ext.buildFeatures {
+                compose = true
+            }
+            ext.composeOptions {
+                kotlinCompilerExtensionVersion = target.libsCatalog.findVersion("compose").get().toString()
+            }
         }
     }
 }

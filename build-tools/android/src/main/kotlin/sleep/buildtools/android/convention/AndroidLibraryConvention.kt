@@ -43,14 +43,6 @@ internal class AndroidLibraryConvention : BuildConvention {
                 testInstrumentationRunner = AndroidConfigs.TEST_INSTRUMENTATION_RUNNER
                 vectorDrawables.useSupportLibrary = true
             }
-
-            ext.buildFeatures {
-                compose = true
-            }
-
-            ext.composeOptions {
-                kotlinCompilerExtensionVersion = target.libsCatalog.findVersion("compose").get().toString()
-            }
         }
     }
 }
