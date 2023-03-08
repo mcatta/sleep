@@ -27,12 +27,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Androidcomposetemplate">
+        android:theme="@style/Theme.SleepApp">
         <activity
             android:name="dev.marcocattaneo.sleep.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Androidcomposetemplate.NoActionBar">
+            android:theme="@style/Theme.SleepApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
