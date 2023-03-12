@@ -91,7 +91,7 @@ class PlayerNotificationService : Service() {
 
     private fun stopForegroundService() {
         playerNotificationManager.removeNotification()
-        stopForeground(true)
+        stopForeground(STOP_FOREGROUND_REMOVE)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null

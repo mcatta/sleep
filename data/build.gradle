@@ -31,6 +31,8 @@ android {
 dependencies {
     implementation(project(":domain"))
 
+    implementation(platform(libs.bom.firebase))
+
     implementation(libs.firebase.auth)
     implementation(libs.arrow)
     implementation(libs.coroutine.core)

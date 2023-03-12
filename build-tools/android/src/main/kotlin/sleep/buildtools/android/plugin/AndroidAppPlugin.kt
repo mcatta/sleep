@@ -27,6 +27,7 @@ internal class AndroidAppPlugin : BaseAndroidPlugin() {
         target.pluginManager.apply(AndroidPlugins.ANDROID_APPLICATION_PLUGIN)
         target.pluginManager.apply(AndroidPlugins.GOOGLE_SERVICES_PLUGIN)
         target.pluginManager.apply(AndroidPlugins.DAGGER_HILT_PLUGIN)
+        target.pluginManager.apply(AndroidPlugins.FIREBASE_CRASHLYTICS)
         target.pluginManager.apply<AndroidPlugin>()
     }
 

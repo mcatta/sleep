@@ -47,7 +47,8 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.androidx.compose.bom))
+    implementation(platform(libs.bom.compose))
+    implementation(platform(libs.bom.firebase))
 
     implementation(project(":domain"))
     implementation(project(":data"))
@@ -62,6 +63,9 @@ dependencies {
 
     implementation(libs.arrow)
     implementation(libs.timber)
+
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
 
     implementation(libs.hilt.android)
 
