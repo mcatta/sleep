@@ -15,9 +15,9 @@
 */
 
 plugins {
-    alias(libs.plugins.sleep.android.application)
-    alias(libs.plugins.sleep.android.compose)
-    alias(libs.plugins.sleep.jacoco)
+    alias libs.plugins.sleep.android.application
+    alias libs.plugins.sleep.android.compose
+    alias libs.plugins.sleep.jacoco
 }
 
 android {
@@ -34,8 +34,8 @@ android {
 
     defaultConfig {
         applicationId = "dev.marcocattaneo.sleep"
-        versionCode = 17
-        versionName = "1.3.2"
+        versionCode = 18
+        versionName = "1.4.0"
     }
 
     buildTypes {
@@ -67,14 +67,14 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
 
-    implementation(libs.hilt.android)
+    implementation libs.hilt.android
 
-    testImplementation(project(":core:testing"))
-    testImplementation(libs.mockk.core)
-    testImplementation(libs.roboeletric)
+    testImplementation project(":core:testing")
+    testImplementation libs.mockk.core
+    testImplementation libs.roboeletric
 
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.compose.test.uiJunit4)
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.compose.test.uiJunit4
 
-    debugImplementation(libs.bundles.compose.debug)
+    debugImplementation libs.bundles.compose.debug
 }

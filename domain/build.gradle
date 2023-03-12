@@ -15,12 +15,12 @@
  */
 
 plugins {
-    alias(libs.plugins.sleep.jvm)
-    alias(libs.plugins.sleep.jacoco)
-    alias(libs.plugins.sleep.detekt)
+    alias libs.plugins.sleep.jvm
+    alias libs.plugins.sleep.jacoco
+    alias libs.plugins.sleep.detekt
 }
 
 dependencies {
-    implementation(libs.coroutine.core)
-    implementation(libs.arrow)
+    implementation libs.coroutine.core
+    implementation libs.arrow
 }

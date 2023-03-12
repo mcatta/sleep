@@ -15,9 +15,9 @@
  */
 
 plugins {
-    alias(libs.plugins.sleep.android.library)
-    alias(libs.plugins.sleep.android.compose)
-    alias(libs.plugins.sleep.detekt)
+    alias libs.plugins.sleep.android.library
+    alias libs.plugins.sleep.android.compose
+    alias libs.plugins.sleep.detekt
 }
 
 android {
@@ -25,14 +25,14 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.bom.compose))
+    implementation platform(libs.bom.compose)
 
     implementation libs.bundles.flowredux
     implementation libs.bundles.flowredux
     implementation libs.compose.ui
     implementation libs.androidx.lifecycle.viewmodel
 
-    testImplementation(project(":core:testing"))
+    testImplementation project(":core:testing")
 }
 
 

@@ -15,9 +15,9 @@
  */
 
 plugins {
-    alias(libs.plugins.sleep.android.library)
-    alias(libs.plugins.sleep.jacoco)
-    alias(libs.plugins.sleep.detekt)
+    alias libs.plugins.sleep.android.library
+    alias libs.plugins.sleep.jacoco
+    alias libs.plugins.sleep.detekt
 }
 
 android {
@@ -29,18 +29,18 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
+    implementation project(":domain")
 
-    implementation(platform(libs.bom.firebase))
+    implementation platform(libs.bom.firebase)
 
-    implementation(libs.firebase.auth)
-    implementation(libs.arrow)
-    implementation(libs.coroutine.core)
+    implementation libs.firebase.auth
+    implementation libs.arrow
+    implementation libs.coroutine.core
 
-    implementation(libs.bundles.retrofit)
+    implementation libs.bundles.retrofit
 
-    implementation(libs.hilt.core)
+    implementation libs.hilt.core
 
-    testImplementation(libs.mockk.core)
-    testImplementation(libs.coroutine.test)
+    testImplementation libs.mockk.core
+    testImplementation libs.coroutine.test
 }

@@ -15,8 +15,8 @@
  */
 
 plugins {
-    alias(libs.plugins.sleep.android.library)
-    alias(libs.plugins.sleep.detekt)
+    alias libs.plugins.sleep.android.library
+    alias libs.plugins.sleep.detekt
 }
 
 android {
@@ -24,9 +24,9 @@ android {
 }
 
 dependencies {
-    api(libs.coroutine.test)
-    api(libs.turbine)
-    api(libs.kotlin.test)
-    api(libs.androidx.junit)
-    api(libs.mockk.core)
+    api libs.coroutine.test
+    api libs.turbine
+    api libs.kotlin.test
+    api libs.androidx.junit
+    api libs.mockk.core
 }
