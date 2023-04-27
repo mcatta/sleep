@@ -28,7 +28,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class InMemoryCacheTest {
+internal class InMemoryCacheTest {
 
     lateinit var cacheService: CacheService<String, String>
 

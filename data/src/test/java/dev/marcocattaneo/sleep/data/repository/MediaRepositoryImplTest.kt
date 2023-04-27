@@ -37,7 +37,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
-class MediaRepositoryImplTest {
+internal class MediaRepositoryImplTest {
 
     private lateinit var mediaRepository: MediaRepository
 

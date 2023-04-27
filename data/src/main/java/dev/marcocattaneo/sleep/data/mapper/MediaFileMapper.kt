@@ -21,7 +21,7 @@ import dev.marcocattaneo.sleep.domain.mapper.Mapper
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import javax.inject.Inject
 
-class MediaFileMapper @Inject constructor(): Mapper<MediaFile, MediaFileEntity> {
+internal class MediaFileMapper @Inject constructor(): Mapper<MediaFile, MediaFileEntity> {
     override fun mapTo(from: MediaFile) = MediaFileEntity(
         id = from.id,
         description = from.description,

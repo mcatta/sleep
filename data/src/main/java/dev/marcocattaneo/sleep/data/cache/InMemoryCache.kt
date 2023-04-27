@@ -22,7 +22,7 @@ import dev.marcocattaneo.sleep.domain.cache.CacheService
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class InMemoryCache<V : Any> : CacheService<String, V> {
+internal class InMemoryCache<V : Any> : CacheService<String, V> {
 
     private val _mutex = Mutex()
 

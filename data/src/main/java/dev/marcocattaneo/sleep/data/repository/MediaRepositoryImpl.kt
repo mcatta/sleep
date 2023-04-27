@@ -29,7 +29,7 @@ import dev.marcocattaneo.sleep.domain.repository.BaseRepository
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import javax.inject.Inject
 
-class MediaRepositoryImpl @Inject constructor(
+internal class MediaRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
     private val sleepService: SleepService,
     private val mediaFileMapper: MediaFileMapper,

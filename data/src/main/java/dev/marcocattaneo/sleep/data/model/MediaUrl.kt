@@ -20,7 +20,7 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 @Keep
-data class MediaUrl(
+internal data class MediaUrl(
     @SerializedName("url")
     val url: String,
     @SerializedName("path")

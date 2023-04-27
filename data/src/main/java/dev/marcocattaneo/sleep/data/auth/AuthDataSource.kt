@@ -25,7 +25,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class AuthDataSource @Inject constructor(
+internal class AuthDataSource @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) {
 

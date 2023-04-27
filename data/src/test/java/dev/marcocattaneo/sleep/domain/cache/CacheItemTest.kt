@@ -21,7 +21,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-class CacheItemTest {
+internal class CacheItemTest {
 
     @Test
     fun `Test a CacheItem with policy Never`() {

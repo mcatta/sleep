@@ -39,7 +39,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
+internal abstract class DataModule {
 
     @Binds
     @Singleton
@@ -53,7 +53,7 @@ abstract class DataModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+internal class NetworkModule {
 
     @Provides
     @Singleton

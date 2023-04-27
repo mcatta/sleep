@@ -22,7 +22,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
-class MediaFileMapperTest {
+internal class MediaFileMapperTest {
 
     private val mediaFileMapper = MediaFileMapper()
 
