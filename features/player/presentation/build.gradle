@@ -38,6 +38,7 @@ dependencies {
     implementation libs.bundles.compose
     implementation libs.bundles.flowredux
     implementation libs.arrow
+    implementation libs.compose.constraintLayout
 
     testImplementation project(":core:testing")
 

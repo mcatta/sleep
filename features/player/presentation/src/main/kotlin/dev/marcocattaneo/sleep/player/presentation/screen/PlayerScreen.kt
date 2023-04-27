@@ -22,6 +22,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
+import dev.marcocattaneo.core.design.animations.CollapseAnimation
 import dev.marcocattaneo.core.design.composables.Snackbar
 import dev.marcocattaneo.core.design.theme.Dimen.Margin16
 import dev.marcocattaneo.core.design.theme.Dimen.Margin8
@@ -54,13 +57,26 @@ fun PlayerScreen(
             )
         }
     } else {
-        Box(modifier = Modifier.fillMaxSize()) {
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val (container, player) = createRefs()
+
             Column(
-                modifier = Modifier.align(Alignment.TopCenter),
+                modifier = Modifier.constrainAs(container) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(player.top)
+                    height = Dimension.fillToConstraints
+                },
                 content = content
             )
             PlayerController(
-                modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = Margin8),
+                modifier = Modifier.constrainAs(player) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    height = Dimension.wrapContent
+                },
                 uiState = uiState,
                 playerViewModel = playerViewModel
             )
@@ -98,7 +114,7 @@ private fun PlayerController(
     Column(
         modifier = modifier
     ) {
-        dev.marcocattaneo.core.design.animations.CollapseAnimation(
+        CollapseAnimation(
             visible = uiState is PlayerState.Error,
         ) {
             Snackbar(
@@ -106,7 +122,7 @@ private fun PlayerController(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        dev.marcocattaneo.core.design.animations.CollapseAnimation(
+        CollapseAnimation(
             visible = isVisible,
         ) {
             BottomPlayerBar(
