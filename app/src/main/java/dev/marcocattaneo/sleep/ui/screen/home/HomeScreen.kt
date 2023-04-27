@@ -28,6 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.ui.composables.*
@@ -42,55 +44,63 @@ fun HomeScreen(
 ) {
     val uiState by homeViewModel.rememberState()
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(uiState is TracksState.Loading),
+        onRefresh = { homeViewModel.dispatch(TracksAction.Reload) },
     ) {
-        item {
-            Column(
-                modifier = Modifier.padding(all = Dimen.Margin16)
-            ) {
-                H4(
-                    text = stringResource(id = R.string.home_header),
-                    color = MaterialTheme.colors.onBackground
-                )
-                Body2(
-                    text = stringResource(id = R.string.home_header_claim),
-                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
-                )
-                Spacer16()
-                InfoBox(modifier = Modifier.fillMaxWidth()) {
-                    Illustration(
-                        modifier = Modifier.size(48.dp),
-                        resource = R.drawable.ui_undraw_late_at_night
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            item {
+                Column(
+                    modifier = Modifier.padding(all = Dimen.Margin16)
+                ) {
+                    H4(
+                        text = stringResource(id = R.string.home_header),
+                        color = MaterialTheme.colors.onBackground
+                    )
+                    Body2(
+                        text = stringResource(id = R.string.home_header_claim),
+                        color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f)
                     )
                     Spacer16()
-                    Body2(text = stringResource(id = R.string.home_info_banner))
-                }
+                    InfoBox(modifier = Modifier.fillMaxWidth()) {
+                        Illustration(
+                            modifier = Modifier.size(48.dp),
+                            resource = R.drawable.ui_undraw_late_at_night
+                        )
+                        Spacer16()
+                        Body2(text = stringResource(id = R.string.home_info_banner))
+                    }
 
-            }
-        }
-        when (uiState) {
-            is TracksState.Content -> {
-                (uiState as TracksState.Content).homeMediaFile.iterator().forEach {
-                    item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                 }
             }
-            TracksState.Loading -> {
-                repeat(5) {
-                    item {
-                        MediaItem(
-                            modifier = Modifier.placeholder(true),
-                            mediaFile = null
-                        ) {}
+            when (uiState) {
+                is TracksState.Content -> {
+                    (uiState as TracksState.Content).homeMediaFile.iterator().forEach {
+                        item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                     }
                 }
-            }
-            is TracksState.Error -> {
-                item {
-                    Snackbar(message = "Error")
+
+                TracksState.Loading -> {
+                    repeat(5) {
+                        item {
+                            MediaItem(
+                                modifier = Modifier.placeholder(true),
+                                mediaFile = null
+                            ) {}
+                        }
+                    }
                 }
+
+                is TracksState.Error -> {
+                    item {
+                        Snackbar(message = "Error")
+                    }
+                }
+
+                null -> Unit
             }
-            null -> Unit
         }
     }
 }

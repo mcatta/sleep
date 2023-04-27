@@ -38,6 +38,7 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 compose-navigationHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
 compose-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder", version.ref = "accompanist" }
 compose-accompanist-uiController = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
+compose-accompanist-swipeToRefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 
 compose-test-uiJunit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose-test-uiManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }

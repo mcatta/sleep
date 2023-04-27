@@ -26,7 +26,7 @@ import dev.marcocattaneo.sleep.domain.model.sec
 interface MediaRepository {
 
     suspend fun listMedia(
-        cachePolicy: CachePolicy = CachePolicy.CacheFirst(120.sec)
+        cachePolicy: CachePolicy = CachePolicy.CacheFirst(60.sec)
     ): Either<AppException, List<MediaFileEntity>>
 
     suspend fun urlFromId(id: TrackId): Either<AppException, String>

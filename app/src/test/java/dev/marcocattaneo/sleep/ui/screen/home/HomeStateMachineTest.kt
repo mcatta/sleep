@@ -94,4 +94,23 @@ internal class HomeStateMachineTest {
             coVerify(exactly = 2) { mediaRepository.listMedia(any()) }
         }
     }
+
+    @Test
+    fun `Test reloading`() = runTest {
+        // Given
+        coEvery { mediaRepository.listMedia(any()) } returns Either.Right(emptyList())
+
+        // When
+        homeStateMachine.state.test {
+            homeStateMachine.dispatch(TracksAction.Reload)
+
+            // Then
+            assertIs<TracksState.Loading>(awaitItem())
+            assertIs<TracksState.Content>(awaitItem())
+            assertIs<TracksState.Loading>(awaitItem())
+            assertIs<TracksState.Content>(awaitItem())
+
+            coVerify(exactly = 2) { mediaRepository.listMedia(any()) }
+        }
+    }
 }

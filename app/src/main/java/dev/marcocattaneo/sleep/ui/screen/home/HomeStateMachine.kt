@@ -44,9 +44,19 @@ class HomeStateMachine @Inject constructor(
                 }
             }
 
+            inState<TracksState.Error> {
+                on { _: TracksAction.Reload, state: State<TracksState.Error> ->
+                    state.override { TracksState.Loading }
+                }
+            }
+
+
             inState {
                 on { action: TracksAction.UpdateSelectedTrack, state: State<TracksState.Content> ->
                     state.override { copy(selectedTrackId = action.trackId) }
+                }
+                on { _: TracksAction.Reload, state: State<TracksState.Content> ->
+                    state.override { TracksState.Loading }
                 }
             }
 
