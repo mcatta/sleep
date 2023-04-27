@@ -19,6 +19,7 @@ Features "Wanna be"
 - Android Clean Architecture
 - Used [Flow Redux library](https://github.com/freeletics/FlowRedux)
 - Jetpack Compose
+- Backend written by using Firebase, [here the source](https://github.com/mcatta/sleep-firebase)
 
 ### Contributions ♥️
 
