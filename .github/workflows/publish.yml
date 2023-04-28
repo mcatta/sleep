@@ -1,7 +1,7 @@
-name: Deploy on the Play Store
+name: Deploy the Play Store
 
 on:
-  pull_request:
+  push:
     branches: [ production ]
 
   workflow_dispatch:
