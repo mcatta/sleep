@@ -20,4 +20,4 @@ import dagger.hilt.android.HiltAndroidApp
 import dev.marcocattaneo.sleep.BaseApplication
 
 @HiltAndroidApp
-open class MyApplication: BaseApplication()
+open class SleepifyApplication: BaseApplication()
