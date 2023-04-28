@@ -16,13 +16,19 @@
 
 package dev.marcocattaneo.sleep.domain.cache
 
-import dev.marcocattaneo.sleep.domain.model.Seconds
+import kotlin.time.Duration
 
 sealed interface CachePolicy {
     // No caching
     object Never : CachePolicy
+
     // Make the call and cache the value
     object RefreshAndCache : CachePolicy
+
     // Return the cached value if valid
-    class CacheFirst(val expireIn: Seconds) : CachePolicy
+    class CacheFirst(val expireIn: Duration) : CachePolicy {
+        init {
+            check(expireIn.inWholeNanoseconds > 0) { "expireIn must be greater than 0" }
+        }
+    }
 }

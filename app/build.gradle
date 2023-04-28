@@ -68,6 +68,7 @@ dependencies {
     implementation libs.firebase.analytics
     implementation libs.firebase.crashlytics
 
+    implementation libs.kotlin.stdlib
     implementation libs.hilt.android
 
     testImplementation project(":core:testing")

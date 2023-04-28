@@ -29,4 +29,6 @@ dependencies {
     api libs.kotlin.test
     api libs.androidx.junit
     api libs.mockk.core
+
+    implementation libs.kotlin.reflect
 }

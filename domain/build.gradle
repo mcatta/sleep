@@ -23,4 +23,5 @@ plugins {
 dependencies {
     implementation libs.coroutine.core
     implementation libs.arrow
+    implementation libs.kotlin.stdlib
 }

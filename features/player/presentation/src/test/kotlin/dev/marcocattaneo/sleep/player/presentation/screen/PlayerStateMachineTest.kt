@@ -18,19 +18,17 @@ package dev.marcocattaneo.sleep.player.presentation.screen
 
 import app.cash.turbine.test
 import arrow.core.Either
+import dev.marcocattaneo.core.testing.anyValue
 import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
-import dev.marcocattaneo.sleep.player.presentation.screen.*
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.test.*
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class PlayerStateMachineTest {
@@ -115,8 +113,8 @@ internal class PlayerStateMachineTest {
             // When
             playerStateMachine.dispatch(
                 PlayerAction.UpdateDuration(
-                    duration = 100.sec,
-                    position = 20.sec,
+                    duration = 100.seconds,
+                    position = 20.seconds,
                     stopAfterMinutes = null,
                     playing = true
                 )
@@ -137,8 +135,8 @@ internal class PlayerStateMachineTest {
             // When
             playerStateMachine.dispatch(
                 PlayerAction.UpdateDuration(
-                    duration = 100.sec,
-                    position = 20.sec,
+                    duration = 100.seconds,
+                    position = 20.seconds,
                     stopAfterMinutes = null,
                     playing = true
                 )
@@ -162,8 +160,8 @@ internal class PlayerStateMachineTest {
             // When
             playerStateMachine.dispatch(
                 PlayerAction.UpdateDuration(
-                    duration = 100.sec,
-                    position = 20.sec,
+                    duration = 100.seconds,
+                    position = 20.seconds,
                     stopAfterMinutes = null,
                     playing = true
                 )
@@ -174,8 +172,8 @@ internal class PlayerStateMachineTest {
             awaitItem().let {
                 assertIs<PlayerState.Playing>(it)
 
-                assertEquals(100L, it.duration.value)
-                assertEquals(20L, it.position.value)
+                assertEquals(100L, it.duration.inWholeSeconds)
+                assertEquals(20L, it.position.inWholeSeconds)
                 assertNull(it.stopTimer)
             }
         }
@@ -187,18 +185,18 @@ internal class PlayerStateMachineTest {
             // When
             playerStateMachine.dispatch(
                 PlayerAction.UpdateDuration(
-                    duration = 100.sec,
-                    position = 20.sec,
+                    duration = 100.seconds,
+                    position = 20.seconds,
                     stopAfterMinutes = null,
                     playing = true
                 )
             )
-            playerStateMachine.dispatch(PlayerAction.SeekTo(42.sec))
+            playerStateMachine.dispatch(PlayerAction.SeekTo(42.seconds))
 
             // Then
             assertIs<PlayerState.Stop>(awaitItem())
             assertIs<PlayerState.Playing>(awaitItem())
-            coVerify { audioPlayer.seekTo(any()) }
+            verify { audioPlayer.seekTo(anyValue()) }
         }
     }
 
@@ -208,8 +206,8 @@ internal class PlayerStateMachineTest {
             // When
             playerStateMachine.dispatch(
                 PlayerAction.UpdateDuration(
-                    duration = 100.sec,
-                    position = 20.sec,
+                    duration = 100.seconds,
+                    position = 20.seconds,
                     stopAfterMinutes = null,
                     playing = true
                 )
@@ -219,7 +217,7 @@ internal class PlayerStateMachineTest {
             // Then
             assertIs<PlayerState.Stop>(awaitItem())
             assertIs<PlayerState.Playing>(awaitItem())
-            coVerify { audioPlayer.forwardOf(any()) }
+            verify { audioPlayer.forwardOf(anyValue()) }
         }
     }
 
@@ -229,8 +227,8 @@ internal class PlayerStateMachineTest {
             // When
             playerStateMachine.dispatch(
                 PlayerAction.UpdateDuration(
-                    duration = 100.sec,
-                    position = 20.sec,
+                    duration = 100.seconds,
+                    position = 20.seconds,
                     stopAfterMinutes = null,
                     playing = true
                 )
@@ -240,7 +238,7 @@ internal class PlayerStateMachineTest {
             // Then
             assertIs<PlayerState.Stop>(awaitItem())
             assertIs<PlayerState.Playing>(awaitItem())
-            coVerify { audioPlayer.replayOf(any()) }
+            coVerify { audioPlayer.replayOf(anyValue()) }
         }
     }
 
@@ -250,8 +248,8 @@ internal class PlayerStateMachineTest {
             // When
             playerStateMachine.dispatch(
                 PlayerAction.UpdateDuration(
-                    duration = 100.sec,
-                    position = 20.sec,
+                    duration = 100.seconds,
+                    position = 20.seconds,
                     stopAfterMinutes = null,
                     playing = true
                 )

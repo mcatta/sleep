@@ -38,6 +38,7 @@ dependencies {
     implementation libs.coroutine.core
 
     implementation libs.bundles.retrofit
+    implementation libs.kotlin.stdlib
 
     implementation libs.hilt.core
 

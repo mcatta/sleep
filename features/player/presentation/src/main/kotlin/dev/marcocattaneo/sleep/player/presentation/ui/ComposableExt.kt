@@ -16,12 +16,13 @@
 
 package dev.marcocattaneo.sleep.player.presentation.ui
 
-import dev.marcocattaneo.sleep.domain.model.Seconds
+import kotlin.time.Duration
 
-fun Seconds.format(): String {
-    val hours = this.value.div(3_600)
-    val minutes = (this.value % 3600) / 60
-    val seconds = this.value % 60
+fun Duration.format(): String {
+    val milliseconds = inWholeSeconds
+    val hours = milliseconds.div(3_600)
+    val minutes = (milliseconds % 3600) / 60
+    val seconds = milliseconds % 60
 
     return if (hours == 0L)
         String.format("%02d:%02d", minutes, seconds)

@@ -28,11 +28,10 @@ import dev.marcocattaneo.core.design.animations.CollapseAnimation
 import dev.marcocattaneo.core.design.composables.Snackbar
 import dev.marcocattaneo.core.design.theme.Dimen.Margin16
 import dev.marcocattaneo.core.design.theme.Dimen.Margin8
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
-import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.player.presentation.R
 import dev.marcocattaneo.sleep.player.presentation.ui.BottomPlayerBar
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun PlayerScreen(
@@ -91,10 +90,10 @@ private fun PlayerController(
     modifier: Modifier = Modifier
 ) {
     val isVisible = uiState is PlayerState.Playing || uiState is PlayerState.Pause || uiState is PlayerState.Init
-    val position: Seconds
-    val duration: Seconds
+    val position: Duration
+    val duration: Duration
     val isPlaying: Boolean
-    val stopTimer: Minutes?
+    val stopTimer: Duration?
     when (uiState) {
         is PlayerState.Pause,
         is PlayerState.Playing -> (uiState as PlayerState.CommonPlayingState).let {
@@ -105,8 +104,8 @@ private fun PlayerController(
         }
 
         else -> {
-            position = 0.sec
-            duration = 0.sec
+            position = 0.seconds
+            duration = 0.seconds
             isPlaying = false
             stopTimer = null
         }

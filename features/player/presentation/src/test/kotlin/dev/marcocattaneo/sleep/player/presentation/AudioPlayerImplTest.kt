@@ -19,7 +19,6 @@ package dev.marcocattaneo.sleep.player.presentation
 import android.media.MediaPlayer
 import app.cash.turbine.test
 import dev.marcocattaneo.core.testing.CoroutinesTestRule
-import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.player.presentation.session.SessionManager
 import dev.marcocattaneo.sleep.player.presentation.state.AudioPlayerEvent
 import io.mockk.*
@@ -32,6 +31,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertIs
+import kotlin.time.Duration.Companion.seconds
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -147,7 +147,7 @@ internal class AudioPlayerImplTest {
 
         audioPlayer.state().test {
             // When
-            audioPlayer.seekTo(30.sec)
+            audioPlayer.seekTo(30.seconds)
 
             // Then
             verify { mediaPlayer.seekTo(30_000) }
@@ -166,7 +166,7 @@ internal class AudioPlayerImplTest {
 
         audioPlayer.state().test {
             // When
-            audioPlayer.forwardOf(30.sec)
+            audioPlayer.forwardOf(30.seconds)
 
             // Then
             verify { mediaPlayer.seekTo(50_000) }
@@ -183,7 +183,7 @@ internal class AudioPlayerImplTest {
 
         audioPlayer.state().test {
             // When
-            audioPlayer.replayOf(30.sec)
+            audioPlayer.replayOf(30.seconds)
 
             // Then
             verify { mediaPlayer.seekTo(0) }

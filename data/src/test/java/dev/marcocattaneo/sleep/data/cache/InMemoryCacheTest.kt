@@ -18,7 +18,6 @@ package dev.marcocattaneo.sleep.data.cache
 
 import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.cache.CacheService
-import dev.marcocattaneo.sleep.domain.model.sec
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
@@ -26,13 +25,14 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class InMemoryCacheTest {
 
-    lateinit var cacheService: CacheService<String, String>
+    private lateinit var cacheService: CacheService<String, String>
 
-    private val cachePolicy = CachePolicy.CacheFirst(30.sec)
+    private val cachePolicy = CachePolicy.CacheFirst(30.seconds)
 
     @BeforeTest
     fun setup() {
@@ -40,7 +40,7 @@ internal class InMemoryCacheTest {
     }
 
     @Test
-    fun `Test getValue`() = runTest {
+    fun `Test setValue and getValue`() = runTest {
         // Given
         cacheService.setValue("key", "value", cachePolicy)
 
@@ -49,15 +49,6 @@ internal class InMemoryCacheTest {
 
         // Then
         assertEquals("value", value)
-    }
-
-    @Test
-    fun `Test setValue`() = runTest {
-        // When
-        cacheService.setValue("key", "value", cachePolicy)
-
-        // Then
-        assertEquals("value", cacheService.getValue("key", cachePolicy))
     }
 
     @Test

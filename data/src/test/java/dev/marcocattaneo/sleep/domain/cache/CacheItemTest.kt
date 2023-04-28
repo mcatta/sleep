@@ -16,10 +16,13 @@
 
 package dev.marcocattaneo.sleep.domain.cache
 
-import dev.marcocattaneo.sleep.domain.model.sec
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.time.Duration.Companion.nanoseconds
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 internal class CacheItemTest {
 
@@ -38,13 +41,16 @@ internal class CacheItemTest {
     @Test
     fun `Test a CacheItem with policy CacheFirst`() {
         // Given
-        val cacheItem = CacheItem.of("Hello", createdAt = System.nanoTime() - 100_000)
+        val cacheItem = CacheItem.of(
+            value = "Hello",
+            createdAt = System.nanoTime().nanoseconds - 100.seconds
+        )
 
         // When
-        val value = cacheItem.getIfValid(CachePolicy.CacheFirst(30.sec))
+        val value = cacheItem.getIfValid(CachePolicy.CacheFirst(30.seconds))
 
         // Then
-        assertNotNull(value)
+        assertNull(value)
     }
 
     @Test

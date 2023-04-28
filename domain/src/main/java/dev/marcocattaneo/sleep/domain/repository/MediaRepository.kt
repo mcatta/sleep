@@ -21,12 +21,12 @@ import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.model.TrackId
-import dev.marcocattaneo.sleep.domain.model.sec
+import kotlin.time.Duration.Companion.seconds
 
 interface MediaRepository {
 
     suspend fun listMedia(
-        cachePolicy: CachePolicy = CachePolicy.CacheFirst(60.sec)
+        cachePolicy: CachePolicy = CachePolicy.CacheFirst(60.seconds)
     ): Either<AppException, List<MediaFileEntity>>
 
     suspend fun urlFromId(id: TrackId): Either<AppException, String>

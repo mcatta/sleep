@@ -38,12 +38,11 @@ import dev.marcocattaneo.core.design.composables.Spacer8
 import dev.marcocattaneo.core.design.theme.Dimen.Margin16
 import dev.marcocattaneo.core.design.theme.Dimen.Margin32
 import dev.marcocattaneo.core.design.theme.Dimen.Margin8
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
-import dev.marcocattaneo.sleep.domain.model.min
-import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.player.presentation.R
 import kotlin.math.max
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * @param modifier
@@ -58,19 +57,19 @@ import kotlin.math.max
 fun BottomPlayerBar(
     modifier: Modifier = Modifier,
     isPlaying: Boolean,
-    duration: Seconds,
-    position: Seconds,
-    selectedStopTimer: Minutes? = null,
-    supportedStoppingTimeframes: Set<Minutes> = SleepAppConstants.SUPPORTED_STOP_TIME_FRAMES,
+    duration: Duration,
+    position: Duration,
+    selectedStopTimer: Duration? = null,
+    supportedStoppingTimeframes: Set<Duration> = SleepAppConstants.SUPPORTED_STOP_TIME_FRAMES,
     onChangePlayingStatus: (Boolean) -> Unit,
-    onChangeStopTimer: (Minutes) -> Unit,
+    onChangeStopTimer: (Duration) -> Unit,
     onClickReplay: () -> Unit,
     onClickForward: () -> Unit,
     onClickStop: () -> Unit,
-    onSeeking: (Seconds) -> Unit
+    onSeeking: (Duration) -> Unit
 ) {
     var timerVisible by remember { mutableStateOf(false) }
-    val onClickTimerButton: (Minutes) -> Unit = {
+    val onClickTimerButton: (Duration) -> Unit = {
         onChangeStopTimer(it)
         timerVisible = false
     }
@@ -159,7 +158,7 @@ fun BottomPlayerBar(
                             onClick = { onClickTimerButton(timeFrame) },
                             content = {
                                 Caption(
-                                    text = "${timeFrame.value}m",
+                                    text = "${timeFrame.inWholeMinutes}m",
                                     color = if (selectedStopTimer == timeFrame)
                                         MaterialTheme.colors.onSecondary
                                     else
@@ -224,12 +223,12 @@ private fun ActionButton(
 
 @Composable
 private fun SeekBar(
-    position: Seconds,
-    duration: Seconds,
-    onSeeking: (Seconds) -> Unit
+    position: Duration,
+    duration: Duration,
+    onSeeking: (Duration) -> Unit
 ) {
     // To avoid division by zero
-    val progress = position.value.toFloat().div(max(duration.value.toFloat(), 1f))
+    val progress = position.inWholeSeconds.toFloat().div(max(duration.inWholeSeconds.toFloat(), 1f))
 
     // To handle dragging
     var isSeekingInProgress by remember { mutableStateOf(false) }
@@ -258,7 +257,7 @@ private fun SeekBar(
         onValueChange = {
             isSeekingInProgress = true
             selectedValue = it
-            onSeeking(duration.value.times(it).toLong().sec)
+            onSeeking((duration.inWholeSeconds * it).toInt().seconds)
         },
         onValueChangeFinished = { isSeekingInProgress = false },
         colors = SliderDefaults.colors(
@@ -273,9 +272,9 @@ private fun SeekBar(
 fun BottomPlayerBarPreview() {
     BottomPlayerBar(
         isPlaying = true,
-        duration = 360300.sec,
-        position = 5500.sec,
-        selectedStopTimer = 30.min,
+        duration = 360300.seconds,
+        position = 5500.seconds,
+        selectedStopTimer = 30.minutes,
         onChangePlayingStatus = {},
         onChangeStopTimer = {},
         onClickForward = {},

@@ -22,9 +22,6 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import dev.marcocattaneo.sleep.core.di.scope.CoroutineContextScope
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
-import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.player.presentation.session.SessionManager
 import dev.marcocattaneo.sleep.player.presentation.state.AudioPlayerEvent
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +32,9 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 
 class AudioPlayerImpl @Inject constructor(
@@ -65,7 +65,7 @@ class AudioPlayerImpl @Inject constructor(
 
     private var stopDate: Long? = null
 
-    private var stopAfterMinutes: Minutes? = null
+    private var stopAfterMinutes: Duration? = null
 
     private val timer = Timer()
 
@@ -110,13 +110,13 @@ class AudioPlayerImpl @Inject constructor(
 
     private fun updatePlayerStatus(mediaPlayer: MediaPlayer) = updatePlayerStatusWithPosition(
         mediaPlayer = mediaPlayer,
-        position = mediaPlayer.currentPosition.div(1_000L).sec
+        position = mediaPlayer.currentPosition.div(1_000L).seconds
     )
 
-    private fun updatePlayerStatusWithPosition(mediaPlayer: MediaPlayer, position: Seconds) = emitState(
+    private fun updatePlayerStatusWithPosition(mediaPlayer: MediaPlayer, position: Duration) = emitState(
         AudioPlayerEvent.PlayerStatus(
             isPlaying = mediaPlayer.isPlaying,
-            duration = mediaPlayer.duration.div(1_000L).sec,
+            duration = mediaPlayer.duration.div(1_000L).seconds,
             position = position,
             stopAt = stopAfterMinutes
         )
@@ -149,8 +149,7 @@ class AudioPlayerImpl @Inject constructor(
         updatePlayerStatus(mediaPlayer)
     }
 
-    override fun seekTo(sec: Seconds) = sec.value
-        .times(1_000)
+    override fun seekTo(sec: Duration) = sec.inWholeMilliseconds
         .toInt()
         .let(mediaPlayer::seekTo)
         .also {
@@ -164,9 +163,9 @@ class AudioPlayerImpl @Inject constructor(
         emitState(AudioPlayerEvent.Stop)
     }
 
-    override fun stopAfter(minutes: Minutes?) {
+    override fun stopAfter(minutes: Duration?) {
         stopAfterMinutes = minutes
-        stopDate = minutes?.let { System.currentTimeMillis().plus(it.value.times(60).times(1_000)) }
+        stopDate = minutes?.let { System.currentTimeMillis().plus(it.inWholeMilliseconds) }
     }
 
     override fun dispose() {
@@ -175,13 +174,15 @@ class AudioPlayerImpl @Inject constructor(
         emitState(AudioPlayerEvent.Disposed)
     }
 
-    override fun forwardOf(sec: Seconds) {
-        min(player.duration, player.currentPosition + (sec.value.toInt().times(1_000)))
+    override fun forwardOf(sec: Duration) {
+        min(player.duration.milliseconds.inWholeMilliseconds, player.currentPosition + (sec.inWholeMilliseconds))
+            .toInt()
             .let(mediaPlayer::seekTo)
     }
 
-    override fun replayOf(sec: Seconds) {
-        max(0, player.currentPosition - (sec.value.toInt()).times(1_000))
+    override fun replayOf(sec: Duration) {
+        max(0, player.currentPosition - sec.inWholeMilliseconds)
+            .toInt()
             .let(mediaPlayer::seekTo)
     }
 

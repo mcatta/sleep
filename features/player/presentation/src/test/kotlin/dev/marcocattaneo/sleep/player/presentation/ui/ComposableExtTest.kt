@@ -16,17 +16,16 @@
 
 package dev.marcocattaneo.sleep.player.presentation.ui
 
-import dev.marcocattaneo.sleep.domain.model.sec
-import dev.marcocattaneo.sleep.player.presentation.ui.format
 import org.junit.Assert.*
 import kotlin.test.Test
+import kotlin.time.Duration.Companion.seconds
 
 class ComposableExtTest {
 
     @Test
     fun `Test Seconds formatter`() {
         // Given
-        val seconds = 30.sec
+        val seconds = 30.seconds
 
         // When / Then
         assertEquals("00:30", seconds.format())
@@ -36,7 +35,7 @@ class ComposableExtTest {
     @Test
     fun `Test Minutes formatter`() {
         // Given
-        val seconds = 125.sec
+        val seconds = 125.seconds
 
         // When / Then
         assertEquals("02:05", seconds.format())
@@ -46,7 +45,7 @@ class ComposableExtTest {
     @Test
     fun `Test Hours formatter`() {
         // Given
-        val seconds = (60 * 60).sec
+        val seconds = (60 * 60).seconds
 
         // When / Then
         assertEquals("01:00:00", seconds.format())

@@ -66,6 +66,8 @@ roboeletric = { module = "org.robolectric:robolectric", version = "4.8" }
 flowredux-core = { module = "com.freeletics.flowredux:flowredux-jvm", version.ref = "flowRedux" }
 flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref = "flowRedux" }
 
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }

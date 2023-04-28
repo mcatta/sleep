@@ -16,8 +16,7 @@
 
 package dev.marcocattaneo.sleep.player.presentation.state
 
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
+import kotlin.time.Duration
 
 sealed interface AudioPlayerEvent {
     object None : AudioPlayerEvent
@@ -27,9 +26,9 @@ sealed interface AudioPlayerEvent {
     data class Error(val errorCode: Int) : AudioPlayerEvent
     data class PlayerStatus(
         val isPlaying: Boolean,
-        val position: Seconds,
-        val duration: Seconds,
-        val stopAt: Minutes? = null
+        val position: Duration,
+        val duration: Duration,
+        val stopAt: Duration? = null
     ) : AudioPlayerEvent
 
     object Pause : AudioPlayerEvent

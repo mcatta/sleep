@@ -19,10 +19,9 @@ package dev.marcocattaneo.sleep.player.presentation
 import android.media.MediaPlayer
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
 import dev.marcocattaneo.sleep.player.presentation.state.AudioPlayerEvent
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.time.Duration
 
 interface AudioPlayer {
 
@@ -36,15 +35,15 @@ interface AudioPlayer {
 
     fun play()
 
-    fun seekTo(sec: Seconds)
+    fun seekTo(sec: Duration)
 
-    fun stopAfter(minutes: Minutes?)
+    fun stopAfter(minutes: Duration?)
 
     fun dispose()
 
-    fun forwardOf(sec: Seconds)
+    fun forwardOf(sec: Duration)
 
-    fun replayOf(sec: Seconds)
+    fun replayOf(sec: Duration)
 
     val player: MediaPlayer
 

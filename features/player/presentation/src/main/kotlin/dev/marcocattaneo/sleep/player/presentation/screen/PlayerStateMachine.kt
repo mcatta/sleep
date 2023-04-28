@@ -20,15 +20,14 @@ import com.freeletics.flowredux.dsl.FlowReduxStateMachine
 import com.freeletics.flowredux.dsl.State
 import dagger.hilt.android.scopes.ViewModelScoped
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.domain.model.Minutes
-import dev.marcocattaneo.sleep.domain.model.Seconds
-import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @ViewModelScoped
@@ -111,7 +110,7 @@ class PlayerStateMachine @Inject constructor(
                     }
                 }
                 on { action: PlayerAction.StopAfter, state: State<PlayerState.Playing> ->
-                    val newTimer: Minutes? = if (state.snapshot.stopTimer != action.minutes) {
+                    val newTimer: Duration? = if (state.snapshot.stopTimer != action.minutes) {
                         action.minutes
                     } else null
 
@@ -124,12 +123,12 @@ class PlayerStateMachine @Inject constructor(
                 }
 
                 on { _: PlayerAction.ForwardOf, state: State<PlayerState.Playing> ->
-                    audioPlayer.forwardOf(30.sec)
+                    audioPlayer.forwardOf(30.seconds)
                     state.noChange()
                 }
 
                 on { _: PlayerAction.ReplayOf, state: State<PlayerState.Playing> ->
-                    audioPlayer.replayOf(30.sec)
+                    audioPlayer.replayOf(30.seconds)
                     state.noChange()
                 }
             }
@@ -140,21 +139,21 @@ class PlayerStateMachine @Inject constructor(
 sealed interface PlayerState {
     object Init : PlayerState
     data class Playing(
-        override val duration: Seconds = 0.sec,
-        override val position: Seconds = 0.sec,
-        override val stopTimer: Minutes? = null
+        override val duration: Duration = 0.seconds,
+        override val position: Duration = 0.seconds,
+        override val stopTimer: Duration? = null
     ) : CommonPlayingState
 
     data class Pause(
-        override val duration: Seconds = 0.sec,
-        override val position: Seconds = 0.sec,
-        override val stopTimer: Minutes? = null
+        override val duration: Duration = 0.seconds,
+        override val position: Duration = 0.seconds,
+        override val stopTimer: Duration? = null
     ) : CommonPlayingState
 
     interface CommonPlayingState : PlayerState {
-        val duration: Seconds
-        val position: Seconds
-        val stopTimer: Minutes?
+        val duration: Duration
+        val position: Duration
+        val stopTimer: Duration?
     }
 
     object Stop : PlayerState
@@ -166,9 +165,9 @@ sealed interface PlayerAction {
 
     //data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
     data class UpdateDuration(
-        val duration: Seconds,
-        val position: Seconds,
-        val stopAfterMinutes: Minutes?,
+        val duration: Duration,
+        val position: Duration,
+        val stopAfterMinutes: Duration?,
         val playing: Boolean = false
     ) : PlayerAction
 
@@ -180,6 +179,6 @@ sealed interface PlayerAction {
 
     object ReplayOf : PlayerAction
     object ForwardOf : PlayerAction
-    class SeekTo(val position: Seconds) : PlayerAction
-    class StopAfter(val minutes: Minutes?) : PlayerAction
+    class SeekTo(val position: Duration) : PlayerAction
+    class StopAfter(val minutes: Duration?) : PlayerAction
 }

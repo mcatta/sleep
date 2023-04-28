@@ -16,20 +16,25 @@
 
 package dev.marcocattaneo.sleep.domain.cache
 
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.nanoseconds
+
 class CacheItem<T : Any> private constructor(
     private val value: T,
-    private val createdAt: Long
+    private val createdAt: Duration
 ) {
 
     companion object {
         fun <T : Any> of(
             value: T,
-            createdAt: Long = System.nanoTime()
+            createdAt: Duration = now()
         ) = CacheItem(value, createdAt)
+
+        private fun now() = System.nanoTime().nanoseconds
     }
 
     fun getIfValid(cachePolicy: CachePolicy): T? = when (cachePolicy) {
-        is CachePolicy.CacheFirst -> if (createdAt + cachePolicy.expireIn.value > System.nanoTime()) null else value
+        is CachePolicy.CacheFirst -> if ((createdAt + cachePolicy.expireIn) < now()) null else value
         CachePolicy.Never,
         CachePolicy.RefreshAndCache -> null
     }

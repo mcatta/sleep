@@ -20,10 +20,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import dev.marcocattaneo.sleep.domain.model.min
-import dev.marcocattaneo.sleep.domain.model.sec
 import dev.marcocattaneo.sleep.player.presentation.AbsComposableTest
 import org.junit.Test
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 internal class ComposableBottomPlayerBarTest : AbsComposableTest() {
 
@@ -33,8 +33,8 @@ internal class ComposableBottomPlayerBarTest : AbsComposableTest() {
         composeTestRule.setContentWithTheme {
             BottomPlayerBar(
                 isPlaying = true,
-                duration = 120.sec,
-                position = 20.sec,
+                duration = 120.seconds,
+                position = 20.seconds,
                 onChangePlayingStatus = {},
                 onChangeStopTimer = {},
                 onClickReplay = {},
@@ -58,9 +58,9 @@ internal class ComposableBottomPlayerBarTest : AbsComposableTest() {
         composeTestRule.setContentWithTheme {
             BottomPlayerBar(
                 isPlaying = true,
-                duration = 120.sec,
-                position = 20.sec,
-                supportedStoppingTimeframes = setOf(10.min, 20.min, 30.min),
+                duration = 120.seconds,
+                position = 20.seconds,
+                supportedStoppingTimeframes = setOf(10.minutes, 20.minutes, 30.minutes),
                 onChangePlayingStatus = {},
                 onChangeStopTimer = {},
                 onClickReplay = {},

@@ -16,12 +16,12 @@
 
 package dev.marcocattaneo.sleep.player.presentation.ui
 
-import dev.marcocattaneo.sleep.domain.model.min
+import kotlin.time.Duration.Companion.minutes
 
 object SleepAppConstants {
 
     /**
      * This represents the supported time frame used to auto-stop the player
      */
-    val SUPPORTED_STOP_TIME_FRAMES = setOf(20.min, 30.min, 40.min)
+    val SUPPORTED_STOP_TIME_FRAMES = setOf(20.minutes, 30.minutes, 40.minutes)
 }
