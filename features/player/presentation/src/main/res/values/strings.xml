@@ -15,5 +15,5 @@
   -->
 
 <resources>
-    <string name="player_error_occurred">Something goes wrong...</string>
+    <string name="player_error_occurred">Something goes wrong…</string>
 </resources>
