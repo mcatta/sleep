@@ -56,7 +56,7 @@ jobs:
     - name: Publish on Firebase App Distribution
       uses: r0adkll/upload-google-play@v1
       with:
-        serviceAccountJsonPlainText: ${{ SERVICE_ACCOUNT_JSON }}
+        serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
         packageName: dev.marcocattaneo.sleep
         releaseFiles: ./app/build/outputs/apk/release/app-release.apk
         userFraction: 1.0
