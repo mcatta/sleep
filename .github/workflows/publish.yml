@@ -38,12 +38,12 @@ jobs:
       run: |
         echo '${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }}' > app/google-services.json
     - name: Build release
-      run: ./gradlew assembleRelease
+      run: ./gradlew bundleRelease
     - name: Upload artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: apk
-        path: ./app/build/outputs/apk/release/app-release.apk
+        name: aab
+        path: ./app/build/outputs/bundle/release/app-release.aab
 
   publish:
     needs: [test, build]
@@ -52,10 +52,10 @@ jobs:
     - name: Download a Build Artifact
       uses: actions/download-artifact@v3.0.0
       with:
-        name: apk
+        name: aab
     - name: Publish on Google Play Store
       uses: r0adkll/upload-google-play@v1
       with:
         serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
         packageName: dev.marcocattaneo.sleep
-        releaseFiles: app-release.apk
+        releaseFiles: app-release.aab
