@@ -1,9 +1,6 @@
 name: Deploy on Play Store
 
 on:
-  push:
-    branches: [ production ]
-
   workflow_dispatch:
   
 jobs:
