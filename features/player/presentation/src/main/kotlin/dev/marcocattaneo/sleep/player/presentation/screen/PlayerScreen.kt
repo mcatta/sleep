@@ -27,6 +27,7 @@ import androidx.constraintlayout.compose.Dimension
 import dev.marcocattaneo.core.design.animations.CollapseAnimation
 import dev.marcocattaneo.core.design.composables.Snackbar
 import dev.marcocattaneo.core.design.theme.Dimen.Margin16
+import dev.marcocattaneo.core.design.theme.Dimen.Margin2
 import dev.marcocattaneo.core.design.theme.Dimen.Margin8
 import dev.marcocattaneo.sleep.player.presentation.R
 import dev.marcocattaneo.sleep.player.presentation.ui.BottomPlayerBar
@@ -125,7 +126,7 @@ private fun PlayerController(
             visible = isVisible,
         ) {
             BottomPlayerBar(
-                modifier = Modifier.padding(horizontal = Margin16),
+                modifier = Modifier.padding(horizontal = Margin16, vertical = Margin2),
                 position = position,
                 duration = duration,
                 isPlaying = isPlaying,
