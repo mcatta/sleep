@@ -20,12 +20,7 @@ import dev.marcocattaneo.sleep.navigation.routing.ScreenRoute
 
 object Routes {
 
-    object Login : ScreenRoute(
-        routeDefinition = Definition("login")
+    object Dashboard : ScreenRoute(
+        routeDefinition = Definition("dashboard")
     )
-
-}
-
-object RouteKeys {
-    const val PATH_KEY = "path"
 }

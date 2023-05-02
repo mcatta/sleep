@@ -25,7 +25,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dev.marcocattaneo.core.design.theme.SleepTheme
 import dev.marcocattaneo.sleep.navigation.NavigationComponent
-import dev.marcocattaneo.sleep.navigation.NavigationControllerImpl
 import dev.marcocattaneo.sleep.navigation.composable
 import dev.marcocattaneo.sleep.ui.screen.Routes
 import dev.marcocattaneo.sleep.ui.screen.home.HomeScreen
@@ -36,8 +35,7 @@ import dev.marcocattaneo.sleep.player.presentation.screen.PlayerViewModel
 
 @Composable
 fun SleepApp() {
-    val navHostState = rememberNavController()
-    val controller = NavigationControllerImpl(navHostState)
+    val navHostController = rememberNavController()
     val configuration = LocalConfiguration.current
 
     SleepTheme {
@@ -49,12 +47,12 @@ fun SleepApp() {
                 isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
             ) {
                 NavigationComponent(
-                    startRoute = Routes.Login,
-                    navigationController = controller
+                    startRoute = Routes.Dashboard,
+                    navHostController = navHostController
                 ) {
 
                     composable<HomeViewModel>(
-                        route = Routes.Login
+                        route = Routes.Dashboard
                     ) { _, vm ->
                         HomeScreen(vm, onClickMediaFile = {
                             playerViewModel.dispatch(PlayerAction.StartPlaying(it))

@@ -32,11 +32,11 @@ import dev.marcocattaneo.sleep.navigation.routing.ScreenRoute
 @Composable
 internal fun NavigationComponent(
     startRoute: ScreenRoute,
-    navigationController: NavigationController,
+    navHostController: NavHostController,
     builder: NavGraphBuilder.() -> Unit
 ) {
     NavHost(
-        navController = navigationController.getNavController(),
+        navController = navHostController,
         startDestination = startRoute.routeDefinition.getRoutePath(),
         builder = builder
     )

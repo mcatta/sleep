@@ -59,23 +59,6 @@ abstract class ScreenRoute(
         }
 
         /**
-         * Starting from the routerPath and argumentKeys it builds the route used in the navigation
-         * @param params map of arguments
-         */
-        fun <T : Any> getFormattedRoutePath(params: Array<out Pair<String, T?>?>): String {
-            val arguments =
-                params.mapNotNull { if (it != null) it.first to it.second else null }.toMap()
-            return uriBuilder(routePath) {
-                argumentKeys.iterator().forEach { key ->
-                    val value = arguments[key.first] ?: return@forEach
-
-                    appendQueryParameter(key.first, value.toString())
-                }
-                this
-            }
-        }
-
-        /**
          * Generate URI from path
          * @param path URI path
          * @param block lambda used to append queries
@@ -86,17 +69,6 @@ abstract class ScreenRoute(
                 .build()
                 .toString()
                 .removeRange(0..0)
-
-    }
-}
-
-fun <R : ScreenRoute> R.generatePath(vararg params: Pair<String, Any?>?): NavigableRoute<R> {
-    val screenRoute = this
-    return object : NavigableRoute<R> {
-
-        override val screenRoute: R = screenRoute
-
-        override val path: String = screenRoute.routeDefinition.getFormattedRoutePath(params)
 
     }
 }
