@@ -26,7 +26,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-abstract class AbsStateMachineViewModel <S : Any, A: Any> constructor(
+abstract class AbsStateMachineViewModel <S : Any, A: Any>(
     private val stateMachine: FlowReduxStateMachine<S, A>
 ): ViewModel() {
 

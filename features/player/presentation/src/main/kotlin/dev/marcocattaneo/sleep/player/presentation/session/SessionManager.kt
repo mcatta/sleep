@@ -32,4 +32,6 @@ interface SessionManager {
 
     val controller: MediaControllerCompat
 
+    val trackTitle: String
+
 }

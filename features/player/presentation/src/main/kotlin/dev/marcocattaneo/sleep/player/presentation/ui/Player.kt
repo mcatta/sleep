@@ -31,10 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.marcocattaneo.core.design.composables.Caption
-import dev.marcocattaneo.core.design.composables.OverLine
-import dev.marcocattaneo.core.design.composables.RoundedButton
-import dev.marcocattaneo.core.design.composables.Spacer8
+import dev.marcocattaneo.core.design.composables.*
 import dev.marcocattaneo.core.design.theme.Dimen.Margin16
 import dev.marcocattaneo.core.design.theme.Dimen.Margin32
 import dev.marcocattaneo.core.design.theme.Dimen.Margin8
@@ -56,6 +53,7 @@ import kotlin.time.Duration.Companion.seconds
 @Composable
 fun BottomPlayerBar(
     modifier: Modifier = Modifier,
+    description: String = "",
     isPlaying: Boolean,
     duration: Duration,
     position: Duration,
@@ -84,6 +82,22 @@ fun BottomPlayerBar(
                 .then(modifier),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            if (description.isNotEmpty()) {
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_baseline_play_circle_outline_24),
+                        contentDescription = description,
+                        modifier = Modifier.size(Margin16),
+                        tint = MaterialTheme.colors.primary
+                    )
+                    Spacer4()
+                    Caption(
+                        text = description,
+                        color = MaterialTheme.colors.primary,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
             SeekBar(duration = duration, position = position, onSeeking = onSeeking)
             // Buttons
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -121,7 +135,7 @@ fun BottomPlayerBar(
                                 .padding(top = Margin32)
                                 .align(Alignment.TopEnd),
                             style = TextStyle.Default.copy(fontSize = 8.sp),
-                            text = "${minutes}m"
+                            text = minutes.toString()
                         )
                     }
                     ActionButton(
@@ -271,6 +285,24 @@ private fun SeekBar(
 @Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
 fun BottomPlayerBarPreview() {
     BottomPlayerBar(
+        isPlaying = true,
+        duration = 360300.seconds,
+        position = 5500.seconds,
+        selectedStopTimer = 30.minutes,
+        onChangePlayingStatus = {},
+        onChangeStopTimer = {},
+        onClickForward = {},
+        onClickReplay = {},
+        onSeeking = {},
+        onClickStop = {}
+    )
+}
+
+@Composable
+@Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
+fun BottomPlayerBarWithDescriptionPreview() {
+    BottomPlayerBar(
+        description = "My track name",
         isPlaying = true,
         duration = 360300.seconds,
         position = 5500.seconds,

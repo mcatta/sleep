@@ -21,6 +21,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onRoot
 import dev.marcocattaneo.core.design.composables.Spacer16
 import dev.marcocattaneo.core.design.composables.Spacer32
+import dev.marcocattaneo.core.design.composables.Spacer4
 import dev.marcocattaneo.core.design.composables.Spacer8
 import dev.marcocattaneo.core.design.theme.Dimen
 import dev.marcocattaneo.sleep.core.design.AbsComposableTest
@@ -62,5 +63,17 @@ internal class ComposableSpacerTest : AbsComposableTest() {
         composeTestRule.onRoot()
             .assertIsDisplayed()
             .assertHeightIsAtLeast(Dimen.Margin8)
+    }
+
+    @Test
+    fun testSpacer4() {
+        // Given
+        composeTestRule.setContentWithTheme {
+            Spacer4()
+        }
+
+        composeTestRule.onRoot()
+            .assertIsDisplayed()
+            .assertHeightIsAtLeast(Dimen.Margin4)
     }
 }

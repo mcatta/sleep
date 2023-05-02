@@ -37,3 +37,8 @@ fun Spacer16() {
 fun Spacer8() {
     Spacer(Modifier.size(Dimen.Margin8))
 }
+
+@Composable
+fun Spacer4() {
+    Spacer(Modifier.size(Dimen.Margin4))
+}

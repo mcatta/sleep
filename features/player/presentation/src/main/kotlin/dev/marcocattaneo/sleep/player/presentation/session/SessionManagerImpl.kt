@@ -30,23 +30,26 @@ class SessionManagerImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : SessionManager {
 
-    private val stateBuilder: PlaybackStateCompat.Builder
+    private var _trackTitle: String = ""
+
+    private val _stateBuilder: PlaybackStateCompat.Builder
 
     // Create a MediaSessionCompat
-    private val mediaSession = MediaSessionCompat(context, "MediaPlaybackService_TAG").apply {
+    private val _mediaSession = MediaSessionCompat(context, "MediaPlaybackService_TAG").apply {
 
         // Enable callbacks from MediaButtons and TransportControls
         setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
 
         // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
-        stateBuilder = PlaybackStateCompat.Builder()
+        _stateBuilder = PlaybackStateCompat.Builder()
             .setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
-        setPlaybackState(stateBuilder.build())
+        setPlaybackState(_stateBuilder.build())
     }
 
-    override fun setCallback(callback: MediaSessionCompat.Callback) = mediaSession.setCallback(callback)
+    override fun setCallback(callback: MediaSessionCompat.Callback) = _mediaSession.setCallback(callback)
 
     override fun initMetaData(title: String, description: String?) {
+        _trackTitle = title
         val metadataBuilder = MediaMetadataCompat.Builder()
         //Notification icon in card
         metadataBuilder.putBitmap(
@@ -70,7 +73,7 @@ class SessionManagerImpl @Inject constructor(
         metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, 1)
         metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, 1)
 
-        mediaSession.setMetadata(metadataBuilder.build())
+        _mediaSession.setMetadata(metadataBuilder.build())
     }
 
     override fun setMediaPlaybackState(state: Int) {
@@ -81,19 +84,22 @@ class SessionManagerImpl @Inject constructor(
             playbackStateBuilder.setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE or PlaybackStateCompat.ACTION_PLAY)
         }
         playbackStateBuilder.setState(state, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0f)
-        mediaSession.setPlaybackState(playbackStateBuilder.build())
+        _mediaSession.setPlaybackState(playbackStateBuilder.build())
     }
 
     override var isActive: Boolean
-        get() = mediaSession.isActive
+        get() = _mediaSession.isActive
         set(value) {
-            mediaSession.isActive = value
+            _mediaSession.isActive = value
         }
 
     override val sessionToken: MediaSessionCompat.Token
-        get() = mediaSession.sessionToken
+        get() = _mediaSession.sessionToken
 
     override val controller: MediaControllerCompat
-        get() = mediaSession.controller
+        get() = _mediaSession.controller
+
+    override val trackTitle: String
+        get() = _trackTitle
 
 }

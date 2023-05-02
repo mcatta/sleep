@@ -95,6 +95,7 @@ private fun PlayerController(
     val duration: Duration
     val isPlaying: Boolean
     val stopTimer: Duration?
+    val trackTitle: String
     when (uiState) {
         is PlayerState.Pause,
         is PlayerState.Playing -> (uiState as PlayerState.CommonPlayingState).let {
@@ -102,6 +103,7 @@ private fun PlayerController(
             duration = it.duration
             isPlaying = uiState is PlayerState.Playing
             stopTimer = it.stopTimer
+            trackTitle = it.trackTitle
         }
 
         else -> {
@@ -109,6 +111,7 @@ private fun PlayerController(
             duration = 0.seconds
             isPlaying = false
             stopTimer = null
+            trackTitle = ""
         }
     }
     Column(
@@ -128,6 +131,7 @@ private fun PlayerController(
             BottomPlayerBar(
                 modifier = Modifier.padding(horizontal = Margin16, vertical = Margin2),
                 position = position,
+                description = trackTitle,
                 duration = duration,
                 isPlaying = isPlaying,
                 selectedStopTimer = stopTimer,

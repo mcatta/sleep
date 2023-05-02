@@ -65,12 +65,13 @@ class PlayerStateMachine @Inject constructor(
 
             // Any state
             inState {
-                on { action: PlayerAction.UpdateDuration, state: State<PlayerState> ->
+                on { action: PlayerAction.UpdatePlayerStatus, state: State<PlayerState> ->
                     state.override {
                         PlayerState.Playing(
                             duration = action.duration,
                             position = action.position,
-                            stopTimer = action.stopAfterMinutes
+                            stopTimer = action.stopAfterMinutes,
+                            trackTitle = action.trackTitle
                         )
                     }
                 }
@@ -141,19 +142,22 @@ sealed interface PlayerState {
     data class Playing(
         override val duration: Duration = 0.seconds,
         override val position: Duration = 0.seconds,
-        override val stopTimer: Duration? = null
+        override val stopTimer: Duration? = null,
+        override val trackTitle: String = ""
     ) : CommonPlayingState
 
     data class Pause(
         override val duration: Duration = 0.seconds,
         override val position: Duration = 0.seconds,
-        override val stopTimer: Duration? = null
+        override val stopTimer: Duration? = null,
+        override val trackTitle: String = ""
     ) : CommonPlayingState
 
     interface CommonPlayingState : PlayerState {
         val duration: Duration
         val position: Duration
         val stopTimer: Duration?
+        val trackTitle: String
     }
 
     object Stop : PlayerState
@@ -163,12 +167,12 @@ sealed interface PlayerState {
 sealed interface PlayerAction {
     data class StartPlaying(val mediaFile: MediaFileEntity) : PlayerAction
 
-    //data class UpdateStatus(val status: PlayerState.PlayerStatus) : PlayerAction
-    data class UpdateDuration(
+    data class UpdatePlayerStatus(
         val duration: Duration,
         val position: Duration,
         val stopAfterMinutes: Duration?,
-        val playing: Boolean = false
+        val playing: Boolean = false,
+        val trackTitle: String
     ) : PlayerAction
 
     class PropagateError(val errorCode: Int) : PlayerAction

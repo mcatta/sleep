@@ -118,7 +118,8 @@ class AudioPlayerImpl @Inject constructor(
             isPlaying = mediaPlayer.isPlaying,
             duration = mediaPlayer.duration.div(1_000L).seconds,
             position = position,
-            stopAt = stopAfterMinutes
+            stopAt = stopAfterMinutes,
+            trackTitle = sessionManager.trackTitle
         )
     )
 

@@ -112,11 +112,12 @@ internal class PlayerStateMachineTest {
         playerStateMachine.state.test {
             // When
             playerStateMachine.dispatch(
-                PlayerAction.UpdateDuration(
+                PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     stopAfterMinutes = null,
-                    playing = true
+                    playing = true,
+                    trackTitle = "title"
                 )
             )
             playerStateMachine.dispatch(PlayerAction.Pause)
@@ -134,11 +135,12 @@ internal class PlayerStateMachineTest {
         playerStateMachine.state.test {
             // When
             playerStateMachine.dispatch(
-                PlayerAction.UpdateDuration(
+                PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     stopAfterMinutes = null,
-                    playing = true
+                    playing = true,
+                    trackTitle = "title"
                 )
             )
             playerStateMachine.dispatch(PlayerAction.Pause)
@@ -159,11 +161,12 @@ internal class PlayerStateMachineTest {
         playerStateMachine.state.test {
             // When
             playerStateMachine.dispatch(
-                PlayerAction.UpdateDuration(
+                PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     stopAfterMinutes = null,
-                    playing = true
+                    playing = true,
+                    trackTitle = "title"
                 )
             )
 
@@ -172,6 +175,7 @@ internal class PlayerStateMachineTest {
             awaitItem().let {
                 assertIs<PlayerState.Playing>(it)
 
+                assertEquals("title", it.trackTitle)
                 assertEquals(100L, it.duration.inWholeSeconds)
                 assertEquals(20L, it.position.inWholeSeconds)
                 assertNull(it.stopTimer)
@@ -184,11 +188,12 @@ internal class PlayerStateMachineTest {
         playerStateMachine.state.test {
             // When
             playerStateMachine.dispatch(
-                PlayerAction.UpdateDuration(
+                PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     stopAfterMinutes = null,
-                    playing = true
+                    playing = true,
+                    trackTitle = "title"
                 )
             )
             playerStateMachine.dispatch(PlayerAction.SeekTo(42.seconds))
@@ -205,11 +210,12 @@ internal class PlayerStateMachineTest {
         playerStateMachine.state.test {
             // When
             playerStateMachine.dispatch(
-                PlayerAction.UpdateDuration(
+                PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     stopAfterMinutes = null,
-                    playing = true
+                    playing = true,
+                    trackTitle = "title"
                 )
             )
             playerStateMachine.dispatch(PlayerAction.ForwardOf)
@@ -226,11 +232,12 @@ internal class PlayerStateMachineTest {
         playerStateMachine.state.test {
             // When
             playerStateMachine.dispatch(
-                PlayerAction.UpdateDuration(
+                PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     stopAfterMinutes = null,
-                    playing = true
+                    playing = true,
+                    trackTitle = "title"
                 )
             )
             playerStateMachine.dispatch(PlayerAction.ReplayOf)
@@ -247,11 +254,12 @@ internal class PlayerStateMachineTest {
         playerStateMachine.state.test {
             // When
             playerStateMachine.dispatch(
-                PlayerAction.UpdateDuration(
+                PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     stopAfterMinutes = null,
-                    playing = true
+                    playing = true,
+                    trackTitle = "title"
                 )
             )
             playerStateMachine.dispatch(PlayerAction.PropagateError(500))
