@@ -16,6 +16,7 @@
 
 package dev.marcocattaneo.sleep.ui.screen.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,12 +31,13 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import dev.marcocattaneo.sleep.R
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.ui.composables.*
 import dev.marcocattaneo.core.design.composables.*
 import dev.marcocattaneo.core.design.theme.Dimen
 import dev.marcocattaneo.core.design.theme.placeholder
+import dev.marcocattaneo.sleep.R
+import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
+import dev.marcocattaneo.sleep.ui.composables.Illustration
+import dev.marcocattaneo.sleep.ui.composables.InfoBox
 
 @Composable
 fun HomeScreen(
@@ -83,14 +85,7 @@ fun HomeScreen(
                 }
 
                 TracksState.Loading -> {
-                    repeat(5) {
-                        item {
-                            MediaItem(
-                                modifier = Modifier.placeholder(true),
-                                mediaFile = null
-                            ) {}
-                        }
-                    }
+                    repeat(7) { item { MediaItem(mediaFile = null) {} } }
                 }
 
                 is TracksState.Error -> {
@@ -127,6 +122,7 @@ private fun MediaItem(
     ) {
         val selected = mediaFile?.selected == true
         Icon(
+            modifier = modifierBaseOnMedia(mediaFile),
             painter = painterResource(id = if (selected) R.drawable.ic_baseline_play_circle_filled_24 else R.drawable.ic_baseline_play_circle_outline_24),
             contentDescription = mediaFile?.name ?: "Undefined",
             tint = if (selected) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
@@ -134,15 +130,21 @@ private fun MediaItem(
         Spacer8()
         Column {
             Body1(
+                modifier = modifierBaseOnMedia(mediaFile).fillMaxWidth(),
                 text = mediaFile?.name ?: "Undefined",
                 color = MaterialTheme.colors.onBackground
             )
-            mediaFile?.description?.let { description ->
-                Caption(
-                    text = description,
-                    color = MaterialTheme.colors.onBackground.copy(alpha = 0.8f)
-                )
-            }
+            Spacer4()
+            Caption(
+                modifier = modifierBaseOnMedia(mediaFile).fillMaxWidth(),
+                text = mediaFile?.description ?: "",
+                color = MaterialTheme.colors.onBackground.copy(alpha = 0.8f)
+            )
         }
     }
 }
+
+@SuppressLint("ModifierFactoryExtensionFunction")
+private fun modifierBaseOnMedia(mediaFile: MediaFileEntity?) = if (mediaFile == null) {
+    Modifier.placeholder(true)
+} else Modifier

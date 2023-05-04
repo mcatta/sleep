@@ -50,7 +50,6 @@ class HomeStateMachine @Inject constructor(
                 }
             }
 
-
             inState {
                 on { action: TracksAction.UpdateSelectedTrack, state: State<TracksState.Content> ->
                     state.override { copy(selectedTrackId = action.trackId) }

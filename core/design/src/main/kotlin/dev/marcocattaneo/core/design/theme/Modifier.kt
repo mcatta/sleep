@@ -27,6 +27,7 @@ fun Modifier.placeholder(visible: Boolean) = composed {
     placeholder(
         visible = visible,
         color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.4f),
-        highlight = PlaceholderHighlight.fade(highlightColor = MaterialTheme.colors.primaryVariant)
+        highlight = PlaceholderHighlight.fade(highlightColor = MaterialTheme.colors.primaryVariant),
+        shape = Shapes.medium
     )
 }
