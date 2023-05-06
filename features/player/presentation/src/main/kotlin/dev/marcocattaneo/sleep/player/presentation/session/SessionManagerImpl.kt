@@ -36,10 +36,6 @@ class SessionManagerImpl @Inject constructor(
 
     // Create a MediaSessionCompat
     private val _mediaSession = MediaSessionCompat(context, "MediaPlaybackService_TAG").apply {
-
-        // Enable callbacks from MediaButtons and TransportControls
-        setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-
         // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
         _stateBuilder = PlaybackStateCompat.Builder()
             .setActions(PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_PLAY_PAUSE)
