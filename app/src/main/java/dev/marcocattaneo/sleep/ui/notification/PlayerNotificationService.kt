@@ -75,8 +75,8 @@ class PlayerNotificationService : Service() {
         }
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        when (intent.action) {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        when (intent?.action) {
             Action.PAUSE.key -> audioPlayer.pause()
             Action.PLAY.key -> audioPlayer.play()
             Action.STOP.key -> audioPlayer.stop()
