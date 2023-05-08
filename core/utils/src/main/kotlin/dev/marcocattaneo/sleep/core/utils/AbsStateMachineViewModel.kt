@@ -34,8 +34,12 @@ abstract class AbsStateMachineViewModel <S : Any, A: Any>(
     fun rememberState() = stateMachine.rememberState()
 
 
-    fun dispatch(action: A) = viewModelScope.launch { 
-        stateMachine.dispatch(action)
+    fun dispatch(action: A) = viewModelScope.launch {
+        try {
+            stateMachine.dispatch(action)
+        } catch (_: IllegalStateException) {
+            // Ignore action dispatched before attaching a collector
+        }
     }
     
 }
