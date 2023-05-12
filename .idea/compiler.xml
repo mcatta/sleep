@@ -4,35 +4,35 @@
     <bytecodeTargetLevel target="1.8">
       <module name="android-compose-template.app" target="11" />
       <module name="android-compose-template.buildSrc" target="11" />
-      <module name="build-tools.android" target="17" />
-      <module name="build-tools.android.main" target="17" />
-      <module name="build-tools.android.test" target="17" />
-      <module name="build-tools.common" target="17" />
-      <module name="build-tools.common.main" target="17" />
-      <module name="build-tools.detekt" target="17" />
-      <module name="build-tools.detekt.main" target="17" />
-      <module name="build-tools.detekt.test" target="17" />
-      <module name="build-tools.jacoco" target="17" />
-      <module name="build-tools.jacoco.main" target="17" />
-      <module name="build-tools.jacoco.test" target="17" />
-      <module name="build-tools.jvm" target="17" />
-      <module name="build-tools.jvm.main" target="17" />
-      <module name="sleep-app.app" target="17" />
+      <module name="build-tools.android" target="11" />
+      <module name="build-tools.android.main" target="11" />
+      <module name="build-tools.android.test" target="11" />
+      <module name="build-tools.common" target="11" />
+      <module name="build-tools.common.main" target="11" />
+      <module name="build-tools.detekt" target="11" />
+      <module name="build-tools.detekt.main" target="11" />
+      <module name="build-tools.detekt.test" target="11" />
+      <module name="build-tools.jacoco" target="11" />
+      <module name="build-tools.jacoco.main" target="11" />
+      <module name="build-tools.jacoco.test" target="11" />
+      <module name="build-tools.jvm" target="11" />
+      <module name="build-tools.jvm.main" target="11" />
+      <module name="sleep-app.app" target="11" />
       <module name="sleep-app.buildSrc" target="11" />
       <module name="sleep-app.buildSrc.main" target="11" />
       <module name="sleep-app.buildSrc.test" target="11" />
-      <module name="sleep-app.core.design" target="17" />
-      <module name="sleep-app.core.di" target="17" />
-      <module name="sleep-app.core.testing" target="17" />
-      <module name="sleep-app.core.utils" target="17" />
-      <module name="sleep-app.data" target="17" />
-      <module name="sleep-app.domain" target="17" />
-      <module name="sleep-app.domain.main" target="17" />
-      <module name="sleep-app.domain.test" target="17" />
-      <module name="sleep-app.features.player.presentation" target="17" />
-      <module name="sleep.build-tools.common.test" target="17" />
+      <module name="sleep-app.core.design" target="11" />
+      <module name="sleep-app.core.di" target="11" />
+      <module name="sleep-app.core.testing" target="11" />
+      <module name="sleep-app.core.utils" target="11" />
+      <module name="sleep-app.data" target="11" />
+      <module name="sleep-app.domain" target="11" />
+      <module name="sleep-app.domain.main" target="11" />
+      <module name="sleep-app.domain.test" target="11" />
+      <module name="sleep-app.features.player.presentation" target="11" />
+      <module name="sleep.build-tools.common.test" target="11" />
       <module name="sleep.build-tools.jvm.test" target="11" />
-      <module name="sleep.buildtools.jvm.build-tools.jvm.test" target="17" />
+      <module name="sleep.buildtools.jvm.build-tools.jvm.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
