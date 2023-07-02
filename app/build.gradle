@@ -62,6 +62,8 @@ dependencies {
     implementation libs.bundles.flowredux
     implementation libs.compose.accompanist.swipeToRefresh
 
+    implementation libs.polpetta
+
     implementation libs.arrow
     implementation libs.timber
 

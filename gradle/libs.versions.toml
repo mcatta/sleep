@@ -73,6 +73,8 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
+polpetta = { module = "dev.mcatta:polpetta", version = "0.0.3" }
+
 gradle-android-api = { module = "com.android.tools.build:gradle-api", version.ref = "androidGradlePlugin" }
 gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradle-firebase = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.4" }

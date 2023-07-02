@@ -48,7 +48,10 @@ fun HomeScreen(
 
     SwipeRefresh(
         state = rememberSwipeRefreshState(uiState is TracksState.Loading),
-        onRefresh = { homeViewModel.dispatch(TracksAction.Reload) },
+        onRefresh = {
+            homeViewModel.dispatch(TracksAction.SetLoading)
+            homeViewModel.dispatch(TracksAction.LoadTracks)
+        },
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize()
@@ -93,8 +96,6 @@ fun HomeScreen(
                         Snackbar(message = "Error")
                     }
                 }
-
-                null -> Unit
             }
         }
     }
