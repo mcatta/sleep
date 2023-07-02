@@ -23,21 +23,22 @@ import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import kotlin.test.*
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class PlayerStateMachineTest {
 
     @RelaxedMockK
     lateinit var audioPlayer: AudioPlayer
 
     @RelaxedMockK
-    lateinit var playlistStateMachine: PlaylistStateMachine
+    lateinit var playlistStateStore: PlaylistStateStore
 
     @RelaxedMockK
     lateinit var mediaRepository: MediaRepository
@@ -49,7 +50,7 @@ internal class PlayerStateMachineTest {
         MockKAnnotations.init(this)
         playerStateMachine = PlayerStateMachine(
             audioPlayer = audioPlayer,
-            playlistStateMachine = playlistStateMachine,
+            playlistStateStore = playlistStateStore,
             mediaRepository = mediaRepository
         )
     }
@@ -70,7 +71,7 @@ internal class PlayerStateMachineTest {
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
             coVerify { audioPlayer.start(any(), any(), any()) }
-            coVerify { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
+            coVerify { playlistStateStore.dispatchAction(ofType<PlaylistAction.Update>()) }
         }
     }
 
@@ -91,7 +92,7 @@ internal class PlayerStateMachineTest {
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
             coVerify(exactly = 0) { audioPlayer.start(any(), any(), any()) }
-            coVerify(exactly = 0) { playlistStateMachine.dispatch(ofType<PlaylistAction.Update>()) }
+            coVerify(exactly = 0) { playlistStateStore.dispatchAction(ofType<PlaylistAction.Update>()) }
         }
     }
 

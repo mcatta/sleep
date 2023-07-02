@@ -59,7 +59,6 @@ dependencies {
 
     implementation libs.bundles.androidx
     implementation libs.bundles.compose
-    implementation libs.bundles.flowredux
     implementation libs.compose.accompanist.swipeToRefresh
 
     implementation libs.polpetta

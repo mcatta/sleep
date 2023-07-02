@@ -19,14 +19,14 @@ package dev.marcocattaneo.sleep.ui.screen.home
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.marcocattaneo.sleep.core.utils.AbsStateStoreViewModel
-import dev.marcocattaneo.sleep.player.presentation.screen.PlaylistStateMachine
+import dev.marcocattaneo.sleep.player.presentation.screen.PlaylistStateStore
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val playlistStateMachine: PlaylistStateMachine,
+    private val playlistStateStore: PlaylistStateStore,
     homeStateStore: HomeStateStore
 ) : AbsStateStoreViewModel<TracksAction, TracksState>(
     stateStore = homeStateStore
@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
         dispatch(TracksAction.LoadTracks)
 
         viewModelScope.launch {
-            playlistStateMachine.state.collectLatest { playlistState ->
+            playlistStateStore.stateFlow.collectLatest { playlistState ->
                 if (playlistState.currentTrackId != null) {
                     dispatch(TracksAction.UpdateSelectedTrack(trackId = playlistState.currentTrackId))
                 }

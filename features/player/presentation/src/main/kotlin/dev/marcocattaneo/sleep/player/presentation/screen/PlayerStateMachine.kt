@@ -34,7 +34,7 @@ import kotlin.time.Duration.Companion.seconds
 class PlayerStateMachine @Inject constructor(
     private val mediaRepository: MediaRepository,
     private val audioPlayer: AudioPlayer,
-    private val playlistStateMachine: PlaylistStateMachine
+    private val playlistStateStore: PlaylistStateStore
 ) : FlowReduxStateMachine<PlayerState, PlayerAction>(
     initialState = PlayerState.Stop
 ) {
@@ -85,7 +85,7 @@ class PlayerStateMachine @Inject constructor(
                     mediaRepository.urlFromId(action.mediaFile.id).fold(
                         ifLeft = { state.override { PlayerState.Error(500) } },
                         ifRight = {
-                            playlistStateMachine.dispatch(PlaylistAction.Update(trackId = action.mediaFile.id))
+                            playlistStateStore.dispatchAction(PlaylistAction.Update(trackId = action.mediaFile.id))
 
                             audioPlayer.start(it, action.mediaFile.name, action. mediaFile.description)
                             state.override { PlayerState.Init }
