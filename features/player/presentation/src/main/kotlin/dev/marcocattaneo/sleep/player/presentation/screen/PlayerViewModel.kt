@@ -18,7 +18,7 @@ package dev.marcocattaneo.sleep.player.presentation.screen
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.marcocattaneo.sleep.core.utils.AbsStateMachineViewModel
+import dev.marcocattaneo.sleep.core.utils.AbsStateStoreViewModel
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import dev.marcocattaneo.sleep.player.presentation.state.AudioPlayerEvent
 import kotlinx.coroutines.launch
@@ -27,38 +27,29 @@ import javax.inject.Inject
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
     private val audioPlayer: AudioPlayer,
-    playerStateMachine: PlayerStateMachine,
-) : AbsStateMachineViewModel<PlayerState, PlayerAction>(
-    stateMachine = playerStateMachine
+    playerStateStore: PlayerStateStore
+) : AbsStateStoreViewModel<PlayerAction, PlayerState, Nothing>(
+    stateStore = playerStateStore
 ) {
 
     init {
         viewModelScope.launch {
             audioPlayer.state().collect { playerEvent ->
                 when (playerEvent) {
-                    AudioPlayerEvent.Stop -> listOf(
-                        PlayerAction.StopAfter(null), PlayerAction.Stop
+                    is AudioPlayerEvent.PlayerStatus -> PlayerAction.UpdatePlayerStatus(
+                        duration = playerEvent.duration,
+                        position = playerEvent.position,
+                        stopAfterMinutes = playerEvent.stopAt,
+                        playing = playerEvent.isPlaying,
+                        trackTitle = playerEvent.trackTitle
                     )
 
-                    is AudioPlayerEvent.PlayerStatus -> listOf(
-                        PlayerAction.UpdatePlayerStatus(
-                            duration = playerEvent.duration,
-                            position = playerEvent.position,
-                            stopAfterMinutes = playerEvent.stopAt,
-                            playing = playerEvent.isPlaying,
-                            trackTitle = playerEvent.trackTitle
-                        )
-                    )
+                    is AudioPlayerEvent.Error -> PlayerAction.PropagateError(playerEvent.errorCode)
 
-                    is AudioPlayerEvent.Error -> listOf(
-                        PlayerAction.PropagateError(playerEvent.errorCode)
-                    )
-
-                    AudioPlayerEvent.Disposed -> null
-                    AudioPlayerEvent.Init -> null
+                    AudioPlayerEvent.Disposed,
+                    AudioPlayerEvent.Init,
                     AudioPlayerEvent.None -> null
-                    AudioPlayerEvent.Pause -> null
-                }?.map(::dispatch)
+                }?.let(::dispatch)
             }
         }
     }

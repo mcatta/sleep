@@ -27,15 +27,15 @@ import javax.inject.Singleton
 @Singleton
 class PlaylistStateStore @Inject constructor(
     @CoroutineContextScope coroutineScope: CoroutineScope
-) : StateStore<PlaylistAction, PlaylistState>(
+) : StateStore<PlaylistAction, PlaylistState, Nothing>(
     initialState = PlaylistState(),
     coroutineScope = coroutineScope,
     reducerFactory = {
-        on<PlaylistAction.Update> { action, modifier ->
+        on<PlaylistAction.Update, PlaylistState> { action, modifier ->
             modifier.mutate { copy(currentTrackId = action.trackId) }
         }
 
-        on<PlaylistAction.Clear> { _, modifier ->
+        on<PlaylistAction.Clear, PlaylistState> { _, modifier ->
             modifier.mutate { copy(currentTrackId = null) }
         }
     }

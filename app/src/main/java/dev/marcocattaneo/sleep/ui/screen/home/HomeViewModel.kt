@@ -28,7 +28,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val playlistStateStore: PlaylistStateStore,
     homeStateStore: HomeStateStore
-) : AbsStateStoreViewModel<TracksAction, TracksState>(
+) : AbsStateStoreViewModel<TracksAction, TracksState, Nothing>(
     stateStore = homeStateStore
 ) {
 

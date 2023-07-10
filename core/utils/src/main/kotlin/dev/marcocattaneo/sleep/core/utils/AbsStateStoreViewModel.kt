@@ -22,11 +22,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.mcatta.polpetta.StateStore
 import dev.mcatta.polpetta.operators.Action
+import dev.mcatta.polpetta.operators.SideEffect
 import dev.mcatta.polpetta.operators.State
 import kotlinx.coroutines.launch
 
-abstract class AbsStateStoreViewModel <A : Action, S : State>(
-    private val stateStore: StateStore<A, S>
+abstract class AbsStateStoreViewModel <A : Action, S : State, SE : SideEffect>(
+    private val stateStore: StateStore<A, S, SE>
 ) : ViewModel() {
 
     @Composable

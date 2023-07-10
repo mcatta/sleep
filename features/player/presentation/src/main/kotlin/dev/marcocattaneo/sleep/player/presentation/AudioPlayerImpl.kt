@@ -87,10 +87,6 @@ class AudioPlayerImpl @Inject constructor(
                 false
             }
 
-            setOnCompletionListener {
-                emitState(AudioPlayerEvent.Stop)
-            }
-
         }
 
         timer.schedule(object : TimerTask() {
@@ -142,9 +138,7 @@ class AudioPlayerImpl @Inject constructor(
         }
     }
 
-    override fun pause() = mediaPlayer.pause().also {
-        emitState(AudioPlayerEvent.Pause)
-    }
+    override fun pause() = mediaPlayer.pause()
 
     override fun play() = mediaPlayer.start().also() {
         updatePlayerStatus(mediaPlayer)
@@ -160,8 +154,9 @@ class AudioPlayerImpl @Inject constructor(
             )
         }
 
-    override fun stop() = mediaPlayer.stop().also {
-        emitState(AudioPlayerEvent.Stop)
+    override fun stop() {
+        mediaPlayer.stop()
+        stopAfter(null)
     }
 
     override fun stopAfter(minutes: Duration?) {

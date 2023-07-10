@@ -90,18 +90,17 @@ private fun PlayerController(
     playerViewModel: PlayerViewModel,
     modifier: Modifier = Modifier
 ) {
-    val isVisible = uiState is PlayerState.Playing || uiState is PlayerState.Pause || uiState is PlayerState.Init
+    val isVisible = uiState is PlayerState.Ready
     val position: Duration
     val duration: Duration
     val isPlaying: Boolean
     val stopTimer: Duration?
     val trackTitle: String
     when (uiState) {
-        is PlayerState.Pause,
-        is PlayerState.Playing -> (uiState as PlayerState.CommonPlayingState).let {
+        is PlayerState.Ready -> uiState.let {
             position = it.position
             duration = it.duration
-            isPlaying = uiState is PlayerState.Playing
+            isPlaying = it.status == PlayerState.Status.Playing
             stopTimer = it.stopTimer
             trackTitle = it.trackTitle
         }

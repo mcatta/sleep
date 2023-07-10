@@ -32,6 +32,4 @@ sealed interface AudioPlayerEvent {
         val trackTitle: String = ""
     ) : AudioPlayerEvent
 
-    object Pause : AudioPlayerEvent
-    object Stop : AudioPlayerEvent
 }

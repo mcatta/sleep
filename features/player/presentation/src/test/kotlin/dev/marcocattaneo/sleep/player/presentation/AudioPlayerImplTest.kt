@@ -101,7 +101,6 @@ internal class AudioPlayerImplTest {
             verify { mediaPlayer.stop() }
 
             assertIs<AudioPlayerEvent.None>(awaitItem())
-            assertIs<AudioPlayerEvent.Stop>(awaitItem())
         }
     }
 
@@ -118,7 +117,6 @@ internal class AudioPlayerImplTest {
             verify { mediaPlayer.pause() }
 
             assertIs<AudioPlayerEvent.None>(awaitItem())
-            assertIs<AudioPlayerEvent.Pause>(awaitItem())
         }
     }
 

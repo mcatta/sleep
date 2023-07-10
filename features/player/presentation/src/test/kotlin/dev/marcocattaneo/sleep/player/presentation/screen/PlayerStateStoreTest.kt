@@ -1,19 +1,3 @@
-/*
- * Copyright 2023 Marco Cattaneo
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package dev.marcocattaneo.sleep.player.presentation.screen
 
 import app.cash.turbine.test
@@ -28,11 +12,13 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
 import kotlin.test.*
 import kotlin.time.Duration.Companion.seconds
 
-internal class PlayerStateMachineTest {
+internal class PlayerStateStoreTest {
 
     @RelaxedMockK
     lateinit var audioPlayer: AudioPlayer
@@ -43,16 +29,15 @@ internal class PlayerStateMachineTest {
     @RelaxedMockK
     lateinit var mediaRepository: MediaRepository
 
-    private lateinit var playerStateMachine: PlayerStateMachine
+    private lateinit var playerStateStore: PlayerStateStore
+
+    private lateinit var testCoroutineScope: CoroutineScope
 
     @BeforeTest
     fun setup() {
         MockKAnnotations.init(this)
-        playerStateMachine = PlayerStateMachine(
-            audioPlayer = audioPlayer,
-            playlistStateStore = playlistStateStore,
-            mediaRepository = mediaRepository
-        )
+        testCoroutineScope = CoroutineScope(Dispatchers.Unconfined)
+        playerStateStore = PlayerStateStore(testCoroutineScope, audioPlayer, mediaRepository, playlistStateStore)
     }
 
     @Test
@@ -60,13 +45,13 @@ internal class PlayerStateMachineTest {
         // Given
         coEvery { mediaRepository.urlFromId(any()) } returns Either.Right("https://resource")
 
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(PlayerAction.StartPlaying(fakeMediaFile()))
+            playerStateStore.dispatchAction(PlayerAction.StartPlaying(fakeMediaFile()))
 
             // Then
-            assertIs<PlayerState>(awaitItem())
-            assertIs<PlayerState.Init>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
+            assertIs<PlayerState.Ready>(awaitItem())
 
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
@@ -80,14 +65,13 @@ internal class PlayerStateMachineTest {
         // Given
         coEvery { mediaRepository.urlFromId(any()) } returns Either.Left(AppException.FileNotFound)
 
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(PlayerAction.StartPlaying(fakeMediaFile()))
+            playerStateStore.dispatchAction(PlayerAction.StartPlaying(fakeMediaFile()))
 
             // Then
-            assertIs<PlayerState>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Error>(awaitItem())
-            assertIs<PlayerState.Stop>(awaitItem())
 
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
@@ -98,21 +82,21 @@ internal class PlayerStateMachineTest {
 
     @Test
     fun `Test PlayerAction Stop`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(PlayerAction.Stop)
+            playerStateStore.dispatchAction(PlayerAction.Stop)
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
             coVerify { audioPlayer.stop() }
         }
     }
 
     @Test
     fun `Test PlayerAction Pause`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(
+            playerStateStore.dispatchAction(
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
@@ -121,21 +105,24 @@ internal class PlayerStateMachineTest {
                     trackTitle = "title"
                 )
             )
-            playerStateMachine.dispatch(PlayerAction.Pause)
+            playerStateStore.dispatchAction(PlayerAction.Pause)
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
-            assertIs<PlayerState.Playing>(awaitItem())
-            assertIs<PlayerState.Pause>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
+            assertIs<PlayerState.Ready>(awaitItem())
+            awaitItem().let { state ->
+                assertIs<PlayerState.Ready>(state)
+                assertEquals(PlayerState.Status.Paused, state.status)
+            }
             coVerify { audioPlayer.pause() }
         }
     }
 
     @Test
     fun `Test PlayerAction Pause and Play`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(
+            playerStateStore.dispatchAction(
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
@@ -144,14 +131,20 @@ internal class PlayerStateMachineTest {
                     trackTitle = "title"
                 )
             )
-            playerStateMachine.dispatch(PlayerAction.Pause)
-            playerStateMachine.dispatch(PlayerAction.Play)
+            playerStateStore.dispatchAction(PlayerAction.Pause)
+            playerStateStore.dispatchAction(PlayerAction.Play)
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
-            assertIs<PlayerState.Playing>(awaitItem())
-            assertIs<PlayerState.Pause>(awaitItem())
-            assertIs<PlayerState.Playing>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
+            assertIs<PlayerState.Ready>(awaitItem())
+            awaitItem().let { state ->
+                assertIs<PlayerState.Ready>(state)
+                assertEquals(PlayerState.Status.Paused, state.status)
+            }
+            awaitItem().let { state ->
+                assertIs<PlayerState.Ready>(state)
+                assertEquals(PlayerState.Status.Playing, state.status)
+            }
             coVerify { audioPlayer.pause() }
             coVerify { audioPlayer.play() }
         }
@@ -159,9 +152,9 @@ internal class PlayerStateMachineTest {
 
     @Test
     fun `Test PlayerAction UpdateDuration`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(
+            playerStateStore.dispatchAction(
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
@@ -172,9 +165,9 @@ internal class PlayerStateMachineTest {
             )
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
             awaitItem().let {
-                assertIs<PlayerState.Playing>(it)
+                assertIs<PlayerState.Ready>(it)
 
                 assertEquals("title", it.trackTitle)
                 assertEquals(100L, it.duration.inWholeSeconds)
@@ -186,9 +179,9 @@ internal class PlayerStateMachineTest {
 
     @Test
     fun `Test PlayerAction Seeking`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(
+            playerStateStore.dispatchAction(
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
@@ -197,20 +190,20 @@ internal class PlayerStateMachineTest {
                     trackTitle = "title"
                 )
             )
-            playerStateMachine.dispatch(PlayerAction.SeekTo(42.seconds))
+            playerStateStore.dispatchAction(PlayerAction.SeekTo(42.seconds))
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
-            assertIs<PlayerState.Playing>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
+            assertIs<PlayerState.Ready>(awaitItem())
             verify { audioPlayer.seekTo(anyValue()) }
         }
     }
 
     @Test
     fun `Test PlayerAction ForwardOf`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(
+            playerStateStore.dispatchAction(
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
@@ -219,20 +212,20 @@ internal class PlayerStateMachineTest {
                     trackTitle = "title"
                 )
             )
-            playerStateMachine.dispatch(PlayerAction.ForwardOf)
+            playerStateStore.dispatchAction(PlayerAction.ForwardOf)
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
-            assertIs<PlayerState.Playing>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
+            assertIs<PlayerState.Ready>(awaitItem())
             verify { audioPlayer.forwardOf(anyValue()) }
         }
     }
 
     @Test
     fun `Test PlayerAction ReplayOf`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(
+            playerStateStore.dispatchAction(
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
@@ -241,20 +234,20 @@ internal class PlayerStateMachineTest {
                     trackTitle = "title"
                 )
             )
-            playerStateMachine.dispatch(PlayerAction.ReplayOf)
+            playerStateStore.dispatchAction(PlayerAction.ReplayOf)
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
-            assertIs<PlayerState.Playing>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
+            assertIs<PlayerState.Ready>(awaitItem())
             coVerify { audioPlayer.replayOf(anyValue()) }
         }
     }
 
     @Test
     fun `Test PlayerAction PropagateError`() = runTest {
-        playerStateMachine.state.test {
+        playerStateStore.stateFlow.test {
             // When
-            playerStateMachine.dispatch(
+            playerStateStore.dispatchAction(
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
@@ -263,14 +256,12 @@ internal class PlayerStateMachineTest {
                     trackTitle = "title"
                 )
             )
-            playerStateMachine.dispatch(PlayerAction.PropagateError(500))
+            playerStateStore.dispatchAction(PlayerAction.PropagateError(500))
 
             // Then
-            assertIs<PlayerState.Stop>(awaitItem())
-            assertIs<PlayerState.Playing>(awaitItem())
+            assertIs<PlayerState.Idle>(awaitItem())
+            assertIs<PlayerState.Ready>(awaitItem())
             assertIs<PlayerState.Error>(awaitItem())
-            assertIs<PlayerState.Stop>(awaitItem())
         }
     }
-
 }

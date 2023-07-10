@@ -30,25 +30,23 @@ import javax.inject.Inject
 class HomeStateStore @Inject constructor(
     @CoroutineContextScope coroutineScope: CoroutineScope,
     private val mediaRepository: MediaRepository
-) : StateStore<TracksAction, TracksState>(
+) : StateStore<TracksAction, TracksState, Nothing>(
     initialState = TracksState.Loading,
     coroutineScope = coroutineScope,
     reducerFactory = {
-        on<TracksAction.SetLoading> { _, modifier ->
+        on<TracksAction.SetLoading, TracksState.Loading> { _, modifier ->
             modifier.mutate { TracksState.Loading }
         }
 
-        on<TracksAction.LoadTracks> { _, modifier ->
-            modifier.mutate {
-                mediaRepository.listMedia().fold(
-                    ifLeft = { err -> modifier.mutate { TracksState.Error(err.message) } },
-                    ifRight = { list -> modifier.mutate { TracksState.Content(list) } }
-                )
-            }
+        on<TracksAction.LoadTracks, TracksState.Loading> { _, modifier ->
+            mediaRepository.listMedia().fold(
+                ifLeft = { err -> modifier.transform { TracksState.Error(err.message) } },
+                ifRight = { list -> modifier.transform { TracksState.Content(list) } }
+            )
         }
 
-        on<TracksAction.UpdateSelectedTrack> { action, modifier ->
-            modifier.mutate<TracksState.Content> { copy(selectedTrackId = action.trackId) }
+        on<TracksAction.UpdateSelectedTrack, TracksState.Content> { action, modifier ->
+            modifier.mutate { copy(selectedTrackId = action.trackId) }
         }
     }
 )
