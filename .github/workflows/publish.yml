@@ -1,10 +1,11 @@
-name: Deploy on Play Store
+name: Publish
 
 on:
   workflow_dispatch:
   
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.4.2
@@ -19,6 +20,7 @@ jobs:
       run: ./gradlew testRelease
       
   build:
+    name: Build AAB and APK
     needs: [test]
     runs-on: ubuntu-latest
     steps:
@@ -35,24 +37,44 @@ jobs:
       run: |
         echo '${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }}' > app/google-services.json
     - name: Build release
-      run: ./gradlew bundleRelease
+      run: ./gradlew assembleRelease bundleRelease
     - name: Upload artifact
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: aab
-        path: ./app/build/outputs/bundle/release/app-release.aab
+        name: build-outputs
+        path: |
+          ./app/build/outputs/bundle/release/app-release.aab
+          ./app/build/outputs/apk/release/app-release.apk
 
-  publish:
-    needs: [test, build]
+  publish_play_store:
+    name: Publish on PlayStore
+    needs: [ test, build ]
     runs-on: ubuntu-latest
     steps:
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v3.0.0
-      with:
-        name: aab
-    - name: Publish on Google Play Store
-      uses: r0adkll/upload-google-play@v1
-      with:
-        serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-        packageName: dev.marcocattaneo.sleep
-        releaseFiles: app-release.aab
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: build-outputs
+      - name: Publish on Google Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: dev.marcocattaneo.sleep
+          releaseFiles: app-release.aab
+
+  publish_apk:
+    name: Publish APK on Github
+    needs: [ test, build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: build-outputs
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: true
+          title: "Pre-release"
+          files: |
+            app-release.apk
