@@ -46,9 +46,12 @@ class PlayerViewModel @Inject constructor(
 
                     is AudioPlayerEvent.Error -> PlayerAction.PropagateError(playerEvent.errorCode)
 
-                    AudioPlayerEvent.Disposed,
-                    AudioPlayerEvent.Init,
-                    AudioPlayerEvent.None -> null
+                    is AudioPlayerEvent.Stop -> PlayerAction.Stop
+
+                    is AudioPlayerEvent.Disposed,
+                    is AudioPlayerEvent.Init,
+                    is AudioPlayerEvent.None -> null
+
                 }?.let(::dispatch)
             }
         }

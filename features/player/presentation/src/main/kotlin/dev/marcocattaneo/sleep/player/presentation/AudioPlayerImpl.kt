@@ -87,6 +87,10 @@ class AudioPlayerImpl @Inject constructor(
                 false
             }
 
+            setOnCompletionListener {
+                emitState(AudioPlayerEvent.Stop)
+            }
+
         }
 
         timer.schedule(object : TimerTask() {

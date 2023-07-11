@@ -62,9 +62,10 @@ class PlayerNotificationService : Service() {
                     )
 
                     is AudioPlayerEvent.Error,
-                    AudioPlayerEvent.Disposed -> stopForegroundService()
+                    is AudioPlayerEvent.Disposed -> stopForegroundService()
 
-                    AudioPlayerEvent.None -> Unit
+                    is AudioPlayerEvent.Stop,
+                    is AudioPlayerEvent.None -> Unit
                 }
             }
         }
