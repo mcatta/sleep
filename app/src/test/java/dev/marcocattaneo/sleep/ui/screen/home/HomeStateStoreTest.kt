@@ -1,19 +1,3 @@
-/*
- * Copyright 2022 Marco Cattaneo
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package dev.marcocattaneo.sleep.ui.screen.home
 
 import app.cash.turbine.test
@@ -23,25 +7,29 @@ import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertIs
 
-@OptIn(ExperimentalCoroutinesApi::class)
-internal class HomeStateMachineTest {
+internal class HomeStateStoreTest {
 
-    @RelaxedMockK
+    @MockK
     lateinit var mediaRepository: MediaRepository
 
-    private lateinit var homeStateMachine: HomeStateMachine
+    private lateinit var testCoroutineScope: CoroutineScope
 
-    @Before
+    private lateinit var homeStateStore: HomeStateStore
+
+    @BeforeTest
     fun setup() {
         MockKAnnotations.init(this)
-        homeStateMachine = HomeStateMachine(
+        testCoroutineScope = CoroutineScope(Dispatchers.Unconfined)
+        homeStateStore = HomeStateStore(
+            coroutineScope = testCoroutineScope,
             mediaRepository = mediaRepository
         )
     }
@@ -51,9 +39,13 @@ internal class HomeStateMachineTest {
         // Given
         coEvery { mediaRepository.listMedia(any()) } returns Either.Left(AppException.GenericError)
 
-        // When
-        homeStateMachine.state.test {
+        homeStateStore.stateFlow.test {
+            // When
+            homeStateStore.dispatchAction(TracksAction.SetLoading)
+            homeStateStore.dispatchAction(TracksAction.LoadTracks)
+
             // Then
+            assertIs<TracksState.Content>(awaitItem())
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Error>(awaitItem())
 
@@ -66,9 +58,13 @@ internal class HomeStateMachineTest {
         // Given
         coEvery { mediaRepository.listMedia(any()) } returns Either.Right(emptyList())
 
-        // When
-        homeStateMachine.state.test {
+        homeStateStore.stateFlow.test {
+            // When
+            homeStateStore.dispatchAction(TracksAction.SetLoading)
+            homeStateStore.dispatchAction(TracksAction.LoadTracks)
+
             // Then
+            assertIs<TracksState.Content>(awaitItem())
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Content>(awaitItem())
 
@@ -82,16 +78,17 @@ internal class HomeStateMachineTest {
         coEvery { mediaRepository.listMedia(any()) } returns Either.Left(AppException.GenericError)
 
         // When
-        homeStateMachine.state.test {
-            homeStateMachine.dispatch(TracksAction.Reload)
+        homeStateStore.stateFlow.test {
+            // When
+            homeStateStore.dispatchAction(TracksAction.SetLoading)
+            homeStateStore.dispatchAction(TracksAction.LoadTracks)
 
             // Then
-            assertIs<TracksState.Loading>(awaitItem())
-            assertIs<TracksState.Error>(awaitItem())
+            assertIs<TracksState.Content>(awaitItem())
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Error>(awaitItem())
 
-            coVerify(exactly = 2) { mediaRepository.listMedia(any()) }
+            coVerify(exactly = 1) { mediaRepository.listMedia(any()) }
         }
     }
 
@@ -101,8 +98,13 @@ internal class HomeStateMachineTest {
         coEvery { mediaRepository.listMedia(any()) } returns Either.Right(emptyList())
 
         // When
-        homeStateMachine.state.test {
-            homeStateMachine.dispatch(TracksAction.Reload)
+        homeStateStore.stateFlow.test {
+            // When
+            assertIs<TracksState.Content>(awaitItem())
+            homeStateStore.dispatchAction(TracksAction.SetLoading)
+            homeStateStore.dispatchAction(TracksAction.LoadTracks)
+            homeStateStore.dispatchAction(TracksAction.SetLoading)
+            homeStateStore.dispatchAction(TracksAction.LoadTracks)
 
             // Then
             assertIs<TracksState.Loading>(awaitItem())
@@ -113,4 +115,5 @@ internal class HomeStateMachineTest {
             coVerify(exactly = 2) { mediaRepository.listMedia(any()) }
         }
     }
+
 }

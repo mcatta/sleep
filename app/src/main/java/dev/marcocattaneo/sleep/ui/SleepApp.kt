@@ -55,6 +55,7 @@ fun SleepApp() {
                         route = Routes.Dashboard
                     ) { _, vm ->
                         HomeScreen(vm, onClickMediaFile = {
+                            playerViewModel.dispatch(PlayerAction.Stop)
                             playerViewModel.dispatch(PlayerAction.StartPlaying(it))
                         })
                     }

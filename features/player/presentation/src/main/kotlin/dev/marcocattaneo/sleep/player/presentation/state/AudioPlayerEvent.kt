@@ -20,6 +20,7 @@ import kotlin.time.Duration
 
 sealed interface AudioPlayerEvent {
     object None : AudioPlayerEvent
+    object Stop : AudioPlayerEvent
     object Disposed : AudioPlayerEvent
     object Init : AudioPlayerEvent
 
@@ -32,6 +33,4 @@ sealed interface AudioPlayerEvent {
         val trackTitle: String = ""
     ) : AudioPlayerEvent
 
-    object Pause : AudioPlayerEvent
-    object Stop : AudioPlayerEvent
 }

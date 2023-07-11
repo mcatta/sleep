@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,29 +17,25 @@
 package dev.marcocattaneo.sleep.core.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.freeletics.flowredux.compose.rememberState
-import com.freeletics.flowredux.dsl.FlowReduxStateMachine
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import dev.mcatta.polpetta.StateStore
+import dev.mcatta.polpetta.operators.Action
+import dev.mcatta.polpetta.operators.SideEffect
+import dev.mcatta.polpetta.operators.State
 import kotlinx.coroutines.launch
 
-@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-abstract class AbsStateMachineViewModel <S : Any, A: Any>(
-    private val stateMachine: FlowReduxStateMachine<S, A>
-): ViewModel() {
+abstract class AbsStateStoreViewModel <A : Action, S : State, SE : SideEffect>(
+    private val stateStore: StateStore<A, S, SE>
+) : ViewModel() {
 
     @Composable
-    fun rememberState() = stateMachine.rememberState()
+    fun rememberState() = stateStore.stateFlow.collectAsState()
 
 
     fun dispatch(action: A) = viewModelScope.launch {
-        try {
-            stateMachine.dispatch(action)
-        } catch (_: IllegalStateException) {
-            // Ignore action dispatched before attaching a collector
-        }
+        stateStore.dispatchAction(action)
     }
-    
+
 }

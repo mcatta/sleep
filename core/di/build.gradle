@@ -24,5 +24,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.hilt.core)
+    implementation libs.hilt.core
+    implementation libs.coroutine.core
 }

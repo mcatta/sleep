@@ -61,15 +61,11 @@ class PlayerNotificationService : Service() {
                         isPlaying = true
                     )
 
-                    is AudioPlayerEvent.Pause -> playerNotificationManager.updateNotification(
-                        isPlaying = false
-                    )
-
                     is AudioPlayerEvent.Error,
-                    AudioPlayerEvent.Stop,
-                    AudioPlayerEvent.Disposed -> stopForegroundService()
+                    is AudioPlayerEvent.Disposed -> stopForegroundService()
 
-                    AudioPlayerEvent.None -> Unit
+                    is AudioPlayerEvent.Stop,
+                    is AudioPlayerEvent.None -> Unit
                 }
             }
         }
