@@ -45,6 +45,7 @@ internal class HomeStateStoreTest {
             homeStateStore.dispatchAction(TracksAction.LoadTracks)
 
             // Then
+            assertIs<TracksState.Content>(awaitItem())
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Error>(awaitItem())
 
@@ -63,6 +64,7 @@ internal class HomeStateStoreTest {
             homeStateStore.dispatchAction(TracksAction.LoadTracks)
 
             // Then
+            assertIs<TracksState.Content>(awaitItem())
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Content>(awaitItem())
 
@@ -82,6 +84,7 @@ internal class HomeStateStoreTest {
             homeStateStore.dispatchAction(TracksAction.LoadTracks)
 
             // Then
+            assertIs<TracksState.Content>(awaitItem())
             assertIs<TracksState.Loading>(awaitItem())
             assertIs<TracksState.Error>(awaitItem())
 
@@ -97,6 +100,7 @@ internal class HomeStateStoreTest {
         // When
         homeStateStore.stateFlow.test {
             // When
+            assertIs<TracksState.Content>(awaitItem())
             homeStateStore.dispatchAction(TracksAction.SetLoading)
             homeStateStore.dispatchAction(TracksAction.LoadTracks)
             homeStateStore.dispatchAction(TracksAction.SetLoading)

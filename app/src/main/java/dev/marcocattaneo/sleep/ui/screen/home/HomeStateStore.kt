@@ -31,14 +31,14 @@ class HomeStateStore @Inject constructor(
     @CoroutineContextScope coroutineScope: CoroutineScope,
     private val mediaRepository: MediaRepository
 ) : StateStore<TracksAction, TracksState, Nothing>(
-    initialState = TracksState.Loading,
+    initialState = TracksState.Content(),
     coroutineScope = coroutineScope,
     reducerFactory = {
-        on<TracksAction.SetLoading, TracksState.Loading> { _, modifier ->
-            modifier.mutate { TracksState.Loading }
+        on<TracksAction.SetLoading, TracksState> { _, modifier ->
+            modifier.transform { TracksState.Loading }
         }
 
-        on<TracksAction.LoadTracks, TracksState.Loading> { _, modifier ->
+        on<TracksAction.LoadTracks, TracksState> { _, modifier ->
             mediaRepository.listMedia().fold(
                 ifLeft = { err -> modifier.transform { TracksState.Error(err.message) } },
                 ifRight = { list -> modifier.transform { TracksState.Content(list) } }
