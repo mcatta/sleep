@@ -62,7 +62,7 @@ jobs:
         with:
           serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
           packageName: dev.marcocattaneo.sleep
-          releaseFiles: app-release.aab
+          releaseFiles: bundle/release/app-release.aab
 
   publish_apk:
     name: Publish APK on Github
@@ -79,4 +79,4 @@ jobs:
           prerelease: true
           title: "Pre-release"
           files: |
-            app-release.apk
+            apk/release/app-release.apk
