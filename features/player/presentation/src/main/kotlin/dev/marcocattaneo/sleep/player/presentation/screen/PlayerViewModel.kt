@@ -39,7 +39,6 @@ class PlayerViewModel @Inject constructor(
                     is AudioPlayerEvent.PlayerStatus -> PlayerAction.UpdatePlayerStatus(
                         duration = playerEvent.duration,
                         position = playerEvent.position,
-                        stopAfterMinutes = playerEvent.stopAt,
                         playing = playerEvent.isPlaying,
                         trackTitle = playerEvent.trackTitle
                     )

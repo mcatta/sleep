@@ -29,7 +29,6 @@ sealed interface AudioPlayerEvent {
         val isPlaying: Boolean,
         val position: Duration,
         val duration: Duration,
-        val stopAt: Duration? = null,
         val trackTitle: String = ""
     ) : AudioPlayerEvent
 

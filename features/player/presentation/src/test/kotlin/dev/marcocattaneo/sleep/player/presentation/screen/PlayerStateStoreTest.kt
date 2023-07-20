@@ -100,7 +100,6 @@ internal class PlayerStateStoreTest {
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
-                    stopAfterMinutes = null,
                     playing = true,
                     trackTitle = "title"
                 )
@@ -126,7 +125,6 @@ internal class PlayerStateStoreTest {
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
-                    stopAfterMinutes = null,
                     playing = true,
                     trackTitle = "title"
                 )
@@ -158,7 +156,6 @@ internal class PlayerStateStoreTest {
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
-                    stopAfterMinutes = null,
                     playing = true,
                     trackTitle = "title"
                 )
@@ -185,7 +182,6 @@ internal class PlayerStateStoreTest {
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
-                    stopAfterMinutes = null,
                     playing = true,
                     trackTitle = "title"
                 )
@@ -207,7 +203,6 @@ internal class PlayerStateStoreTest {
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
-                    stopAfterMinutes = null,
                     playing = true,
                     trackTitle = "title"
                 )
@@ -229,7 +224,6 @@ internal class PlayerStateStoreTest {
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
-                    stopAfterMinutes = null,
                     playing = true,
                     trackTitle = "title"
                 )
@@ -251,7 +245,6 @@ internal class PlayerStateStoreTest {
                 PlayerAction.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
-                    stopAfterMinutes = null,
                     playing = true,
                     trackTitle = "title"
                 )

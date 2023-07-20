@@ -63,10 +63,6 @@ class AudioPlayerImpl @Inject constructor(
 
     private val playerStateFlow = MutableStateFlow<AudioPlayerEvent>(AudioPlayerEvent.None)
 
-    private var stopDate: Long? = null
-
-    private var stopAfterMinutes: Duration? = null
-
     private val timer = Timer()
 
     init {
@@ -95,15 +91,7 @@ class AudioPlayerImpl @Inject constructor(
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                if (mediaPlayer.isPlaying) {
-                    updatePlayerStatus(mediaPlayer)
-
-                    stopDate?.let { stopDate ->
-                        if (System.currentTimeMillis() > stopDate) {
-                            stop()
-                        }
-                    }
-                }
+                if (mediaPlayer.isPlaying) { updatePlayerStatus(mediaPlayer) }
             }
         }, 0, 1_000)
     }
@@ -118,7 +106,6 @@ class AudioPlayerImpl @Inject constructor(
             isPlaying = mediaPlayer.isPlaying,
             duration = mediaPlayer.duration.div(1_000L).seconds,
             position = position,
-            stopAt = stopAfterMinutes,
             trackTitle = sessionManager.trackTitle
         )
     )
@@ -131,8 +118,6 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun start(url: String, title: String, description: String?) {
         sessionManager.initMetaData(title, description)
-        stopDate = null
-        stopAfterMinutes = null
         emitState(AudioPlayerEvent.Init)
         mediaPlayer.stop()
         mediaPlayer.reset()
@@ -144,7 +129,7 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun pause() = mediaPlayer.pause()
 
-    override fun play() = mediaPlayer.start().also() {
+    override fun play() = mediaPlayer.start().also {
         updatePlayerStatus(mediaPlayer)
     }
 
@@ -160,12 +145,6 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun stop() {
         mediaPlayer.stop()
-        stopAfter(null)
-    }
-
-    override fun stopAfter(minutes: Duration?) {
-        stopAfterMinutes = minutes
-        stopDate = minutes?.let { System.currentTimeMillis().plus(it.inWholeMilliseconds) }
     }
 
     override fun dispose() {

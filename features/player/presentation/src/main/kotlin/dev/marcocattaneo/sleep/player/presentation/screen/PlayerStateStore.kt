@@ -37,7 +37,6 @@ class PlayerStateStore @Inject constructor(
     private val playlistStateStore: PlaylistStateStore
 ) : StateStore<PlayerAction, PlayerState, Nothing>(
     coroutineScope = coroutineScope,
-    debugMode = true,
     initialState = PlayerState.Idle,
     reducerFactory = {
 
@@ -75,13 +74,31 @@ class PlayerStateStore @Inject constructor(
 
         on<PlayerAction.UpdatePlayerStatus, PlayerState> { action, state ->
             state.transform {
-                PlayerState.Ready(
-                    duration = action.duration,
-                    position = action.position,
-                    stopTimer = action.stopAfterMinutes,
-                    trackTitle = action.trackTitle,
-                    status = PlayerState.Status.Playing
-                )
+                // Check if the stop timer is passed
+
+                if (this is PlayerState.Ready) {
+                    val mustStop = stopDate?.let { stopDate -> System.currentTimeMillis() > stopDate } ?: false
+                    if (mustStop) {
+                        audioPlayer.stop()
+                        PlayerState.Idle
+                    } else {
+                        copy(
+                            duration = action.duration,
+                            position = action.position,
+                            trackTitle = action.trackTitle,
+                            status = PlayerState.Status.Playing,
+                            stopDate = stopDate,
+                            stopTimer = stopTimer
+                        )
+                    }
+                } else {
+                    PlayerState.Ready(
+                        duration = action.duration,
+                        position = action.position,
+                        trackTitle = action.trackTitle,
+                        status = PlayerState.Status.Playing
+                    )
+                }
             }
         }
 
@@ -101,9 +118,11 @@ class PlayerStateStore @Inject constructor(
                 val newTimer: Duration? = if (this.stopTimer != action.minutes) {
                     action.minutes
                 } else null
-                audioPlayer.stopAfter(newTimer)
 
-                copy(stopTimer = newTimer)
+                copy(
+                    stopTimer = newTimer,
+                    stopDate = newTimer?.let { System.currentTimeMillis().plus(it.inWholeMilliseconds) }
+                )
             }
         }
 
@@ -135,6 +154,7 @@ sealed interface PlayerState : State {
         val duration: Duration = 0.seconds,
         val position: Duration = 0.seconds,
         val stopTimer: Duration? = null,
+        val stopDate: Long? = null,
         val trackTitle: String,
         val status: Status
     ) : PlayerState
@@ -150,7 +170,6 @@ sealed interface PlayerAction : Action {
     data class UpdatePlayerStatus(
         val duration: Duration,
         val position: Duration,
-        val stopAfterMinutes: Duration?,
         val playing: Boolean = false,
         val trackTitle: String
     ) : PlayerAction
