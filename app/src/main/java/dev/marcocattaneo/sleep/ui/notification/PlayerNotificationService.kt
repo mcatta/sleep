@@ -61,7 +61,7 @@ class PlayerNotificationService : Service() {
                         isPlaying = true
                     )
 
-                    is AudioPlayerEvent.Error,
+                    is AudioPlayerEvent.Error -> Unit
                     is AudioPlayerEvent.Disposed -> stopForegroundService()
 
                     is AudioPlayerEvent.Stop,
