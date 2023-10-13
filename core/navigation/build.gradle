@@ -1,0 +1,13 @@
+plugins {
+    alias libs.plugins.sleep.android.library
+    alias libs.plugins.sleep.detekt
+}
+
+android {
+    namespace 'dev.marcocattaneo.sleep.core.nevigation'
+}
+
+dependencies {
+    implementation(platform(libs.bom.compose))
+    implementation libs.bundles.compose
+}

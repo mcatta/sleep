@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.navigation
+package dev.marcocattaneo.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dev.marcocattaneo.sleep.navigation.routing.ScreenRoute
 
 /**
  * Navigation Component used for the routing
@@ -30,8 +29,8 @@ import dev.marcocattaneo.sleep.navigation.routing.ScreenRoute
  * @param builder NavGraph
  */
 @Composable
-internal fun NavigationComponent(
-    startRoute: ScreenRoute,
+fun NavigationComponent(
+    startRoute: dev.marcocattaneo.navigation.routing.ScreenRoute,
     navHostController: NavHostController,
     builder: NavGraphBuilder.() -> Unit
 ) {
@@ -47,8 +46,8 @@ internal fun NavigationComponent(
  * @param route screen's route
  * @param content content associated to the route
  */
-internal inline fun <reified VM : ViewModel> NavGraphBuilder.composable(
-    route: ScreenRoute,
+inline fun <reified VM : ViewModel> NavGraphBuilder.composable(
+    route: dev.marcocattaneo.navigation.routing.ScreenRoute,
     crossinline content: @Composable (NavBackStackEntry, VM) -> Unit
 ) {
     this.composable(

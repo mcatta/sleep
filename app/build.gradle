@@ -56,6 +56,7 @@ dependencies {
     implementation(project(":core:design"))
     implementation(project(":core:di"))
     implementation(project(":core:utils"))
+    implementation(project(":core:navigation"))
 
     implementation libs.bundles.androidx
     implementation libs.bundles.compose

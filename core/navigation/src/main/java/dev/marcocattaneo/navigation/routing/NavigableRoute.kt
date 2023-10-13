@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.navigation.routing
+package dev.marcocattaneo.navigation.routing
 
-import androidx.navigation.NavType
+interface NavigableRoute<R: ScreenRoute> {
 
-/**
- * Arguments Options specify for the argument keys used on the Screen Routes
- * @param type argument type
- * @param optional true if argument is optional
- */
-class ArgumentOptions(
-    var type: NavType<*> = NavType.StringType,
-    var optional: Boolean = false
-)
+    val screenRoute: R
+
+    val path: String
+
+}

@@ -16,7 +16,7 @@
 
 package dev.marcocattaneo.sleep.ui.screen
 
-import dev.marcocattaneo.sleep.navigation.routing.ScreenRoute
+import dev.marcocattaneo.navigation.routing.ScreenRoute
 
 object Routes {
 

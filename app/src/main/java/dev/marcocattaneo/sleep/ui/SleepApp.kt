@@ -24,14 +24,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dev.marcocattaneo.core.design.theme.SleepTheme
-import dev.marcocattaneo.sleep.navigation.NavigationComponent
-import dev.marcocattaneo.sleep.navigation.composable
 import dev.marcocattaneo.sleep.ui.screen.Routes
-import dev.marcocattaneo.sleep.ui.screen.home.HomeScreen
-import dev.marcocattaneo.sleep.ui.screen.home.HomeViewModel
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerAction
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerScreen
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerViewModel
+import dev.marcocattaneo.sleep.ui.screen.home.registerCatalogScreen
 
 @Composable
 fun SleepApp() {
@@ -46,21 +43,15 @@ fun SleepApp() {
                 playerViewModel = playerViewModel,
                 isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
             ) {
-                NavigationComponent(
+                dev.marcocattaneo.navigation.NavigationComponent(
                     startRoute = Routes.Dashboard,
                     navHostController = navHostController
                 ) {
 
-                    composable<HomeViewModel>(
-                        route = Routes.Dashboard
-                    ) { _, vm ->
-                        HomeScreen(vm, onClickMediaFile = {
-                            playerViewModel.dispatch(PlayerAction.Stop)
-                            playerViewModel.dispatch(PlayerAction.StartPlaying(it))
-                        })
+                    registerCatalogScreen {
+                        playerViewModel.dispatch(PlayerAction.Stop)
+                        playerViewModel.dispatch(PlayerAction.StartPlaying(it))
                     }
-
-                    // ... other routes
 
                 }
             }

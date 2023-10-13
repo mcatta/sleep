@@ -29,15 +29,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import dev.marcocattaneo.core.design.composables.*
 import dev.marcocattaneo.core.design.theme.Dimen
 import dev.marcocattaneo.core.design.theme.placeholder
+import dev.marcocattaneo.navigation.composable
 import dev.marcocattaneo.sleep.R
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.ui.composables.Illustration
 import dev.marcocattaneo.sleep.ui.composables.InfoBox
+import dev.marcocattaneo.sleep.ui.screen.Routes
+
+fun NavGraphBuilder.registerCatalogScreen(onClickMediaFile: (MediaFileEntity) -> Unit) {
+    composable<HomeViewModel>(
+        route = Routes.Dashboard
+    ) { _, vm -> HomeScreen(vm, onClickMediaFile = onClickMediaFile) }
+}
 
 @Composable
 fun HomeScreen(
