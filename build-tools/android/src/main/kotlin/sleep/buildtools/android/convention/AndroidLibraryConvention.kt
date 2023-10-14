@@ -38,7 +38,6 @@ internal class AndroidLibraryConvention : BuildConvention {
             }
 
             ext.defaultConfig {
-                targetSdk = AndroidConfigs.TARGET_SDK
                 minSdk = AndroidConfigs.MIN_SDK
                 testInstrumentationRunner = AndroidConfigs.TEST_INSTRUMENTATION_RUNNER
                 vectorDrawables.useSupportLibrary = true

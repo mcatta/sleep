@@ -9,7 +9,7 @@ coroutine = "1.6.4"
 detekt = "1.21.0"
 mockk = "1.12.5"
 accompanist = "0.25.1"
-androidGradlePlugin = "7.4.2"
+androidGradlePlugin = "8.1.2"
 jacoco = "0.8.8"
 
 [libraries]

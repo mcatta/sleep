@@ -44,7 +44,7 @@ internal class AndroidAppConvention : BuildConvention {
 
             ext.compileSdk = AndroidConfigs.COMPILE_SDK
 
-            ext.packagingOptions {
+            ext.packaging {
                 resources {
                     excludes += "/META-INF/{AL2.0,LGPL2.1}"
                 }

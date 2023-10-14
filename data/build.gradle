@@ -23,6 +23,10 @@ plugins {
 android {
     namespace 'dev.marcocattaneo.sleep.data'
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         buildConfigField("String", "BASE_URL", "\"https://europe-west2-sleep-app-mobile.cloudfunctions.net/\"")
     }
