@@ -27,7 +27,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.marcocattaneo.sleep.R
+import dev.marcocattaneo.sleep.player.presentation.R as PlayerR
+import dev.marcocattaneo.sleep.R as AppR
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import javax.inject.Inject
 
@@ -62,7 +63,7 @@ class PlayerNotificationManager @Inject constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                context.getString(R.string.app_name),
+                context.getString(AppR.string.app_name),
                 NotificationManager.IMPORTANCE_LOW
             ).apply {
                 description = "Audio Player"
@@ -82,10 +83,10 @@ class PlayerNotificationManager @Inject constructor(
         cancelable: Boolean
     ) = NotificationCompat.Builder(context, CHANNEL_ID)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-        .setContentTitle(context.getString(R.string.app_name))
+        .setContentTitle(context.getString(AppR.string.app_name))
         .setContentIntent(audioPlayer.controller.sessionActivity)
         .setDeleteIntent(createPendingIntent(PlayerNotificationService.Action.STOP))
-        .setSmallIcon(R.mipmap.ic_launcher)
+        .setSmallIcon(AppR.mipmap.ic_launcher)
         .setAutoCancel(cancelable)
 
 
@@ -93,11 +94,11 @@ class PlayerNotificationManager @Inject constructor(
         isPlaying: Boolean,
     ) = baseNotification(cancelable = !isPlaying)
         .apply {
-            addAction(NotificationCompat.Action.Builder(R.drawable.ic_baseline_close_24, "Stop", stopPendingIntent).build())
+            addAction(NotificationCompat.Action.Builder(PlayerR.drawable.ic_baseline_close_24, "Stop", stopPendingIntent).build())
             if (isPlaying) {
-                addAction(NotificationCompat.Action.Builder(R.drawable.ic_baseline_pause_24, "Pause", pausePendingIntent).build())
+                addAction(NotificationCompat.Action.Builder(PlayerR.drawable.ic_baseline_pause_24, "Pause", pausePendingIntent).build())
             } else {
-                addAction(NotificationCompat.Action.Builder(R.drawable.ic_baseline_play_arrow_24, "Play", playPendingIntent).build())
+                addAction(NotificationCompat.Action.Builder(PlayerR.drawable.ic_baseline_play_arrow_24, "Play", playPendingIntent).build())
             }
         }
         .setStyle(MediaStyle().setShowActionsInCompactView(1).setMediaSession(audioPlayer.sessionToken))

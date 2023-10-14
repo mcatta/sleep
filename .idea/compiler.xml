@@ -27,9 +27,9 @@
       <module name="sleep-app.core.testing" target="17" />
       <module name="sleep-app.core.utils" target="17" />
       <module name="sleep-app.data" target="17" />
-      <module name="sleep-app.domain" target="11" />
-      <module name="sleep-app.domain.main" target="11" />
-      <module name="sleep-app.domain.test" target="11" />
+      <module name="sleep-app.domain" target="17" />
+      <module name="sleep-app.domain.main" target="17" />
+      <module name="sleep-app.domain.test" target="17" />
       <module name="sleep-app.features.catalog.presentation" target="17" />
       <module name="sleep-app.features.player.presentation" target="17" />
       <module name="sleep-app.features.playlist.presentation" target="17" />
