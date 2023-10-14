@@ -24,11 +24,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dev.marcocattaneo.core.design.theme.SleepTheme
-import dev.marcocattaneo.sleep.ui.screen.Routes
+import dev.marcocattaneo.sleep.catalog.presentation.Routes
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerAction
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerScreen
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerViewModel
-import dev.marcocattaneo.sleep.ui.screen.home.registerCatalogScreen
+import dev.marcocattaneo.sleep.catalog.presentation.screen.registerCatalogScreen
 
 @Composable
 fun SleepApp() {

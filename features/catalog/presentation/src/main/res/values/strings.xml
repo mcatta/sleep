@@ -1,5 +1,5 @@
-<!--
-  ~ Copyright 2021 Marco Cattaneo
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2023 Marco Cattaneo
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,5 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Sleepify</string>
+    <string name="home_header">Sleep tracks</string>
+    <string name="home_header_claim">The sound of silence</string>
+    <string name="home_info_banner">Welcome, to start the listening tap on the track below. If you want you can set an auto-stop after a set of minutes.</string>
 </resources>

@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.marcocattaneo.navigation.routing.ScreenRoute
 
 /**
  * Navigation Component used for the routing
@@ -30,7 +31,7 @@ import androidx.navigation.compose.composable
  */
 @Composable
 fun NavigationComponent(
-    startRoute: dev.marcocattaneo.navigation.routing.ScreenRoute,
+    startRoute: ScreenRoute,
     navHostController: NavHostController,
     builder: NavGraphBuilder.() -> Unit
 ) {
@@ -47,7 +48,7 @@ fun NavigationComponent(
  * @param content content associated to the route
  */
 inline fun <reified VM : ViewModel> NavGraphBuilder.composable(
-    route: dev.marcocattaneo.navigation.routing.ScreenRoute,
+    route: ScreenRoute,
     crossinline content: @Composable (NavBackStackEntry, VM) -> Unit
 ) {
     this.composable(

@@ -20,6 +20,8 @@ import dev.marcocattaneo.sleep.core.di.scope.CoroutineContextScope
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
+import dev.marcocattaneo.sleep.playlist.presentation.PlaylistAction
+import dev.marcocattaneo.sleep.playlist.presentation.PlaylistStateStore
 import dev.mcatta.polpetta.StateStore
 import dev.mcatta.polpetta.operators.Action
 import dev.mcatta.polpetta.operators.State
@@ -77,7 +79,8 @@ class PlayerStateStore @Inject constructor(
                 // Check if the stop timer is passed
 
                 if (this is PlayerState.Ready) {
-                    val mustStop = stopDate?.let { stopDate -> System.currentTimeMillis() > stopDate } ?: false
+                    val mustStop =
+                        stopDate?.let { stopDate -> System.currentTimeMillis() > stopDate } ?: false
                     if (mustStop) {
                         audioPlayer.stop()
                         PlayerState.Idle
@@ -121,7 +124,9 @@ class PlayerStateStore @Inject constructor(
 
                 copy(
                     stopTimer = newTimer,
-                    stopDate = newTimer?.let { System.currentTimeMillis().plus(it.inWholeMilliseconds) }
+                    stopDate = newTimer?.let {
+                        System.currentTimeMillis().plus(it.inWholeMilliseconds)
+                    }
                 )
             }
         }
