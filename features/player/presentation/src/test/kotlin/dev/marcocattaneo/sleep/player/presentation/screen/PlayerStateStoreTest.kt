@@ -1,3 +1,19 @@
+/*
+ * Copyright 2023 Marco Cattaneo
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package dev.marcocattaneo.sleep.player.presentation.screen
 
 import app.cash.turbine.test
@@ -24,7 +40,7 @@ internal class PlayerStateStoreTest {
     lateinit var audioPlayer: AudioPlayer
 
     @RelaxedMockK
-    lateinit var playlistStateStore: PlaylistStateStore
+    lateinit var playlistStateStore: dev.marcocattaneo.sleep.playlist.presentation.PlaylistStateStore
 
     @RelaxedMockK
     lateinit var mediaRepository: MediaRepository
@@ -56,7 +72,7 @@ internal class PlayerStateStoreTest {
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
             coVerify { audioPlayer.start(any(), any(), any()) }
-            coVerify { playlistStateStore.dispatchAction(ofType<PlaylistAction.Update>()) }
+            coVerify { playlistStateStore.dispatchAction(ofType<dev.marcocattaneo.sleep.playlist.presentation.PlaylistAction.Update>()) }
         }
     }
 
@@ -76,7 +92,7 @@ internal class PlayerStateStoreTest {
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
             coVerify(exactly = 0) { audioPlayer.start(any(), any(), any()) }
-            coVerify(exactly = 0) { playlistStateStore.dispatchAction(ofType<PlaylistAction.Update>()) }
+            coVerify(exactly = 0) { playlistStateStore.dispatchAction(ofType<dev.marcocattaneo.sleep.playlist.presentation.PlaylistAction.Update>()) }
         }
     }
 

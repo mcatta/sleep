@@ -73,7 +73,7 @@ gradle-firebase = { module = "com.google.firebase:firebase-crashlytics-gradle", 
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
-compose = ["compose-ui", "compose-material", "compose-preview", "compose-navigation", "compose-navigationHilt", "compose-activity"]
+compose = ["compose-ui", "compose-material", "compose-preview", "compose-activity"]
 compose-debug = ["compose-test-uiManifest", "compose-tooling", "compose-preview"]
 androidx = ["androidx-core", "androidx-material", "androidx-media", "androidx-appCompat"]
 retrofit = ["retrofit-client", "retrofit-gson", "retrofit-logger"]

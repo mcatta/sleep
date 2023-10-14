@@ -52,18 +52,17 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":features:catalog:presentation"))
     implementation(project(":features:player:presentation"))
     implementation(project(":core:design"))
     implementation(project(":core:di"))
     implementation(project(":core:utils"))
+    implementation(project(":core:navigation"))
 
     implementation libs.bundles.androidx
     implementation libs.bundles.compose
-    implementation libs.compose.accompanist.swipeToRefresh
-
     implementation libs.polpetta
 
-    implementation libs.arrow
     implementation libs.timber
 
     implementation libs.firebase.analytics
@@ -73,8 +72,6 @@ dependencies {
     implementation libs.hilt.android
 
     testImplementation project(":core:testing")
-    testImplementation libs.mockk.core
-    testImplementation libs.roboeletric
 
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.compose.test.uiJunit4

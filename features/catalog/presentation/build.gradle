@@ -22,7 +22,7 @@ plugins {
 }
 
 android {
-    namespace 'dev.marcocattaneo.sleep.player.presentation'
+    namespace 'dev.marcocattaneo.sleep.catalog.presentation'
 }
 
 dependencies {
@@ -31,6 +31,7 @@ dependencies {
     implementation project(":core:di")
     implementation project(":core:design")
     implementation project(":core:utils")
+    implementation(project(":core:navigation"))
     implementation project(":data")
     implementation project(":domain")
     implementation project(":features:playlist:presentation")
@@ -39,6 +40,7 @@ dependencies {
     implementation libs.bundles.compose
     implementation libs.arrow
     implementation libs.compose.constraintLayout
+    implementation libs.compose.accompanist.swipeToRefresh
     implementation libs.kotlin.stdlib
     implementation libs.polpetta
     implementation libs.hilt.android

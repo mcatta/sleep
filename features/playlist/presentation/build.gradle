@@ -16,37 +16,24 @@
 
 plugins {
     alias libs.plugins.sleep.android.library
-    alias libs.plugins.sleep.android.compose
     alias libs.plugins.sleep.jacoco
     alias libs.plugins.sleep.detekt
 }
 
 android {
-    namespace 'dev.marcocattaneo.sleep.player.presentation'
+    namespace 'dev.marcocattaneo.sleep.playlist.presentation'
 }
 
 dependencies {
-    implementation platform(libs.bom.compose)
-
     implementation project(":core:di")
-    implementation project(":core:design")
     implementation project(":core:utils")
     implementation project(":data")
     implementation project(":domain")
-    implementation project(":features:playlist:presentation")
 
     implementation libs.bundles.androidx
-    implementation libs.bundles.compose
-    implementation libs.arrow
-    implementation libs.compose.constraintLayout
     implementation libs.kotlin.stdlib
     implementation libs.polpetta
     implementation libs.hilt.android
 
     testImplementation project(":core:testing")
-
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.compose.test.uiJunit4
-
-    debugImplementation libs.bundles.compose.debug
 }
