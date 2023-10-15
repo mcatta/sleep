@@ -23,6 +23,7 @@ import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper
 import dev.marcocattaneo.sleep.data.model.MediaFile
 import dev.marcocattaneo.sleep.data.model.MediaUrl
 import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.cache.CacheService
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
@@ -54,7 +55,7 @@ internal class MediaRepositoryImplTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        coEvery { mediaFileCache.getValue(any(), any()) } returns null
+        coEvery { mediaFileCache.getValue(any(), any<CachePolicy>()) } returns null
         coEvery { mediaFileCache.setValue(any(), any(), any()) } just Runs
         coEvery { authDataSource.getAuthToken() } returns Either.Right("token")
 
