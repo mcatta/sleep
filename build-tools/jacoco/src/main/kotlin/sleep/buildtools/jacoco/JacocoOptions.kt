@@ -16,7 +16,7 @@
 
 package sleep.buildtools.jacoco
 
-object JacocoOptions {
+internal object JacocoOptions {
     val EXCLUDED_FILES = listOf(
         // data binding
         "android/databinding/**/*.class",

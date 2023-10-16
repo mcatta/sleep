@@ -32,11 +32,11 @@ import javax.inject.Inject
 class PlayerNotificationService : Service() {
 
     sealed class Action(val key: String) {
-        object PLAY : Action("dev.marcocattaneo.sleep.PlayerNotificationService.PLAY")
+        data object PLAY : Action("dev.marcocattaneo.sleep.PlayerNotificationService.PLAY")
 
-        object PAUSE : Action("dev.marcocattaneo.sleep.PlayerNotificationService.PAUSE")
+        data object PAUSE : Action("dev.marcocattaneo.sleep.PlayerNotificationService.PAUSE")
 
-        object STOP : Action("dev.marcocattaneo.sleep.PlayerNotificationService.STOP")
+        data object STOP : Action("dev.marcocattaneo.sleep.PlayerNotificationService.STOP")
     }
 
     @Inject
