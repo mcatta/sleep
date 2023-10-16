@@ -42,6 +42,3 @@ inline fun <reified T : Any> MockKMatcherScope.anyInline(): T =
         val valueType = parameters[0].type.classifier as KClass<*>
         call(match(ConstantMatcher(true), valueType))
     }
-
-fun <T : Any> MockKMatcherScope.match(matcher: Matcher<T>, type: KClass<T>): T =
-    (getProperty("callRecorder") as MockKGateway.CallRecorder).matcher(matcher, type)

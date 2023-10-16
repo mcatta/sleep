@@ -17,7 +17,7 @@
 package dev.marcocattaneo.sleep.data.repository
 
 import arrow.core.Either
-import arrow.core.computations.either
+import arrow.core.raise.either
 import dev.marcocattaneo.sleep.data.auth.AuthDataSource
 import dev.marcocattaneo.sleep.data.http.SleepService
 import dev.marcocattaneo.sleep.data.mapper.MediaFileMapper

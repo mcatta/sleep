@@ -38,7 +38,7 @@ internal class AndroidConvention : BuildConvention {
             }
         }
 
-        target.extensions.configure<CommonExtension<*, *, *, *>> { ext ->
+        target.extensions.configure<CommonExtension<*, *, *, *, *>> { ext ->
             ext.compileSdk = AndroidConfigs.COMPILE_SDK
 
             ext.defaultConfig {

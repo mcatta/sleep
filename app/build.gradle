@@ -38,6 +38,10 @@ android {
         versionName = "1.2.2"
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")

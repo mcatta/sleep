@@ -41,6 +41,7 @@ import dev.marcocattaneo.sleep.catalog.presentation.composables.Illustration
 import dev.marcocattaneo.sleep.catalog.presentation.composables.InfoBox
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.catalog.presentation.R
+import dev.marcocattaneo.sleep.core.design.R as DesignR
 
 /**
  * Register the composable function into the NavGraphBuilder
@@ -137,7 +138,7 @@ private fun MediaItem(
         val selected = mediaFile?.selected == true
         Icon(
             modifier = modifierBaseOnMedia(mediaFile),
-            painter = painterResource(id = if (selected) R.drawable.ic_baseline_play_circle_filled_24 else R.drawable.ic_baseline_play_circle_outline_24),
+            painter = painterResource(id = if (selected) R.drawable.ic_baseline_play_circle_filled_24 else DesignR.drawable.ic_baseline_play_circle_outline_24),
             contentDescription = mediaFile?.name ?: "Undefined",
             tint = if (selected) MaterialTheme.colors.primary else MaterialTheme.colors.secondary
         )

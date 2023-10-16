@@ -35,7 +35,8 @@ import dev.marcocattaneo.core.design.composables.*
 import dev.marcocattaneo.core.design.theme.Dimen.Margin16
 import dev.marcocattaneo.core.design.theme.Dimen.Margin32
 import dev.marcocattaneo.core.design.theme.Dimen.Margin8
-import dev.marcocattaneo.sleep.player.presentation.R
+import dev.marcocattaneo.sleep.player.presentation.R as PlayerR
+import dev.marcocattaneo.sleep.core.design.R as DesignR
 import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -85,7 +86,7 @@ fun BottomPlayerBar(
             if (description.isNotEmpty()) {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_baseline_play_circle_outline_24),
+                        painter = painterResource(id = DesignR.drawable.ic_baseline_play_circle_outline_24),
                         contentDescription = description,
                         modifier = Modifier.size(Margin16),
                         tint = MaterialTheme.colors.primary
@@ -108,7 +109,7 @@ fun BottomPlayerBar(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     ActionButton(
-                        painter = painterResource(id = R.drawable.ic_baseline_replay_30_24),
+                        painter = painterResource(id = PlayerR.drawable.ic_baseline_replay_30_24),
                         internalMargin = 4.dp,
                         onClick = onClickReplay
                     )
@@ -119,7 +120,7 @@ fun BottomPlayerBar(
                     )
                     Spacer8()
                     ActionButton(
-                        painter = painterResource(id = R.drawable.ic_baseline_forward_30_24),
+                        painter = painterResource(id = PlayerR.drawable.ic_baseline_forward_30_24),
                         internalMargin = 4.dp,
                         onClick = onClickForward
                     )
@@ -139,7 +140,7 @@ fun BottomPlayerBar(
                         )
                     }
                     ActionButton(
-                        painter = painterResource(id = R.drawable.ic_baseline_access_alarm_24),
+                        painter = painterResource(id = PlayerR.drawable.ic_baseline_access_alarm_24),
                         modifier = Modifier.semantics { contentDescription = "Change timer" },
                         onClick = { timerVisible = !timerVisible }
                     )
@@ -150,7 +151,7 @@ fun BottomPlayerBar(
                         .align(Alignment.CenterStart)
                 ) {
                     ActionButton(
-                        painter = painterResource(id = R.drawable.ic_baseline_close_24),
+                        painter = painterResource(id = PlayerR.drawable.ic_baseline_close_24),
                         onClick = onClickStop
                     )
                 }
@@ -206,7 +207,7 @@ private fun PlayButton(
                 .size(48.dp)
                 .padding(Margin8),
             tint = MaterialTheme.colors.background,
-            painter = painterResource(id = if (isPlaying) R.drawable.ic_baseline_pause_24 else R.drawable.ic_baseline_play_arrow_24),
+            painter = painterResource(id = if (isPlaying) PlayerR.drawable.ic_baseline_pause_24 else PlayerR.drawable.ic_baseline_play_arrow_24),
             contentDescription = null
         )
     }
