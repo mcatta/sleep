@@ -42,7 +42,6 @@ class PlayerNotificationManager @Inject constructor(
 
     companion object {
         const val CHANNEL_ID = "Player_Notification_Channel_ID"
-
         const val NOTIFICATION_ID = 93
     }
 
@@ -60,7 +59,7 @@ class PlayerNotificationManager @Inject constructor(
             context,
             0,
             Intent(context, PlayerNotificationService::class.java).setAction(action.key),
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+            PendingIntent.FLAG_IMMUTABLE
         )
 
     init {
