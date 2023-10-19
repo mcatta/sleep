@@ -16,14 +16,13 @@
 
 package dev.marcocattaneo.sleep
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
 import dev.marcocattaneo.sleep.ui.SleepApp
-import dev.marcocattaneo.sleep.ui.notification.PlayerNotificationService
+import dev.marcocattaneo.sleep.ui.notification.playerServiceIntent
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -32,17 +31,27 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         // Start NotificationService
-        Intent(this, PlayerNotificationService::class.java)
-            .let {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    startForegroundService(it)
-                } else {
-                    startService(it)
-                }
+        with(playerServiceIntent()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(this)
+            } else {
+                startService(this)
             }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0)
+        }
 
         setContent {
             SleepApp()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        stopService(playerServiceIntent())
+    }
+
 }

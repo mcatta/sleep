@@ -17,6 +17,7 @@
 package dev.marcocattaneo.sleep.ui.notification
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,3 +99,9 @@ class PlayerNotificationService : Service() {
     }
 
 }
+
+/**
+ * Helper method to start the [PlayerNotificationService]
+ * @receiver Context
+ */
+fun Context.playerServiceIntent() = Intent(this, PlayerNotificationService::class.java)
