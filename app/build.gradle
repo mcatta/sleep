@@ -34,8 +34,8 @@ android {
 
     defaultConfig {
         applicationId = "dev.marcocattaneo.sleep"
-        versionCode = 8
-        versionName = "1.2.4"
+        versionCode = 9
+        versionName = "1.2.5"
     }
 
     buildFeatures {
