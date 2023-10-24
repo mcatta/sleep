@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,18 @@
  * limitations under the License.
  */
 
-plugins {
-    alias libs.plugins.sleep.android.library
-    alias libs.plugins.sleep.android.compose
-    alias libs.plugins.molecule
-    alias libs.plugins.sleep.detekt
+package dev.marcocattaneo.sleep.core.utils
+
+import androidx.compose.runtime.Composable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+abstract class AbsPresenter<State : Any, Event : Any> {
+
+    @Composable
+    abstract fun models(events: Flow<Event?>): State
+
 }
-
-android {
-    namespace 'dev.marcocattaneo.sleep.core.utils'
-}
-
-dependencies {
-    implementation platform(libs.bom.compose)
-
-    implementation libs.polpetta
-    implementation libs.compose.ui
-    implementation libs.androidx.lifecycle.viewmodel
-
-    testImplementation project(":core:testing")
-}
-
-

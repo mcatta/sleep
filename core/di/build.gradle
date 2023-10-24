@@ -17,6 +17,7 @@
 plugins {
     alias libs.plugins.sleep.android.library
     alias libs.plugins.sleep.detekt
+    alias libs.plugins.molecule
 }
 
 android {

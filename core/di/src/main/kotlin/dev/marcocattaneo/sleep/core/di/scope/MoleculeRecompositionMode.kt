@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    alias libs.plugins.sleep.android.library
-    alias libs.plugins.sleep.android.compose
-    alias libs.plugins.molecule
-    alias libs.plugins.sleep.detekt
-}
+package dev.marcocattaneo.sleep.core.di.scope
 
-android {
-    namespace 'dev.marcocattaneo.sleep.core.utils'
-}
+import javax.inject.Qualifier
 
-dependencies {
-    implementation platform(libs.bom.compose)
-
-    implementation libs.polpetta
-    implementation libs.compose.ui
-    implementation libs.androidx.lifecycle.viewmodel
-
-    testImplementation project(":core:testing")
-}
-
-
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MoleculeRecompositionMode

@@ -16,11 +16,15 @@
 
 package dev.marcocattaneo.sleep.core.di
 
+import app.cash.molecule.AndroidUiDispatcher
+import app.cash.molecule.RecompositionMode
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.marcocattaneo.sleep.core.di.scope.CoroutineContextScope
+import dev.marcocattaneo.sleep.core.di.scope.MoleculeComposableScope
+import dev.marcocattaneo.sleep.core.di.scope.MoleculeRecompositionMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
@@ -34,4 +38,13 @@ class CoroutineModule {
     @Provides
     fun provideCoroutineScope(): CoroutineScope = CoroutineScope(Dispatchers.Default)
 
+    @MoleculeComposableScope
+    @Singleton
+    @Provides
+    fun provideMoleculeComposableScope(): CoroutineScope = CoroutineScope(AndroidUiDispatcher.Main)
+
+    @MoleculeRecompositionMode
+    @Singleton
+    @Provides
+    fun provideMoleculeRecompositionMode(): RecompositionMode = RecompositionMode.ContextClock
 }
