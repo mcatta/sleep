@@ -16,8 +16,10 @@
 
 plugins {
     alias libs.plugins.sleep.android.library
+    alias libs.plugins.sleep.android.compose
     alias libs.plugins.sleep.jacoco
     alias libs.plugins.sleep.detekt
+    alias libs.plugins.molecule
 }
 
 android {
@@ -25,12 +27,15 @@ android {
 }
 
 dependencies {
+    implementation platform(libs.bom.compose)
+
     implementation project(":core:di")
     implementation project(":core:utils")
     implementation project(":data")
     implementation project(":domain")
 
     implementation libs.bundles.androidx
+    implementation libs.bundles.compose
     implementation libs.kotlin.stdlib
     implementation libs.polpetta
     implementation libs.hilt.android
