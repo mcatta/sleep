@@ -20,8 +20,8 @@ import dev.marcocattaneo.sleep.core.di.scope.CoroutineContextScope
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
-import dev.marcocattaneo.sleep.playlist.presentation.PlaylistAction
-import dev.marcocattaneo.sleep.playlist.presentation.PlaylistStateStore
+import dev.marcocattaneo.sleep.playlist.presentation.PlaylistEvent
+import dev.marcocattaneo.sleep.playlist.presentation.PlaylistPresenter
 import dev.mcatta.polpetta.StateStore
 import dev.mcatta.polpetta.operators.Action
 import dev.mcatta.polpetta.operators.State
@@ -36,7 +36,7 @@ class PlayerStateStore @Inject constructor(
     @CoroutineContextScope coroutineScope: CoroutineScope,
     private val audioPlayer: AudioPlayer,
     private val mediaRepository: MediaRepository,
-    private val playlistStateStore: PlaylistStateStore
+    private val playlistPresenter: PlaylistPresenter
 ) : StateStore<PlayerAction, PlayerState, Nothing>(
     coroutineScope = coroutineScope,
     initialState = PlayerState.Idle,
@@ -50,7 +50,8 @@ class PlayerStateStore @Inject constructor(
                 ifLeft = { state.transform { PlayerState.Error(500) } },
                 ifRight = {
                     // Update PlayList
-                    playlistStateStore.dispatchAction(PlaylistAction.Update(trackId = action.mediaFile.id))
+                    //TODO need to be fixed
+                    //playlistPresenter.dispatchAction(PlaylistEvent.Update(trackId = action.mediaFile.id))
 
                     // Start Audio Player with url
                     audioPlayer.start(it, action.mediaFile.name, action.mediaFile.description)

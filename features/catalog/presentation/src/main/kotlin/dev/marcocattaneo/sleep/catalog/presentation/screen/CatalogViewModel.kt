@@ -16,32 +16,49 @@
 
 package dev.marcocattaneo.sleep.catalog.presentation.screen
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.cash.molecule.RecompositionMode
+import app.cash.molecule.launchMolecule
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.marcocattaneo.sleep.core.utils.AbsStateStoreViewModel
-import dev.marcocattaneo.sleep.playlist.presentation.PlaylistStateStore
+import dev.marcocattaneo.sleep.core.di.scope.MoleculeComposableScope
+import dev.marcocattaneo.sleep.core.di.scope.MoleculeRecompositionMode
+import dev.marcocattaneo.sleep.playlist.presentation.PlaylistPresenter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
-    private val playlistStateStore: PlaylistStateStore,
-    homeStateStore: HomeStateStore
-) : AbsStateStoreViewModel<TracksAction, TracksState, Nothing>(
-    stateStore = homeStateStore
-) {
+    private val playlistPresenter: PlaylistPresenter,
+    private val catalogPresenter: CatalogPresenter,
+    @MoleculeRecompositionMode
+    recompositionMode: RecompositionMode,
+    @MoleculeComposableScope
+    moleculeScope: CoroutineScope
+) : ViewModel() {
+
+    private val _catalogEvents = Channel<CatalogEvent>()
+
+    val uiState: StateFlow<CatalogState> = moleculeScope.launchMolecule(recompositionMode) {
+        catalogPresenter.models(events = _catalogEvents.consumeAsFlow())
+    }
 
     init {
-        dispatch(TracksAction.SetLoading)
-        dispatch(TracksAction.LoadTracks)
-
         viewModelScope.launch {
-            playlistStateStore.stateFlow.collectLatest { playlistState ->
-                if (playlistState.currentTrackId != null) {
-                    dispatch(TracksAction.UpdateSelectedTrack(trackId = playlistState.currentTrackId))
-                }
-            }
+            _catalogEvents.send(CatalogEvent.LoadTracks)
         }
     }
+
+    fun dispatchAction(event: CatalogEvent) {
+        viewModelScope.launch {
+            _catalogEvents.send(event)
+        }
+    }
+
 }

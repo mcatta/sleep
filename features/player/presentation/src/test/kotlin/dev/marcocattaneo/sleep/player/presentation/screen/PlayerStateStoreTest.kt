@@ -23,6 +23,8 @@ import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
+import dev.marcocattaneo.sleep.playlist.presentation.PlaylistEvent
+import dev.marcocattaneo.sleep.playlist.presentation.PlaylistPresenter
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -40,7 +42,7 @@ internal class PlayerStateStoreTest {
     lateinit var audioPlayer: AudioPlayer
 
     @RelaxedMockK
-    lateinit var playlistStateStore: dev.marcocattaneo.sleep.playlist.presentation.PlaylistStateStore
+    lateinit var playlistPresenter: PlaylistPresenter
 
     @RelaxedMockK
     lateinit var mediaRepository: MediaRepository
@@ -53,7 +55,7 @@ internal class PlayerStateStoreTest {
     fun setup() {
         MockKAnnotations.init(this)
         testCoroutineScope = CoroutineScope(Dispatchers.Unconfined)
-        playerStateStore = PlayerStateStore(testCoroutineScope, audioPlayer, mediaRepository, playlistStateStore)
+        playerStateStore = PlayerStateStore(testCoroutineScope, audioPlayer, mediaRepository, playlistPresenter)
     }
 
     @Test
@@ -72,7 +74,6 @@ internal class PlayerStateStoreTest {
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
             coVerify { audioPlayer.start(any(), any(), any()) }
-            coVerify { playlistStateStore.dispatchAction(ofType<dev.marcocattaneo.sleep.playlist.presentation.PlaylistAction.Update>()) }
         }
     }
 
@@ -92,7 +93,6 @@ internal class PlayerStateStoreTest {
             coVerify { audioPlayer.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
             coVerify(exactly = 0) { audioPlayer.start(any(), any(), any()) }
-            coVerify(exactly = 0) { playlistStateStore.dispatchAction(ofType<dev.marcocattaneo.sleep.playlist.presentation.PlaylistAction.Update>()) }
         }
     }
 

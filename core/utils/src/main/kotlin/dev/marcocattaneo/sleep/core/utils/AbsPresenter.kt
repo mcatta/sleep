@@ -26,6 +26,6 @@ import kotlinx.coroutines.launch
 abstract class AbsPresenter<State : Any, Event : Any> {
 
     @Composable
-    abstract fun models(events: Flow<Event?>): State
+    abstract fun models(events: Flow<Event>): State
 
 }

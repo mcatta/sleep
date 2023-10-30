@@ -19,6 +19,7 @@ plugins {
     alias libs.plugins.sleep.android.compose
     alias libs.plugins.sleep.jacoco
     alias libs.plugins.sleep.detekt
+    alias libs.plugins.molecule
 }
 
 android {
@@ -42,7 +43,6 @@ dependencies {
     implementation libs.compose.constraintLayout
     implementation libs.compose.accompanist.swipeToRefresh
     implementation libs.kotlin.stdlib
-    implementation libs.polpetta
     implementation libs.hilt.android
 
     testImplementation project(":core:testing")

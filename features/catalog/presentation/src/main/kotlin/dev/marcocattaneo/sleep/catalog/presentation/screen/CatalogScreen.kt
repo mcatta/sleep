@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,11 +37,11 @@ import dev.marcocattaneo.core.design.composables.*
 import dev.marcocattaneo.core.design.theme.Dimen
 import dev.marcocattaneo.core.design.theme.placeholder
 import dev.marcocattaneo.navigation.composable
+import dev.marcocattaneo.sleep.catalog.presentation.R
 import dev.marcocattaneo.sleep.catalog.presentation.Routes
 import dev.marcocattaneo.sleep.catalog.presentation.composables.Illustration
 import dev.marcocattaneo.sleep.catalog.presentation.composables.InfoBox
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.catalog.presentation.R
 import dev.marcocattaneo.sleep.core.design.R as DesignR
 
 /**
@@ -58,13 +59,12 @@ fun CatalogScreen(
     homeViewModel: CatalogViewModel,
     onClickMediaFile: (MediaFileEntity) -> Unit
 ) {
-    val uiState by homeViewModel.rememberState()
+    val uiState by homeViewModel.uiState.collectAsState()
 
     SwipeRefresh(
-        state = rememberSwipeRefreshState(uiState is TracksState.Loading),
+        state = rememberSwipeRefreshState(uiState is CatalogState.Loading),
         onRefresh = {
-            homeViewModel.dispatch(TracksAction.SetLoading)
-            homeViewModel.dispatch(TracksAction.LoadTracks)
+            homeViewModel.dispatchAction(CatalogEvent.LoadTracks)
         },
     ) {
         LazyColumn(
@@ -95,17 +95,17 @@ fun CatalogScreen(
                 }
             }
             when (uiState) {
-                is TracksState.Content -> {
-                    (uiState as TracksState.Content).homeMediaFile.iterator().forEach {
+                is CatalogState.Content -> {
+                    (uiState as CatalogState.Content).homeMediaFile.iterator().forEach {
                         item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                     }
                 }
 
-                TracksState.Loading -> {
+                is CatalogState.Loading -> {
                     repeat(7) { item { MediaItem(mediaFile = null) {} } }
                 }
 
-                is TracksState.Error -> {
+                is CatalogState.Error -> {
                     item {
                         Snackbar(message = "Error")
                     }

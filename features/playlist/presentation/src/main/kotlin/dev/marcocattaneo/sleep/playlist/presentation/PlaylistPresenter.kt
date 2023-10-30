@@ -24,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import dev.marcocattaneo.sleep.core.utils.AbsPresenter
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,7 +32,7 @@ import javax.inject.Singleton
 class PlaylistPresenter @Inject constructor() : AbsPresenter<PlaylistState, PlaylistEvent>() {
 
     @Composable
-    override fun models(events: Flow<PlaylistEvent?>): PlaylistState {
+    override fun models(events: Flow<PlaylistEvent>): PlaylistState {
         var latestTrackId: String? by remember { mutableStateOf(null) }
 
         LaunchedEffect(Unit) {
@@ -41,7 +40,6 @@ class PlaylistPresenter @Inject constructor() : AbsPresenter<PlaylistState, Play
                 latestTrackId = when (event) {
                     is PlaylistEvent.Clear -> null
                     is PlaylistEvent.Update -> event.trackId
-                    null -> null
                 }
             }
         }
