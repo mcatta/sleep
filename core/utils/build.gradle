@@ -28,7 +28,6 @@ android {
 dependencies {
     implementation platform(libs.bom.compose)
 
-    implementation libs.polpetta
     implementation libs.compose.ui
     implementation libs.androidx.lifecycle.viewmodel
 
