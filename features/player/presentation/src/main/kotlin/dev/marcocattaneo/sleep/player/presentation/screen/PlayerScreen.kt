@@ -16,8 +16,14 @@
 
 package dev.marcocattaneo.sleep.player.presentation.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,7 +46,7 @@ fun PlayerScreen(
     isLandscape: Boolean,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
-    val uiState by playerViewModel.rememberState()
+    val uiState by playerViewModel.uiState.collectAsState()
 
     if (isLandscape) {
         Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.Bottom) {
@@ -136,18 +142,18 @@ private fun PlayerController(
                 selectedStopTimer = stopTimer,
                 onChangePlayingStatus = { isPlaying ->
                     if (isPlaying) {
-                        playerViewModel.dispatch(PlayerAction.Play)
+                        playerViewModel.dispatchEvent(PlayerEvent.Play)
                     } else {
-                        playerViewModel.dispatch(PlayerAction.Pause)
+                        playerViewModel.dispatchEvent(PlayerEvent.Pause)
                     }
                 },
                 onChangeStopTimer = {
-                    playerViewModel.dispatch(PlayerAction.StopAfter(it))
+                    playerViewModel.dispatchEvent(PlayerEvent.StopAfter(it))
                 },
-                onClickReplay = { playerViewModel.dispatch(PlayerAction.ReplayOf) },
-                onClickForward = { playerViewModel.dispatch(PlayerAction.ForwardOf) },
-                onSeeking = { playerViewModel.dispatch(PlayerAction.SeekTo(it)) },
-                onClickStop = { playerViewModel.dispatch(PlayerAction.Stop) }
+                onClickReplay = { playerViewModel.dispatchEvent(PlayerEvent.ReplayOf) },
+                onClickForward = { playerViewModel.dispatchEvent(PlayerEvent.ForwardOf) },
+                onSeeking = { playerViewModel.dispatchEvent(PlayerEvent.SeekTo(it)) },
+                onClickStop = { playerViewModel.dispatchEvent(PlayerEvent.Stop) }
             )
         }
     }

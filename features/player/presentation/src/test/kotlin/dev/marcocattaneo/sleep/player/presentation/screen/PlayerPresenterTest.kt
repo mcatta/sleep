@@ -16,6 +16,8 @@
 
 package dev.marcocattaneo.sleep.player.presentation.screen
 
+import app.cash.molecule.RecompositionMode
+import app.cash.molecule.moleculeFlow
 import app.cash.turbine.test
 import arrow.core.Either
 import dev.marcocattaneo.core.testing.anyValue
@@ -23,49 +25,53 @@ import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
 import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
-import dev.marcocattaneo.sleep.playlist.presentation.PlaylistEvent
-import dev.marcocattaneo.sleep.playlist.presentation.PlaylistPresenter
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.test.runTest
-import kotlin.test.*
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertNull
 import kotlin.time.Duration.Companion.seconds
 
-internal class PlayerStateStoreTest {
+internal class PlayerPresenterTest {
 
     @RelaxedMockK
     lateinit var audioPlayer: AudioPlayer
 
     @RelaxedMockK
-    lateinit var playlistPresenter: PlaylistPresenter
-
-    @RelaxedMockK
     lateinit var mediaRepository: MediaRepository
-
-    private lateinit var playerStateStore: PlayerStateStore
-
-    private lateinit var testCoroutineScope: CoroutineScope
 
     @BeforeTest
     fun setup() {
         MockKAnnotations.init(this)
-        testCoroutineScope = CoroutineScope(Dispatchers.Unconfined)
-        playerStateStore = PlayerStateStore(testCoroutineScope, audioPlayer, mediaRepository, playlistPresenter)
+    }
+
+    private fun getPresenter(eventsChannel: Channel<PlayerEvent>): Flow<PlayerState> {
+        return moleculeFlow(RecompositionMode.Immediate) {
+            PlayerPresenter(
+                audioPlayer,
+                mediaRepository
+            ).models(events = eventsChannel.receiveAsFlow())
+        }
     }
 
     @Test
     fun `Test PlayerAction StartPlaying`() = runTest {
         // Given
+        val events = Channel<PlayerEvent>()
         coEvery { mediaRepository.urlFromId(any()) } returns Either.Right("https://resource")
 
-        playerStateStore.stateFlow.test {
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(PlayerAction.StartPlaying(fakeMediaFile()))
+            events.send(PlayerEvent.StartPlaying(fakeMediaFile()))
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -80,11 +86,12 @@ internal class PlayerStateStoreTest {
     @Test
     fun `Test PlayerAction StartPlaying upon failure`() = runTest {
         // Given
+        val events = Channel<PlayerEvent>()
         coEvery { mediaRepository.urlFromId(any()) } returns Either.Left(AppException.FileNotFound)
 
-        playerStateStore.stateFlow.test {
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(PlayerAction.StartPlaying(fakeMediaFile()))
+            events.send(PlayerEvent.StartPlaying(fakeMediaFile()))
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -98,9 +105,12 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction Stop`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(PlayerAction.Stop)
+            events.send(PlayerEvent.Stop)
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -110,21 +120,27 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction Pause`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(
-                PlayerAction.UpdatePlayerStatus(
+            events.send(
+                PlayerEvent.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     playing = true,
                     trackTitle = "title"
                 )
             )
-            playerStateStore.dispatchAction(PlayerAction.Pause)
+            events.send(PlayerEvent.Pause)
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
-            assertIs<PlayerState.Ready>(awaitItem())
+            awaitItem().let { state ->
+                assertIs<PlayerState.Ready>(state)
+                assertEquals(PlayerState.Status.Playing, state.status)
+            }
             awaitItem().let { state ->
                 assertIs<PlayerState.Ready>(state)
                 assertEquals(PlayerState.Status.Paused, state.status)
@@ -135,18 +151,21 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction Pause and Play`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(
-                PlayerAction.UpdatePlayerStatus(
+            events.send(
+                PlayerEvent.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     playing = true,
                     trackTitle = "title"
                 )
             )
-            playerStateStore.dispatchAction(PlayerAction.Pause)
-            playerStateStore.dispatchAction(PlayerAction.Play)
+            events.send(PlayerEvent.Pause)
+            events.send(PlayerEvent.Play)
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -166,10 +185,13 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction UpdateDuration`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(
-                PlayerAction.UpdatePlayerStatus(
+            events.send(
+                PlayerEvent.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     playing = true,
@@ -192,17 +214,20 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction Seeking`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(
-                PlayerAction.UpdatePlayerStatus(
+            events.send(
+                PlayerEvent.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     playing = true,
                     trackTitle = "title"
                 )
             )
-            playerStateStore.dispatchAction(PlayerAction.SeekTo(42.seconds))
+            events.send(PlayerEvent.SeekTo(42.seconds))
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -213,17 +238,20 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction ForwardOf`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(
-                PlayerAction.UpdatePlayerStatus(
+            events.send(
+                PlayerEvent.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     playing = true,
                     trackTitle = "title"
                 )
             )
-            playerStateStore.dispatchAction(PlayerAction.ForwardOf)
+            events.send(PlayerEvent.ForwardOf)
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -234,17 +262,20 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction ReplayOf`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(
-                PlayerAction.UpdatePlayerStatus(
+            events.send(
+                PlayerEvent.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     playing = true,
                     trackTitle = "title"
                 )
             )
-            playerStateStore.dispatchAction(PlayerAction.ReplayOf)
+            events.send(PlayerEvent.ReplayOf)
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -255,17 +286,20 @@ internal class PlayerStateStoreTest {
 
     @Test
     fun `Test PlayerAction PropagateError`() = runTest {
-        playerStateStore.stateFlow.test {
+        // Given
+        val events = Channel<PlayerEvent>()
+
+        getPresenter(events).test {
             // When
-            playerStateStore.dispatchAction(
-                PlayerAction.UpdatePlayerStatus(
+            events.send(
+                PlayerEvent.UpdatePlayerStatus(
                     duration = 100.seconds,
                     position = 20.seconds,
                     playing = true,
                     trackTitle = "title"
                 )
             )
-            playerStateStore.dispatchAction(PlayerAction.PropagateError(500))
+            events.send(PlayerEvent.PropagateError(500))
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
