@@ -67,10 +67,6 @@ class PlayerPresenter @Inject constructor(
                         state.value = mediaRepository.urlFromId(action.mediaFile.id).fold(
                             ifLeft = { PlayerState.Error(500) },
                             ifRight = {
-                                // Update PlayList
-                                //TODO need to be fixed
-                                //playlistPresenter.dispatchAction(PlaylistEvent.Update(trackId = action.mediaFile.id))
-
                                 // Start Audio Player with url
                                 audioPlayer.start(
                                     it,
