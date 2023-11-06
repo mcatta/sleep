@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-plugins {
-    alias libs.plugins.sleep.android.library
-    alias libs.plugins.sleep.detekt
-    alias libs.plugins.molecule
-}
+package dev.marcocattaneo.sleep.core.di.scope
 
-android {
-    namespace 'dev.marcocattaneo.sleep.core.di'
-}
+import javax.inject.Qualifier
 
-dependencies {
-    implementation libs.hilt.core
-    implementation libs.coroutine.core
-}
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MoleculeComposableScope

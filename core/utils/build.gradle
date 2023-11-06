@@ -17,6 +17,7 @@
 plugins {
     alias libs.plugins.sleep.android.library
     alias libs.plugins.sleep.android.compose
+    alias libs.plugins.molecule
     alias libs.plugins.sleep.detekt
 }
 
@@ -27,7 +28,6 @@ android {
 dependencies {
     implementation platform(libs.bom.compose)
 
-    implementation libs.polpetta
     implementation libs.compose.ui
     implementation libs.androidx.lifecycle.viewmodel
 

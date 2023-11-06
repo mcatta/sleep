@@ -17,7 +17,7 @@ Features "Wanna be"
 
 ### Technology 🔮
 - Android Clean Architecture
-- Use [Polpetta MVI library](https://github.com/mcatta/polpetta)
+- Use [Molecule](https://github.com/cashapp/molecule)
 - Jetpack Compose
 - Backend written by using Firebase, [here the source](https://github.com/mcatta/sleep-firebase)
 

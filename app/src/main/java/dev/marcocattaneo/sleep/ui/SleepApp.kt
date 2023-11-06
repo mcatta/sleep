@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dev.marcocattaneo.core.design.theme.SleepTheme
 import dev.marcocattaneo.sleep.catalog.presentation.Routes
-import dev.marcocattaneo.sleep.player.presentation.screen.PlayerAction
+import dev.marcocattaneo.sleep.player.presentation.screen.PlayerEvent
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerScreen
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerViewModel
 import dev.marcocattaneo.sleep.catalog.presentation.screen.registerCatalogScreen
@@ -49,8 +49,8 @@ fun SleepApp() {
                 ) {
 
                     registerCatalogScreen {
-                        playerViewModel.dispatch(PlayerAction.Stop)
-                        playerViewModel.dispatch(PlayerAction.StartPlaying(it))
+                        playerViewModel.dispatchEvent(PlayerEvent.Stop)
+                        playerViewModel.dispatchEvent(PlayerEvent.StartPlaying(it))
                     }
 
                 }

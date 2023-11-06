@@ -17,25 +17,15 @@
 package dev.marcocattaneo.sleep.core.utils
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dev.mcatta.polpetta.StateStore
-import dev.mcatta.polpetta.operators.Action
-import dev.mcatta.polpetta.operators.SideEffect
-import dev.mcatta.polpetta.operators.State
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-abstract class AbsStateStoreViewModel <A : Action, S : State, SE : SideEffect>(
-    private val stateStore: StateStore<A, S, SE>
-) : ViewModel() {
+abstract class AbsPresenter<State : Any, Event : Any> {
 
     @Composable
-    fun rememberState() = stateStore.stateFlow.collectAsState()
-
-
-    fun dispatch(action: A) = viewModelScope.launch {
-        stateStore.dispatchAction(action)
-    }
+    abstract fun models(events: Flow<Event>): State
 
 }

@@ -64,8 +64,6 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
-polpetta = { module = "dev.mcatta:polpetta", version = "0.0.6" }
-
 gradle-android-api = { module = "com.android.tools.build:gradle-api", version.ref = "androidGradlePlugin" }
 gradle-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 gradle-firebase = { module = "com.google.firebase:firebase-crashlytics-gradle", version = "2.9.9" }
@@ -83,6 +81,7 @@ android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "2.9.4" }
 google-gms = { id = "com.google.gms.google-services", version = "4.3.14" }
+molecule = { id = "app.cash.molecule", version = "1.2.1" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 sleep-android-application = { id = "sleep.android.application", version = "?" }
