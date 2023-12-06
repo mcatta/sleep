@@ -23,7 +23,7 @@ import arrow.core.Either
 import dev.marcocattaneo.core.testing.anyValue
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
-import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.AudioController
 import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -44,7 +44,7 @@ import kotlin.time.Duration.Companion.seconds
 internal class PlayerPresenterTest {
 
     @RelaxedMockK
-    lateinit var audioPlayer: AudioPlayer
+    lateinit var audioController: AudioController
 
     @RelaxedMockK
     lateinit var mediaRepository: MediaRepository
@@ -57,7 +57,7 @@ internal class PlayerPresenterTest {
     private fun getPresenter(eventsChannel: Channel<PlayerEvent>): Flow<PlayerState> {
         return moleculeFlow(RecompositionMode.Immediate) {
             PlayerPresenter(
-                audioPlayer,
+                audioController,
                 mediaRepository
             ).models(events = eventsChannel.receiveAsFlow())
         }
@@ -77,9 +77,9 @@ internal class PlayerPresenterTest {
             assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Ready>(awaitItem())
 
-            coVerify { audioPlayer.stop() }
+            coVerify { audioController.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
-            coVerify { audioPlayer.start(any(), any(), any()) }
+            coVerify { audioController.start(any(), any(), any()) }
         }
     }
 
@@ -97,9 +97,9 @@ internal class PlayerPresenterTest {
             assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Error>(awaitItem())
 
-            coVerify { audioPlayer.stop() }
+            coVerify { audioController.stop() }
             coVerify { mediaRepository.urlFromId(any()) }
-            coVerify(exactly = 0) { audioPlayer.start(any(), any(), any()) }
+            coVerify(exactly = 0) { audioController.start(any(), any(), any()) }
         }
     }
 
@@ -114,7 +114,7 @@ internal class PlayerPresenterTest {
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
-            coVerify { audioPlayer.stop() }
+            coVerify { audioController.stop() }
         }
     }
 
@@ -145,7 +145,7 @@ internal class PlayerPresenterTest {
                 assertIs<PlayerState.Ready>(state)
                 assertEquals(PlayerState.Status.Paused, state.status)
             }
-            coVerify { audioPlayer.pause() }
+            coVerify { audioController.pause() }
         }
     }
 
@@ -178,8 +178,8 @@ internal class PlayerPresenterTest {
                 assertIs<PlayerState.Ready>(state)
                 assertEquals(PlayerState.Status.Playing, state.status)
             }
-            coVerify { audioPlayer.pause() }
-            coVerify { audioPlayer.play() }
+            coVerify { audioController.pause() }
+            coVerify { audioController.play() }
         }
     }
 
@@ -232,7 +232,7 @@ internal class PlayerPresenterTest {
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Ready>(awaitItem())
-            verify { audioPlayer.seekTo(anyValue()) }
+            verify { audioController.seekTo(anyValue()) }
         }
     }
 
@@ -256,7 +256,7 @@ internal class PlayerPresenterTest {
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Ready>(awaitItem())
-            verify { audioPlayer.forwardOf(anyValue()) }
+            verify { audioController.forwardOf(anyValue()) }
         }
     }
 
@@ -280,7 +280,7 @@ internal class PlayerPresenterTest {
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Ready>(awaitItem())
-            coVerify { audioPlayer.replayOf(anyValue()) }
+            coVerify { audioController.replayOf(anyValue()) }
         }
     }
 

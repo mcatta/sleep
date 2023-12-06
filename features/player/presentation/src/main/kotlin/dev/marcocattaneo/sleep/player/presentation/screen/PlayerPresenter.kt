@@ -24,14 +24,14 @@ import androidx.compose.runtime.remember
 import dev.marcocattaneo.sleep.core.utils.AbsPresenter
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
-import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.AudioController
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 class PlayerPresenter @Inject constructor(
-    private val audioPlayer: AudioPlayer,
+    private val audioController: AudioController,
     private val mediaRepository: MediaRepository
 ) : AbsPresenter<PlayerState, PlayerEvent>() {
 
@@ -42,33 +42,33 @@ class PlayerPresenter @Inject constructor(
         LaunchedEffect(Unit) {
             events.collect { action ->
                 when (action) {
-                    PlayerEvent.ForwardOf -> audioPlayer.forwardOf(30.seconds)
+                    PlayerEvent.ForwardOf -> audioController.forwardOf(30.seconds)
                     PlayerEvent.Pause -> state.updateIfIs<PlayerState.Ready> {
-                        audioPlayer.pause()
+                        audioController.pause()
                         copy(status = PlayerState.Status.Paused)
                     }
 
                     PlayerEvent.Play -> state.updateIfIs<PlayerState.Ready> {
-                        audioPlayer.play()
+                        audioController.play()
                         copy(status = PlayerState.Status.Playing)
                     }
 
                     is PlayerEvent.PropagateError -> state.value =
                         PlayerState.Error(action.errorCode)
 
-                    PlayerEvent.ReplayOf -> audioPlayer.replayOf(30.seconds)
+                    PlayerEvent.ReplayOf -> audioController.replayOf(30.seconds)
 
-                    is PlayerEvent.SeekTo -> audioPlayer.seekTo(action.position)
+                    is PlayerEvent.SeekTo -> audioController.seekTo(action.position)
 
                     is PlayerEvent.StartPlaying -> {
                         // stop previous
-                        audioPlayer.stop()
+                        audioController.stop()
 
                         state.value = mediaRepository.urlFromId(action.mediaFile.id).fold(
                             ifLeft = { PlayerState.Error(500) },
                             ifRight = {
                                 // Start Audio Player with url
-                                audioPlayer.start(
+                                audioController.start(
                                     it,
                                     action.mediaFile.name,
                                     action.mediaFile.description
@@ -86,7 +86,7 @@ class PlayerPresenter @Inject constructor(
                     }
 
                     PlayerEvent.Stop -> {
-                        audioPlayer.stop()
+                        audioController.stop()
                         state.value = PlayerState.Idle
                     }
 
@@ -112,7 +112,7 @@ class PlayerPresenter @Inject constructor(
                                 currentState.stopDate?.let { stopDate -> System.currentTimeMillis() > stopDate }
                                     ?: false
                             if (mustStop) {
-                                audioPlayer.stop()
+                                audioController.stop()
                                 PlayerState.Idle
                             } else {
                                 currentState.copy(

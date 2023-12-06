@@ -19,6 +19,8 @@ plugins {
     alias libs.plugins.sleep.android.compose
     alias libs.plugins.sleep.jacoco
     alias libs.plugins.sleep.detekt
+    alias libs.plugins.android.hilt
+    id 'kotlin-kapt'
 }
 
 android {
@@ -37,10 +39,13 @@ dependencies {
 
     implementation libs.bundles.androidx
     implementation libs.bundles.compose
-    implementation libs.arrow
     implementation libs.compose.constraintLayout
     implementation libs.kotlin.stdlib
     implementation libs.hilt.android
+    implementation libs.androidx.media3.session
+    implementation libs.androidx.media3.player
+
+    kapt libs.hilt.androidCompiler
 
     testImplementation project(":core:testing")
 

@@ -22,7 +22,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.marcocattaneo.sleep.core.di.scope.CoroutineContextScope
+import dev.marcocattaneo.sleep.core.di.scope.CoroutineMainScope
 import dev.marcocattaneo.sleep.core.di.scope.MoleculeComposableScope
 import dev.marcocattaneo.sleep.core.di.scope.MoleculeRecompositionMode
 import kotlinx.coroutines.CoroutineScope
@@ -33,10 +33,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class CoroutineModule {
 
-    @CoroutineContextScope
+    @CoroutineMainScope
     @Singleton
     @Provides
-    fun provideCoroutineScope(): CoroutineScope = CoroutineScope(Dispatchers.Default)
+    fun provideCoroutineMainScope(): CoroutineScope = CoroutineScope(Dispatchers.Main)
 
     @MoleculeComposableScope
     @Singleton

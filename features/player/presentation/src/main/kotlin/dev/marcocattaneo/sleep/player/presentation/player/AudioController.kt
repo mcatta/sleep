@@ -14,24 +14,30 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.player.presentation.session
+package dev.marcocattaneo.sleep.player.presentation.player
 
-import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.MediaSessionCompat
+import dev.marcocattaneo.sleep.player.presentation.player.state.AudioPlayerEvent
+import kotlinx.coroutines.flow.StateFlow
+import kotlin.time.Duration
 
-interface SessionManager {
-    fun setCallback(callback: MediaSessionCompat.Callback)
+interface AudioController {
 
-    fun initMetaData(title: String, description: String?)
+    fun state(): StateFlow<AudioPlayerEvent>
 
-    fun setMediaPlaybackState(state: Int)
+    fun start(url: String, title: String, description: String?)
 
-    var isActive: Boolean
+    fun pause()
 
-    val sessionToken: MediaSessionCompat.Token
+    fun stop()
 
-    val controller: MediaControllerCompat
+    fun play()
 
-    val trackTitle: String
+    fun seekTo(sec: Duration)
+
+    fun dispose()
+
+    fun forwardOf(sec: Duration)
+
+    fun replayOf(sec: Duration)
 
 }

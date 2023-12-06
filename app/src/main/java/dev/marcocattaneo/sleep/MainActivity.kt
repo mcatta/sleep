@@ -16,42 +16,20 @@
 
 package dev.marcocattaneo.sleep
 
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
 import dev.marcocattaneo.sleep.ui.SleepApp
-import dev.marcocattaneo.sleep.ui.notification.playerServiceIntent
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Start NotificationService
-        with(playerServiceIntent()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(this)
-            } else {
-                startService(this)
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 0)
-        }
-
         setContent {
             SleepApp()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        stopService(playerServiceIntent())
     }
 
 }
