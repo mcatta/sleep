@@ -41,10 +41,10 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-class AudioPlayerImpl @Inject constructor(
+class AudioControllerImpl @Inject constructor(
     @CoroutineMainScope private val coroutineScope: CoroutineScope,
     @ApplicationContext private val context: Context
-) : AudioPlayer {
+) : AudioController {
 
     private companion object {
         const val UPDATE_PERIOD = 1_000L

@@ -23,7 +23,7 @@ import app.cash.molecule.launchMolecule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.marcocattaneo.sleep.core.di.scope.MoleculeComposableScope
 import dev.marcocattaneo.sleep.core.di.scope.MoleculeRecompositionMode
-import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.AudioController
 import dev.marcocattaneo.sleep.player.presentation.player.state.AudioPlayerEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
-    private val audioPlayer: AudioPlayer,
+    private val audioController: AudioController,
     @MoleculeRecompositionMode
     recompositionMode: RecompositionMode,
     @MoleculeComposableScope
@@ -50,7 +50,7 @@ class PlayerViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            audioPlayer.state().collect { playerEvent ->
+            audioController.state().collect { playerEvent ->
                 when (playerEvent) {
                     is AudioPlayerEvent.PlayerStatus -> PlayerEvent.UpdatePlayerStatus(
                         duration = playerEvent.duration,

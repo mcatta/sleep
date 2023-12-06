@@ -25,8 +25,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayer
-import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayerImpl
+import dev.marcocattaneo.sleep.player.presentation.player.AudioController
+import dev.marcocattaneo.sleep.player.presentation.player.AudioControllerImpl
 import javax.inject.Singleton
 
 @Module
@@ -36,8 +36,8 @@ abstract class PresentationModule {
     @Binds
     @Singleton
     abstract fun provideAudioPlayer(
-        player: AudioPlayerImpl
-    ): AudioPlayer
+        player: AudioControllerImpl
+    ): AudioController
 
 }
 

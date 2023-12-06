@@ -20,7 +20,7 @@ import dev.marcocattaneo.sleep.player.presentation.player.state.AudioPlayerEvent
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.time.Duration
 
-interface AudioPlayer {
+interface AudioController {
 
     fun state(): StateFlow<AudioPlayerEvent>
 
