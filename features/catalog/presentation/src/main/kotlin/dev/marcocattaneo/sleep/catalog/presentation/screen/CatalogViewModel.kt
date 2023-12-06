@@ -26,9 +26,7 @@ import dev.marcocattaneo.sleep.core.di.scope.MoleculeRecompositionMode
 import dev.marcocattaneo.sleep.playlist.presentation.PlaylistPresenter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject

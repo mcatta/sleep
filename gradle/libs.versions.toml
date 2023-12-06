@@ -16,10 +16,8 @@ jacoco = "0.8.8"
 bom-compose = { group = "androidx.compose", name = "compose-bom", version = "2023.10.00" }
 bom-firebase = { group = "com.google.firebase", name = "firebase-bom", version = "32.3.1" }
 
-androidx-appCompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
 androidx-core = { module = "androidx.core:core-ktx", version = "1.12.0" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version = "2.6.2" }
-androidx-media = { module = "androidx.media:media", version = "1.6.0" }
 androidx-media3-session = { module = "androidx.media3:media3-session", version.ref = "media3" }
 androidx-media3-player = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
 androidx-material = { module = "com.google.android.material:material", version = "1.10.0" }
@@ -75,7 +73,7 @@ gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 [bundles]
 compose = ["compose-ui", "compose-material", "compose-preview", "compose-activity"]
 compose-debug = ["compose-test-uiManifest", "compose-tooling", "compose-preview"]
-androidx = ["androidx-core", "androidx-material", "androidx-media", "androidx-appCompat"]
+androidx = ["androidx-core", "androidx-material"]
 retrofit = ["retrofit-client", "retrofit-gson", "retrofit-logger"]
 
 [plugins]
