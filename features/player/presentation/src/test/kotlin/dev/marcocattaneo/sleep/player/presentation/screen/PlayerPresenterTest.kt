@@ -23,7 +23,7 @@ import arrow.core.Either
 import dev.marcocattaneo.core.testing.anyValue
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
-import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayer
 import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

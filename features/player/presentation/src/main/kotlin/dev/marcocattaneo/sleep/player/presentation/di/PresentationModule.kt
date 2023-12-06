@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.di.module
+package dev.marcocattaneo.sleep.player.presentation.di
 
+import android.content.Context
 import android.media.MediaPlayer
+import androidx.media3.exoplayer.ExoPlayer
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
-import dev.marcocattaneo.sleep.player.presentation.AudioPlayerImpl
-import dev.marcocattaneo.sleep.player.presentation.session.SessionManager
-import dev.marcocattaneo.sleep.player.presentation.session.SessionManagerImpl
+import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayerImpl
 import javax.inject.Singleton
 
 @Module
@@ -38,12 +39,6 @@ abstract class PresentationModule {
         player: AudioPlayerImpl
     ): AudioPlayer
 
-    @Binds
-    @Singleton
-    abstract fun provideSessionManager(
-        sessionManager: SessionManagerImpl
-    ): SessionManager
-
 }
 
 @Module
@@ -53,5 +48,11 @@ class PresentationProviderModule {
     @Provides
     @Singleton
     fun provideMediaPlayer(): MediaPlayer = MediaPlayer()
+
+    @Provides
+    @Singleton
+    fun provideExoPlayer(
+        @ApplicationContext context: Context
+    ): ExoPlayer = ExoPlayer.Builder(context).build()
 
 }

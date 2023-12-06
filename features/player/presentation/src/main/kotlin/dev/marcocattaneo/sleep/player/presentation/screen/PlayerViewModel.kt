@@ -23,8 +23,8 @@ import app.cash.molecule.launchMolecule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.marcocattaneo.sleep.core.di.scope.MoleculeComposableScope
 import dev.marcocattaneo.sleep.core.di.scope.MoleculeRecompositionMode
-import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
-import dev.marcocattaneo.sleep.player.presentation.state.AudioPlayerEvent
+import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.state.AudioPlayerEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow

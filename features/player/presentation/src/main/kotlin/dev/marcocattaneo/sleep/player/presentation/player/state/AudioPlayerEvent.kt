@@ -14,10 +14,22 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.core.di.scope
+package dev.marcocattaneo.sleep.player.presentation.player.state
 
-import javax.inject.Qualifier
+import kotlin.time.Duration
 
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class CoroutineContextScope
+sealed interface AudioPlayerEvent {
+    data object None : AudioPlayerEvent
+    data object Stop : AudioPlayerEvent
+    data object Disposed : AudioPlayerEvent
+    data object Init : AudioPlayerEvent
+
+    data class Error(val errorCode: Int) : AudioPlayerEvent
+    data class PlayerStatus(
+        val isPlaying: Boolean,
+        val position: Duration,
+        val duration: Duration,
+        val trackTitle: String = ""
+    ) : AudioPlayerEvent
+
+}

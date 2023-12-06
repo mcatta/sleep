@@ -24,7 +24,7 @@ import androidx.compose.runtime.remember
 import dev.marcocattaneo.sleep.core.utils.AbsPresenter
 import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
-import dev.marcocattaneo.sleep.player.presentation.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayer
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import kotlin.time.Duration

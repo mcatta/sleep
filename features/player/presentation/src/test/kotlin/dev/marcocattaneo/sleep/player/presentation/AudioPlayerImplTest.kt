@@ -19,8 +19,10 @@ package dev.marcocattaneo.sleep.player.presentation
 import android.media.MediaPlayer
 import app.cash.turbine.test
 import dev.marcocattaneo.core.testing.CoroutinesTestRule
-import dev.marcocattaneo.sleep.player.presentation.session.SessionManager
-import dev.marcocattaneo.sleep.player.presentation.state.AudioPlayerEvent
+import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayer
+import dev.marcocattaneo.sleep.player.presentation.player.AudioPlayerImpl
+import dev.marcocattaneo.sleep.player.presentation.service.session.SessionManager
+import dev.marcocattaneo.sleep.player.presentation.player.state.AudioPlayerEvent
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
