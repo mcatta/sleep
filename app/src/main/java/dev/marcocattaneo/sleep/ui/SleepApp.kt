@@ -48,9 +48,15 @@ fun SleepApp() {
                     navHostController = navHostController
                 ) {
 
-                    registerCatalogScreen {
+                    registerCatalogScreen { media ->
                         playerViewModel.dispatchEvent(PlayerEvent.Stop)
-                        playerViewModel.dispatchEvent(PlayerEvent.StartPlaying(it))
+                        playerViewModel.dispatchEvent(
+                            PlayerEvent.StartPlaying(
+                                id = media.id,
+                                name = media.name,
+                                description = media.description
+                            )
+                        )
                     }
 
                 }

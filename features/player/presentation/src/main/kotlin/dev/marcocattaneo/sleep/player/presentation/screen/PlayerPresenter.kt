@@ -22,7 +22,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import dev.marcocattaneo.sleep.core.utils.AbsPresenter
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.player.AudioController
 import kotlinx.coroutines.flow.Flow
@@ -64,14 +63,14 @@ class PlayerPresenter @Inject constructor(
                         // stop previous
                         audioController.stop()
 
-                        state.value = mediaRepository.urlFromId(action.mediaFile.id).fold(
+                        state.value = mediaRepository.urlFromId(action.id).fold(
                             ifLeft = { PlayerState.Error(500) },
                             ifRight = {
                                 // Start Audio Player with url
                                 audioController.start(
                                     it,
-                                    action.mediaFile.name,
-                                    action.mediaFile.description
+                                    action.name,
+                                    action.description
                                 )
 
                                 PlayerState.Ready(
@@ -169,7 +168,11 @@ sealed interface PlayerState {
 }
 
 sealed interface PlayerEvent {
-    data class StartPlaying(val mediaFile: MediaFileEntity) : PlayerEvent
+    data class StartPlaying(
+        val id: String,
+        val name: String,
+        val description: String?
+    ) : PlayerEvent
 
     data class UpdatePlayerStatus(
         val duration: Duration,

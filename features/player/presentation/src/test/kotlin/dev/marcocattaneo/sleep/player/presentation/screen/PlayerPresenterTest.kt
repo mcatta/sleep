@@ -24,7 +24,6 @@ import dev.marcocattaneo.core.testing.anyValue
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import dev.marcocattaneo.sleep.player.presentation.player.AudioController
-import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -34,14 +33,16 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.test.runTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertNull
+import kotlin.test.*
 import kotlin.time.Duration.Companion.seconds
 
 internal class PlayerPresenterTest {
+
+    private companion object {
+        const val FAKE_ID = "89e2a967-6b4b-4590-8471-a266feb13b3a"
+        const val FAKE_NAME = "My Track"
+        const val FAKE_DESCRIPTION = "My Tracks' description"
+    }
 
     @RelaxedMockK
     lateinit var audioController: AudioController
@@ -71,7 +72,13 @@ internal class PlayerPresenterTest {
 
         getPresenter(events).test {
             // When
-            events.send(PlayerEvent.StartPlaying(fakeMediaFile()))
+            events.send(
+                PlayerEvent.StartPlaying(
+                    id = FAKE_ID,
+                    name = FAKE_NAME,
+                    description = FAKE_DESCRIPTION
+                )
+            )
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
@@ -91,7 +98,13 @@ internal class PlayerPresenterTest {
 
         getPresenter(events).test {
             // When
-            events.send(PlayerEvent.StartPlaying(fakeMediaFile()))
+            events.send(
+                PlayerEvent.StartPlaying(
+                    id = FAKE_ID,
+                    name = FAKE_NAME,
+                    description = FAKE_DESCRIPTION
+                )
+            )
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
