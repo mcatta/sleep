@@ -33,8 +33,8 @@ dependencies {
     implementation project(":core:design")
     implementation project(":core:utils")
     implementation(project(":core:navigation"))
-    implementation project(":data")
-    implementation project(":domain")
+    implementation project(":core:network:data")
+    implementation project(":core:network:domain")
     implementation project(":features:playlist:presentation")
 
     implementation libs.bundles.androidx
