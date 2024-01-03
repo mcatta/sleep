@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Marco Cattaneo
+ * Copyright 2024 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep
+package dev.marcocattaneo.sleep.catalog.data.mapper
 
+import dev.marcocattaneo.sleep.catalog.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.data.model.MediaFile
+import dev.marcocattaneo.sleep.domain.mapper.Mapper
+import javax.inject.Inject
 
-internal fun MediaFile.Companion.mock(
-    id: String = "id",
-    name: String = "name",
-    description: String? = null,
-    path: String = "http://path"
-) = MediaFile(id, name, description, path)
+class MediaFileMapper @Inject constructor(): Mapper<MediaFile, MediaFileEntity> {
+
+    override fun mapTo(from: MediaFile) = MediaFileEntity(
+        id = from.id,
+        description = from.description,
+        name = from.name,
+        path = from.path
+    )
+}

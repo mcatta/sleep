@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2024 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.domain.model
+package dev.marcocattaneo.sleep.catalog.domain.model
 
 data class MediaFileEntity(
-    val id: TrackId,
+    val id: String,
     val name: String,
     val description: String?,
     val path: String,

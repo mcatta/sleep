@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2024 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.data.mapper
+package dev.marcocattaneo.sleep.catalog.domain.repository
 
-import dev.marcocattaneo.sleep.data.model.MediaFile
-import dev.marcocattaneo.sleep.domain.mapper.Mapper
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import javax.inject.Inject
+import arrow.core.Either
+import dev.marcocattaneo.sleep.catalog.domain.model.MediaFileEntity
+import dev.marcocattaneo.sleep.domain.AppException
+import dev.marcocattaneo.sleep.domain.cache.CachePolicy
+import kotlin.time.Duration.Companion.seconds
 
-internal class MediaFileMapper @Inject constructor(): Mapper<MediaFile, MediaFileEntity> {
-    override fun mapTo(from: MediaFile) = MediaFileEntity(
-        id = from.id,
-        description = from.description,
-        name = from.name,
-        path = from.path
-    )
+interface CatalogRepository {
+
+    suspend fun listMedia(
+        cachePolicy: CachePolicy = CachePolicy.CacheFirst(60.seconds)
+    ): Either<AppException, List<MediaFileEntity>>
 }

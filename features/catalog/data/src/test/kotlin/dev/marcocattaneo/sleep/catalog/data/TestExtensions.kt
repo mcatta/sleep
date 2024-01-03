@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2023 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.domain.model
+package dev.marcocattaneo.sleep.catalog.data
 
-typealias TrackId = String
+import dev.marcocattaneo.sleep.data.model.MediaFile
+
+internal fun MediaFile.Companion.mock(
+    id: String = "id",
+    name: String = "name",
+    description: String? = null,
+    path: String = "http://path"
+) = MediaFile(id, name, description, path)

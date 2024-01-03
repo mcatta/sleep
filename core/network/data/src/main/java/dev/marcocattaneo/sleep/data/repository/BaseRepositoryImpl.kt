@@ -24,7 +24,7 @@ import dev.marcocattaneo.sleep.domain.repository.BaseRepository
 import java.lang.Exception
 import javax.inject.Inject
 
-internal class BaseRepositoryImpl @Inject constructor() : BaseRepository {
+class BaseRepositoryImpl @Inject constructor() : BaseRepository {
 
     override suspend fun <K : Any, V : Any> handleCachedValue(
         cacheService: CacheService<K, V>,

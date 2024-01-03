@@ -18,17 +18,9 @@ package dev.marcocattaneo.sleep.domain.repository
 
 import arrow.core.Either
 import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.cache.CachePolicy
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.domain.model.TrackId
-import kotlin.time.Duration.Companion.seconds
 
 interface MediaRepository {
 
-    suspend fun listMedia(
-        cachePolicy: CachePolicy = CachePolicy.CacheFirst(60.seconds)
-    ): Either<AppException, List<MediaFileEntity>>
-
-    suspend fun urlFromId(id: TrackId): Either<AppException, String>
+    suspend fun urlFromId(id: String): Either<AppException, String>
 
 }

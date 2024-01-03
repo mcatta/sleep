@@ -20,7 +20,7 @@ import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
 @Keep
-internal data class MediaFile(
+data class MediaFile(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")

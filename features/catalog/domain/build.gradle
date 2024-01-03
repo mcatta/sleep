@@ -27,7 +27,7 @@ android {
 dependencies {
     implementation project(":core:di")
     implementation project(":core:utils")
-    implementation project(":core:network:domain")
+    api project(":core:network:domain")
 
     implementation libs.kotlin.stdlib
     implementation libs.hilt.android
