@@ -33,7 +33,7 @@ jobs:
       with:
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: "feature/playlist/presentation/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,feature/catalog/presentation/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,data/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,features/player/presentation/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,core/design/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,core/design/build/reports/coverage/androidTest/debug/connected/report.xml,feature/player/presentation/build/reports/coverage/androidTest/debug/connected/report.xml,data/build/reports/coverage/androidTest/debug/connected/report.xml"
+        # files: "feature/playlist/presentation/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,feature/catalog/presentation/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,data/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,features/player/presentation/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,core/design/build/reports/jacoco/createDebugCoverage/createDebugCoverage.xml,core/design/build/reports/coverage/androidTest/debug/connected/report.xml,feature/player/presentation/build/reports/coverage/androidTest/debug/connected/report.xml,data/build/reports/coverage/androidTest/debug/connected/report.xml"
     - name: Upload test report artifact
       if: ${{ failure() }}
       uses: actions/upload-artifact@v3
