@@ -14,9 +14,23 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.player.presentation
+plugins {
+    alias libs.plugins.sleep.android.library
+    alias libs.plugins.sleep.jacoco
+    alias libs.plugins.sleep.detekt
+}
 
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import java.util.UUID
+android {
+    namespace 'dev.marcocattaneo.sleep.catalog.domain'
+}
 
-fun fakeMediaFile() = MediaFileEntity(UUID.randomUUID().toString(), "File name", "Description", "path")
+dependencies {
+    implementation project(":core:di")
+    implementation project(":core:utils")
+    implementation project(":core:network:domain")
+
+    implementation libs.kotlin.stdlib
+    implementation libs.hilt.android
+
+    testImplementation project(":core:testing")
+}
