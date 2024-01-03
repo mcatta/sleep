@@ -54,8 +54,8 @@ dependencies {
     implementation(platform(libs.bom.compose))
     implementation(platform(libs.bom.firebase))
 
-    implementation(project(":domain"))
-    implementation(project(":data"))
+    implementation(project(":core:network:domain"))
+    implementation(project(":core:network:data"))
     implementation(project(":features:catalog:presentation"))
     implementation(project(":features:player:presentation"))
     implementation(project(":core:design"))

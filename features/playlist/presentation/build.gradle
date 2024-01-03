@@ -31,8 +31,8 @@ dependencies {
 
     implementation project(":core:di")
     implementation project(":core:utils")
-    implementation project(":data")
-    implementation project(":domain")
+    implementation project(":core:network:data")
+    implementation project(":core:network:domain")
 
     implementation libs.bundles.androidx
     implementation libs.bundles.compose
