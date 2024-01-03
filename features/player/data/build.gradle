@@ -16,41 +16,28 @@
 
 plugins {
     alias libs.plugins.sleep.android.library
-    alias libs.plugins.sleep.android.compose
     alias libs.plugins.sleep.jacoco
     alias libs.plugins.sleep.detekt
-    alias libs.plugins.android.hilt
-    id 'kotlin-kapt'
 }
 
 android {
-    namespace 'dev.marcocattaneo.sleep.player.presentation'
+    namespace 'dev.marcocattaneo.sleep.player.data'
 }
 
 dependencies {
-    implementation platform(libs.bom.compose)
-
     implementation project(":core:di")
-    implementation project(":core:design")
     implementation project(":core:utils")
-    implementation project(":features:player:data")
+    api project(":core:network:data")
     implementation project(":features:player:domain")
-    implementation project(":features:playlist:presentation")
 
-    implementation libs.bundles.androidx
-    implementation libs.bundles.compose
-    implementation libs.compose.constraintLayout
+    implementation libs.coroutine.core
     implementation libs.kotlin.stdlib
     implementation libs.hilt.android
-    implementation libs.androidx.media3.session
-    implementation libs.androidx.media3.player
 
-    kapt libs.hilt.androidCompiler
+    implementation libs.hilt.core
+    implementation libs.retrofit.client
 
     testImplementation project(":core:testing")
-
-    androidTestImplementation libs.androidx.junit
-    androidTestImplementation libs.compose.test.uiJunit4
-
-    debugImplementation libs.bundles.compose.debug
+    testImplementation libs.mockk.core
+    testImplementation libs.coroutine.test
 }

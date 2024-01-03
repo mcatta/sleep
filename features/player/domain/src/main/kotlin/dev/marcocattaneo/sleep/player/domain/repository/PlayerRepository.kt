@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2024 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-plugins {
-    alias libs.plugins.sleep.android.library
-    alias libs.plugins.sleep.jacoco
-    alias libs.plugins.sleep.detekt
-}
+package dev.marcocattaneo.sleep.player.domain.repository
 
-android {
-    namespace 'dev.marcocattaneo.sleep.catalog.domain'
-}
+import arrow.core.Either
+import dev.marcocattaneo.sleep.domain.AppException
 
-dependencies {
-    implementation project(":core:utils")
-    api project(":core:network:domain")
+interface PlayerRepository {
 
-    implementation libs.kotlin.stdlib
+    suspend fun urlFromId(id: String): Either<AppException, String>
 }

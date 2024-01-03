@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.domain.repository
+plugins {
+    alias libs.plugins.sleep.android.library
+    alias libs.plugins.sleep.jacoco
+    alias libs.plugins.sleep.detekt
+}
 
-import arrow.core.Either
-import dev.marcocattaneo.sleep.domain.AppException
+android {
+    namespace 'dev.marcocattaneo.sleep.player.domain'
+}
 
-interface MediaRepository {
+dependencies {
+    api project(":core:network:domain")
 
-    suspend fun urlFromId(id: String): Either<AppException, String>
-
+    implementation libs.kotlin.stdlib
 }

@@ -58,6 +58,7 @@ dependencies {
     implementation(project(":core:network:data"))
     implementation(project(":features:catalog:presentation"))
     implementation(project(":features:player:presentation"))
+    implementation project(":features:catalog:domain")
     implementation(project(":core:design"))
     implementation(project(":core:di"))
     implementation(project(":core:utils"))

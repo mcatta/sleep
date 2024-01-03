@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.catalog.data.di
+package dev.marcocattaneo.sleep.player.data.di
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.marcocattaneo.sleep.catalog.data.repository.CatalogRepositoryImpl
-import dev.marcocattaneo.sleep.catalog.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.catalog.domain.repository.CatalogRepository
-import dev.marcocattaneo.sleep.data.cache.InMemoryCache
-import dev.marcocattaneo.sleep.data.http.SleepService
-import dev.marcocattaneo.sleep.domain.cache.CacheService
-import retrofit2.Retrofit
+import dev.marcocattaneo.sleep.player.data.repository.PlayerRepositoryImpl
+import dev.marcocattaneo.sleep.player.domain.repository.PlayerRepository
 import javax.inject.Singleton
 
 @Module
@@ -36,16 +30,6 @@ internal abstract class DataModule {
 
     @Binds
     @Singleton
-    abstract fun provideCatalogRepository(catalogRepositoryImpl: CatalogRepositoryImpl): CatalogRepository
-
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-internal class NetworkModule {
-
-    @Provides
-    @Singleton
-    fun provideMediaFileCache(): CacheService<String, List<MediaFileEntity>> = InMemoryCache()
+    abstract fun providePlayerRepository(playerRepository: PlayerRepositoryImpl): PlayerRepository
 
 }

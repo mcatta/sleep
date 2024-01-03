@@ -22,7 +22,7 @@ import app.cash.turbine.test
 import arrow.core.Either
 import dev.marcocattaneo.core.testing.anyValue
 import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.repository.MediaRepository
+import dev.marcocattaneo.sleep.player.domain.repository.PlayerRepository
 import dev.marcocattaneo.sleep.player.presentation.player.AudioController
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -48,7 +48,7 @@ internal class PlayerPresenterTest {
     lateinit var audioController: AudioController
 
     @RelaxedMockK
-    lateinit var mediaRepository: MediaRepository
+    lateinit var playerRepository: PlayerRepository
 
     @BeforeTest
     fun setup() {
@@ -59,7 +59,7 @@ internal class PlayerPresenterTest {
         return moleculeFlow(RecompositionMode.Immediate) {
             PlayerPresenter(
                 audioController,
-                mediaRepository
+                playerRepository
             ).models(events = eventsChannel.receiveAsFlow())
         }
     }
@@ -68,7 +68,7 @@ internal class PlayerPresenterTest {
     fun `Test PlayerAction StartPlaying`() = runTest {
         // Given
         val events = Channel<PlayerEvent>()
-        coEvery { mediaRepository.urlFromId(any()) } returns Either.Right("https://resource")
+        coEvery { playerRepository.urlFromId(any()) } returns Either.Right("https://resource")
 
         getPresenter(events).test {
             // When
@@ -85,7 +85,7 @@ internal class PlayerPresenterTest {
             assertIs<PlayerState.Ready>(awaitItem())
 
             coVerify { audioController.stop() }
-            coVerify { mediaRepository.urlFromId(any()) }
+            coVerify { playerRepository.urlFromId(any()) }
             coVerify { audioController.start(any(), any(), any()) }
         }
     }
@@ -94,7 +94,7 @@ internal class PlayerPresenterTest {
     fun `Test PlayerAction StartPlaying upon failure`() = runTest {
         // Given
         val events = Channel<PlayerEvent>()
-        coEvery { mediaRepository.urlFromId(any()) } returns Either.Left(AppException.FileNotFound)
+        coEvery { playerRepository.urlFromId(any()) } returns Either.Left(AppException.FileNotFound)
 
         getPresenter(events).test {
             // When
@@ -111,7 +111,7 @@ internal class PlayerPresenterTest {
             assertIs<PlayerState.Error>(awaitItem())
 
             coVerify { audioController.stop() }
-            coVerify { mediaRepository.urlFromId(any()) }
+            coVerify { playerRepository.urlFromId(any()) }
             coVerify(exactly = 0) { audioController.start(any(), any(), any()) }
         }
     }

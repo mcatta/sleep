@@ -39,6 +39,8 @@ rootProject.name = "sleep-app"
 include ':app'
 include ':core:network:domain'
 include ':core:network:data'
+include ':features:player:data'
+include ':features:player:domain'
 include ':features:player:presentation'
 include ':features:catalog:data'
 include ':features:catalog:domain'

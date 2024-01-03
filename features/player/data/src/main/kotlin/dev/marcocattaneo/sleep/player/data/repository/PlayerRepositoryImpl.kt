@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Marco Cattaneo
+ * Copyright 2024 Marco Cattaneo
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.marcocattaneo.sleep.data.repository
+package dev.marcocattaneo.sleep.player.data.repository
 
 import arrow.core.Either
 import arrow.core.raise.either
@@ -22,18 +22,16 @@ import dev.marcocattaneo.sleep.data.auth.AuthDataSource
 import dev.marcocattaneo.sleep.data.http.SleepService
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.repository.BaseRepository
-import dev.marcocattaneo.sleep.domain.repository.MediaRepository
+import dev.marcocattaneo.sleep.player.domain.repository.PlayerRepository
 import javax.inject.Inject
 
-internal class MediaRepositoryImpl @Inject constructor(
+class PlayerRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
     private val sleepService: SleepService,
     baseRepository: BaseRepository
-) : MediaRepository, BaseRepository by baseRepository {
+) : PlayerRepository, BaseRepository by baseRepository {
 
-    override suspend fun urlFromId(
-        id: String
-    ): Either<AppException, String> {
+    override suspend fun urlFromId(id: String): Either<AppException, String> {
         return either {
             val token = authDataSource.getAuthToken().bind()
 
