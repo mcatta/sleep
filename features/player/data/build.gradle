@@ -35,7 +35,6 @@ dependencies {
     implementation libs.hilt.android
 
     implementation libs.hilt.core
-    implementation libs.retrofit.client
 
     testImplementation project(":core:testing")
     testImplementation libs.mockk.core

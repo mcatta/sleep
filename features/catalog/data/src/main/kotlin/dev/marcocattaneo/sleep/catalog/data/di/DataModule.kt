@@ -25,9 +25,7 @@ import dev.marcocattaneo.sleep.catalog.data.repository.CatalogRepositoryImpl
 import dev.marcocattaneo.sleep.catalog.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.catalog.domain.repository.CatalogRepository
 import dev.marcocattaneo.sleep.data.cache.InMemoryCache
-import dev.marcocattaneo.sleep.data.http.SleepService
 import dev.marcocattaneo.sleep.domain.cache.CacheService
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module

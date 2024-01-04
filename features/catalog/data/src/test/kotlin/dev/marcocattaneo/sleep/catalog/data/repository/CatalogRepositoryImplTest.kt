@@ -12,17 +12,19 @@ import dev.marcocattaneo.sleep.data.repository.BaseRepositoryImpl
 import dev.marcocattaneo.sleep.domain.AppException
 import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.cache.CacheService
-import io.mockk.MockKAnnotations
-import io.mockk.Runs
-import io.mockk.coEvery
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.just
 import kotlinx.coroutines.test.runTest
 import java.net.SocketException
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class CatalogRepositoryImplTest {
+
+    private companion object {
+        const val FAKE_TOKEN = "82a869d0-67a9-4163-a099-048728e08d1c"
+    }
 
     private lateinit var catalogRepository: CatalogRepository
 
@@ -41,7 +43,7 @@ internal class CatalogRepositoryImplTest {
 
         coEvery { mediaFileCache.getValue(any(), any<CachePolicy>()) } returns null
         coEvery { mediaFileCache.setValue(any(), any(), any()) } just Runs
-        coEvery { authDataSource.getAuthToken() } returns Either.Right("token")
+        coEvery { authDataSource.getAuthToken() } returns Either.Right(FAKE_TOKEN)
 
         catalogRepository = CatalogRepositoryImpl(
             mediaFileMapper = MediaFileMapper(),
@@ -62,7 +64,8 @@ internal class CatalogRepositoryImplTest {
         val res = catalogRepository.listMedia()
 
         // Then
-        kotlin.test.assertEquals(true, res.isLeft())
+        assertEquals(true, res.isLeft())
+        coVerify(exactly = 0) { sleepService.tracks(any()) }
     }
 
     @Test
@@ -76,8 +79,9 @@ internal class CatalogRepositoryImplTest {
         val res = catalogRepository.listMedia()
 
         // Then
-        kotlin.test.assertEquals(true, res.isRight())
-        kotlin.test.assertEquals(2, (res as Either.Right).value.size)
+        assertEquals(true, res.isRight())
+        assertEquals(2, (res as Either.Right).value.size)
+        coVerify { sleepService.tracks(eq("Bearer $FAKE_TOKEN")) }
     }
 
     @Test
@@ -89,7 +93,8 @@ internal class CatalogRepositoryImplTest {
         val res = catalogRepository.listMedia()
 
         // Then
-        kotlin.test.assertEquals(true, res.isLeft())
+        assertEquals(true, res.isLeft())
+        coVerify { sleepService.tracks(eq("Bearer $FAKE_TOKEN")) }
     }
 
 }

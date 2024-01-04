@@ -31,13 +31,17 @@ class PlayerRepositoryImpl @Inject constructor(
     baseRepository: BaseRepository
 ) : PlayerRepository, BaseRepository by baseRepository {
 
+    private companion object {
+        const val HEADER_BEARER_PREFIX = "Bearer"
+    }
+
     override suspend fun urlFromId(id: String): Either<AppException, String> {
         return either {
             val token = authDataSource.getAuthToken().bind()
 
             handleValue {
                 sleepService.downloadUrl(
-                    authorization = "Bearer $token",
+                    authorization = "$HEADER_BEARER_PREFIX $token",
                     id = id
                 )
             }.map { it.url }.bind()

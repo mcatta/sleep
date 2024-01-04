@@ -43,9 +43,12 @@
             <option value="$PROJECT_DIR$/core/utils" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/catalog" />
+            <option value="$PROJECT_DIR$/features/catalog/data" />
             <option value="$PROJECT_DIR$/features/catalog/domain" />
             <option value="$PROJECT_DIR$/features/catalog/presentation" />
             <option value="$PROJECT_DIR$/features/player" />
+            <option value="$PROJECT_DIR$/features/player/data" />
+            <option value="$PROJECT_DIR$/features/player/domain" />
             <option value="$PROJECT_DIR$/features/player/presentation" />
             <option value="$PROJECT_DIR$/features/playlist" />
             <option value="$PROJECT_DIR$/features/playlist/presentation" />

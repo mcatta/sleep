@@ -17,6 +17,10 @@ import kotlin.test.Test
 
 internal class PlayerRepositoryImplTest {
 
+    private companion object {
+        const val FAKE_TOKEN = "dcdf4171-5f6d-40cc-8f6e-ac4d467df69a"
+    }
+
     private lateinit var playerRepository: PlayerRepository
 
     @MockK
@@ -29,7 +33,7 @@ internal class PlayerRepositoryImplTest {
     fun setup() {
         MockKAnnotations.init(this)
 
-        coEvery { authDataSource.getAuthToken() } returns Either.Right("token")
+        coEvery { authDataSource.getAuthToken() } returns Either.Right(FAKE_TOKEN)
 
         playerRepository = PlayerRepositoryImpl(
             authDataSource = authDataSource,
@@ -48,7 +52,7 @@ internal class PlayerRepositoryImplTest {
 
         // Then
         kotlin.test.assertEquals(true, res.isRight())
-        coVerify { sleepService.downloadUrl(any(), eq("path")) }
+        coVerify { sleepService.downloadUrl(eq("Bearer $FAKE_TOKEN"), eq("path")) }
     }
 
     @Test
@@ -61,7 +65,7 @@ internal class PlayerRepositoryImplTest {
 
         // Then
         kotlin.test.assertEquals(true, res.isLeft())
-        coVerify { sleepService.downloadUrl(any(), eq("path")) }
+        coVerify { sleepService.downloadUrl(eq("Bearer $FAKE_TOKEN"), eq("path")) }
     }
 
 }
