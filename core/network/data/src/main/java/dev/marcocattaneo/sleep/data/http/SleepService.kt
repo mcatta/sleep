@@ -22,7 +22,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 
-internal interface SleepService {
+interface SleepService {
 
     @GET("media")
     suspend fun tracks(@Header("Authorization") authorization: String): List<MediaFile>

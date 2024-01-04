@@ -21,11 +21,8 @@ import app.cash.molecule.moleculeFlow
 import app.cash.turbine.test
 import arrow.core.Either
 import arrow.core.left
+import dev.marcocattaneo.sleep.catalog.domain.repository.CatalogRepository
 import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.cache.CachePolicy
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.domain.model.TrackId
-import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -33,10 +30,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -45,7 +39,7 @@ import kotlin.test.assertIs
 internal class CatalogPresenterTest {
 
     @MockK
-    private lateinit var mediaRepository: MediaRepository
+    private lateinit var catalogRepository: CatalogRepository
 
     @BeforeTest
     fun setup() {
@@ -54,12 +48,12 @@ internal class CatalogPresenterTest {
 
     private fun testPresenter(events: Flow<CatalogEvent>): Flow<CatalogState> = moleculeFlow(
         mode = RecompositionMode.Immediate
-    ) { CatalogPresenter(mediaRepository).models(events = events) }
+    ) { CatalogPresenter(catalogRepository).models(events = events) }
 
     @Test
     fun `Test loading upon failure`() = runTest {
         // Given
-        coEvery { mediaRepository.listMedia(any()) } coAnswers {
+        coEvery { catalogRepository.listMedia(any()) } coAnswers {
             delay(1L)
             AppException.GenericError.left()
         }
@@ -74,7 +68,7 @@ internal class CatalogPresenterTest {
             assertIs<CatalogState.Loading>(awaitItem())
             assertIs<CatalogState.Error>(awaitItem())
 
-            coVerify { mediaRepository.listMedia(any()) }
+            coVerify { catalogRepository.listMedia(any()) }
         }
     }
 
@@ -82,7 +76,7 @@ internal class CatalogPresenterTest {
     fun `Test loading upon success`() = runTest {
         // Given
         val events = Channel<CatalogEvent>()
-        coEvery { mediaRepository.listMedia(any()) } coAnswers {
+        coEvery { catalogRepository.listMedia(any()) } coAnswers {
             delay(1L)
             Either.Right(emptyList())
         }
@@ -96,7 +90,7 @@ internal class CatalogPresenterTest {
             assertIs<CatalogState.Loading>(awaitItem())
             assertIs<CatalogState.Content>(awaitItem())
 
-            coVerify { mediaRepository.listMedia(any()) }
+            coVerify { catalogRepository.listMedia(any()) }
         }
     }
 
@@ -104,7 +98,7 @@ internal class CatalogPresenterTest {
     fun `Test reloading`() = runTest {
         // Given
         val events = Channel<CatalogEvent>()
-        coEvery { mediaRepository.listMedia(any()) } coAnswers {
+        coEvery { catalogRepository.listMedia(any()) } coAnswers {
             delay(1L)
             Either.Right(emptyList())
         }
@@ -122,7 +116,7 @@ internal class CatalogPresenterTest {
             assertIs<CatalogState.Loading>(awaitItem())
             assertIs<CatalogState.Content>(awaitItem())
 
-            coVerify(exactly = 2) { mediaRepository.listMedia(any()) }
+            coVerify(exactly = 2) { catalogRepository.listMedia(any()) }
         }
     }
 

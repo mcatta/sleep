@@ -16,19 +16,15 @@
 
 package dev.marcocattaneo.sleep.catalog.presentation.screen
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import dev.marcocattaneo.sleep.catalog.domain.model.MediaFileEntity
+import dev.marcocattaneo.sleep.catalog.domain.repository.CatalogRepository
 import dev.marcocattaneo.sleep.core.utils.AbsPresenter
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
-import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CatalogPresenter @Inject constructor(
-    private val mediaRepository: MediaRepository,
+    private val catalogRepository: CatalogRepository,
 ) : AbsPresenter<CatalogState, CatalogEvent>() {
 
     @Composable
@@ -54,7 +50,7 @@ class CatalogPresenter @Inject constructor(
 
     private suspend fun loadMedia(state: MutableState<CatalogState>) {
         state.value = CatalogState.Loading
-        state.value = mediaRepository.listMedia().fold(
+        state.value = catalogRepository.listMedia().fold(
             ifLeft = { err -> CatalogState.Error(err.message ?: "") },
             ifRight = { list -> CatalogState.Content(list) }
         )

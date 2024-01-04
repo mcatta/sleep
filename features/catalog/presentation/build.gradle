@@ -32,10 +32,10 @@ dependencies {
     implementation project(":core:di")
     implementation project(":core:design")
     implementation project(":core:utils")
-    implementation(project(":core:navigation"))
-    implementation project(":core:network:data")
-    implementation project(":core:network:domain")
+    implementation project(":core:navigation")
     implementation project(":features:playlist:presentation")
+    implementation project(":features:catalog:data")
+    implementation project(":features:catalog:domain")
 
     implementation libs.bundles.androidx
     implementation libs.bundles.compose

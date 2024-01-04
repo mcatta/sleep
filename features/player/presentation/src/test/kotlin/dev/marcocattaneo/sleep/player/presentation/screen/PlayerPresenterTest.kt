@@ -22,9 +22,8 @@ import app.cash.turbine.test
 import arrow.core.Either
 import dev.marcocattaneo.core.testing.anyValue
 import dev.marcocattaneo.sleep.domain.AppException
-import dev.marcocattaneo.sleep.domain.repository.MediaRepository
+import dev.marcocattaneo.sleep.player.domain.repository.PlayerRepository
 import dev.marcocattaneo.sleep.player.presentation.player.AudioController
-import dev.marcocattaneo.sleep.player.presentation.fakeMediaFile
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -34,20 +33,22 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.test.runTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertNull
+import kotlin.test.*
 import kotlin.time.Duration.Companion.seconds
 
 internal class PlayerPresenterTest {
+
+    private companion object {
+        const val FAKE_ID = "89e2a967-6b4b-4590-8471-a266feb13b3a"
+        const val FAKE_NAME = "My Track"
+        const val FAKE_DESCRIPTION = "My Tracks' description"
+    }
 
     @RelaxedMockK
     lateinit var audioController: AudioController
 
     @RelaxedMockK
-    lateinit var mediaRepository: MediaRepository
+    lateinit var playerRepository: PlayerRepository
 
     @BeforeTest
     fun setup() {
@@ -58,7 +59,7 @@ internal class PlayerPresenterTest {
         return moleculeFlow(RecompositionMode.Immediate) {
             PlayerPresenter(
                 audioController,
-                mediaRepository
+                playerRepository
             ).models(events = eventsChannel.receiveAsFlow())
         }
     }
@@ -67,18 +68,24 @@ internal class PlayerPresenterTest {
     fun `Test PlayerAction StartPlaying`() = runTest {
         // Given
         val events = Channel<PlayerEvent>()
-        coEvery { mediaRepository.urlFromId(any()) } returns Either.Right("https://resource")
+        coEvery { playerRepository.urlFromId(any()) } returns Either.Right("https://resource")
 
         getPresenter(events).test {
             // When
-            events.send(PlayerEvent.StartPlaying(fakeMediaFile()))
+            events.send(
+                PlayerEvent.StartPlaying(
+                    id = FAKE_ID,
+                    name = FAKE_NAME,
+                    description = FAKE_DESCRIPTION
+                )
+            )
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Ready>(awaitItem())
 
             coVerify { audioController.stop() }
-            coVerify { mediaRepository.urlFromId(any()) }
+            coVerify { playerRepository.urlFromId(any()) }
             coVerify { audioController.start(any(), any(), any()) }
         }
     }
@@ -87,18 +94,24 @@ internal class PlayerPresenterTest {
     fun `Test PlayerAction StartPlaying upon failure`() = runTest {
         // Given
         val events = Channel<PlayerEvent>()
-        coEvery { mediaRepository.urlFromId(any()) } returns Either.Left(AppException.FileNotFound)
+        coEvery { playerRepository.urlFromId(any()) } returns Either.Left(AppException.FileNotFound)
 
         getPresenter(events).test {
             // When
-            events.send(PlayerEvent.StartPlaying(fakeMediaFile()))
+            events.send(
+                PlayerEvent.StartPlaying(
+                    id = FAKE_ID,
+                    name = FAKE_NAME,
+                    description = FAKE_DESCRIPTION
+                )
+            )
 
             // Then
             assertIs<PlayerState.Idle>(awaitItem())
             assertIs<PlayerState.Error>(awaitItem())
 
             coVerify { audioController.stop() }
-            coVerify { mediaRepository.urlFromId(any()) }
+            coVerify { playerRepository.urlFromId(any()) }
             coVerify(exactly = 0) { audioController.start(any(), any(), any()) }
         }
     }

@@ -37,11 +37,11 @@ import dev.marcocattaneo.core.design.composables.*
 import dev.marcocattaneo.core.design.theme.Dimen
 import dev.marcocattaneo.core.design.theme.placeholder
 import dev.marcocattaneo.navigation.composable
+import dev.marcocattaneo.sleep.catalog.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.catalog.presentation.R
 import dev.marcocattaneo.sleep.catalog.presentation.Routes
 import dev.marcocattaneo.sleep.catalog.presentation.composables.Illustration
 import dev.marcocattaneo.sleep.catalog.presentation.composables.InfoBox
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.core.design.R as DesignR
 
 /**

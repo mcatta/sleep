@@ -23,14 +23,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.marcocattaneo.sleep.data.BuildConfig
-import dev.marcocattaneo.sleep.data.cache.InMemoryCache
 import dev.marcocattaneo.sleep.data.http.SleepService
 import dev.marcocattaneo.sleep.data.repository.BaseRepositoryImpl
-import dev.marcocattaneo.sleep.data.repository.MediaRepositoryImpl
-import dev.marcocattaneo.sleep.domain.cache.CacheService
-import dev.marcocattaneo.sleep.domain.model.MediaFileEntity
 import dev.marcocattaneo.sleep.domain.repository.BaseRepository
-import dev.marcocattaneo.sleep.domain.repository.MediaRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -40,10 +35,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal abstract class DataModule {
-
-    @Binds
-    @Singleton
-    abstract fun provideMediaRepository(mediaRepositoryImpl: MediaRepositoryImpl): MediaRepository
 
     @Binds
     @Singleton
@@ -75,11 +66,6 @@ internal class NetworkModule {
     fun provideService(
         retrofit: Retrofit
     ): SleepService = retrofit.create(SleepService::class.java)
-
-    @Provides
-    @Singleton
-    fun provideMediaFileCache(): CacheService<String, List<MediaFileEntity>> =
-        InMemoryCache()
 
     @Provides
     @Singleton
