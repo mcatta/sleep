@@ -28,6 +28,14 @@ import sleep.buildtools.utils.*
 
 internal class JacocoCoveragePlugin : Plugin<Project> {
 
+    private companion object {
+        const val JACOCO_TASK_NAME = "createDebugCoverage"
+
+        const val APPLICATION_PLUGIN_NAME = "com.android.application"
+        const val LIBRARY_PLUGIN_NAME = "com.android.library"
+        const val JVM_PLUGIN_NAME = "org.jetbrains.kotlin.jvm"
+    }
+
     private val Project.jacocoVersion: String
         get() = libsCatalog.findVersion("jacoco").get().toString()
 
@@ -38,13 +46,10 @@ internal class JacocoCoveragePlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.applyJacocoPlugin()
 
-        target.pluginManager.withPlugins("com.android.application") {
+        target.pluginManager.withPlugins(LIBRARY_PLUGIN_NAME, APPLICATION_PLUGIN_NAME) {
             target.configureJacocoForAndroid()
         }
-        target.pluginManager.withPlugins("com.android.library") {
-            target.configureJacocoForAndroid()
-        }
-        target.pluginManager.withPlugins("org.jetbrains.kotlin.jvm") {
+        target.pluginManager.withPlugins(JVM_PLUGIN_NAME) {
             target.configureJacocoForJvm()
         }
     }
@@ -109,7 +114,7 @@ internal class JacocoCoveragePlugin : Plugin<Project> {
 
         // Register Jacoco Gradle Task
         afterEvaluate {
-            tasks.register("createDebugCoverage", jacocoConfig)
+            tasks.register(JACOCO_TASK_NAME, jacocoConfig)
         }
     }
 
@@ -145,7 +150,7 @@ internal class JacocoCoveragePlugin : Plugin<Project> {
 
         // Register Jacoco Gradle Task
         afterEvaluate {
-            tasks.register("createDebugCoverage", jacocoConfig)
+            tasks.register(JACOCO_TASK_NAME, jacocoConfig)
         }
     }
 
