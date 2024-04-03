@@ -18,7 +18,7 @@ package dev.marcocattaneo.sleep.player.presentation.ui
 
 import kotlin.time.Duration
 
-fun Duration.format(): String {
+internal fun Duration.format(): String {
     val milliseconds = inWholeSeconds
     val hours = milliseconds.div(3_600)
     val minutes = (milliseconds % 3600) / 60

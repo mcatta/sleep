@@ -52,7 +52,7 @@ import kotlin.time.Duration.Companion.seconds
  * @param onChangePlayingStatus
  */
 @Composable
-fun BottomPlayerBar(
+internal fun BottomPlayerBar(
     modifier: Modifier = Modifier,
     description: String = "",
     isPlaying: Boolean,
@@ -99,7 +99,7 @@ fun BottomPlayerBar(
                     )
                 }
             }
-            SeekBar(duration = duration, position = position, onSeeking = onSeeking)
+            SeekBar(duration = duration.normalize(), position = position, onSeeking = onSeeking)
             // Buttons
             Box(modifier = Modifier.fillMaxWidth()) {
                 Row(
@@ -191,6 +191,8 @@ fun BottomPlayerBar(
         }
     }
 }
+
+private fun Duration.normalize() = takeIf { inWholeSeconds >= 0 } ?: Duration.ZERO
 
 @Composable
 private fun PlayButton(
@@ -284,7 +286,7 @@ private fun SeekBar(
 
 @Composable
 @Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
-fun BottomPlayerBarPreview() {
+private fun BottomPlayerBarPreview() {
     BottomPlayerBar(
         isPlaying = true,
         duration = 360300.seconds,
@@ -301,7 +303,7 @@ fun BottomPlayerBarPreview() {
 
 @Composable
 @Preview(backgroundColor = 0xFFFFFFFF, showBackground = true)
-fun BottomPlayerBarWithDescriptionPreview() {
+private fun BottomPlayerBarWithDescriptionPreview() {
     BottomPlayerBar(
         description = "My track name",
         isPlaying = true,
