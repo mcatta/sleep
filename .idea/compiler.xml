@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17">
-      <module name="android-compose-template.app" target="11" />
-      <module name="android-compose-template.buildSrc" target="11" />
-      <module name="sleep-app.buildSrc" target="11" />
-      <module name="sleep-app.buildSrc.main" target="11" />
-      <module name="sleep-app.buildSrc.test" target="11" />
-      <module name="sleep.build-tools.common.test" target="17" />
-      <module name="sleep.build-tools.jvm.test" target="11" />
-      <module name="sleep.buildtools.jvm.build-tools.jvm.test" target="17" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="18" />
   </component>
 </project>
