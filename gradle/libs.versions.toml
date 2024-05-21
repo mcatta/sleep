@@ -50,7 +50,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 
-arrow = { module = "io.arrow-kt:arrow-core", version = "1.2.1" }
+arrow = { module = "io.arrow-kt:arrow-core", version = "1.2.4" }
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 retrofit-client = { module = "com.squareup.retrofit2:retrofit", version = "2.9.0" }
 retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version = "2.9.0" }
