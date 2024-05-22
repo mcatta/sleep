@@ -24,7 +24,7 @@ import sleep.buildtools.utils.libsCatalog
 
 internal class AndroidComposeConvention : BuildConvention {
     override fun apply(target: Project) {
-        target.extensions.configure<CommonExtension<*, *, *, *, *>> { ext ->
+        target.extensions.configure<CommonExtension<*, *, *, *, *, *>> { ext ->
             ext.buildFeatures {
                 compose = true
             }

@@ -17,8 +17,6 @@
 package dev.marcocattaneo.core.testing
 
 import io.mockk.ConstantMatcher
-import io.mockk.Matcher
-import io.mockk.MockKGateway
 import io.mockk.MockKMatcherScope
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
