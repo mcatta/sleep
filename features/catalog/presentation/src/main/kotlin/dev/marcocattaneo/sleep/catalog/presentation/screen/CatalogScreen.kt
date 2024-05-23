@@ -97,7 +97,7 @@ fun CatalogScreen(
             when (uiState) {
                 is CatalogState.Content -> {
                     (uiState as CatalogState.Content).homeMediaFile.iterator().forEach {
-                        item { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
+                        item(it.id) { MediaItem(mediaFile = it, onClick = onClickMediaFile) }
                     }
                 }
 

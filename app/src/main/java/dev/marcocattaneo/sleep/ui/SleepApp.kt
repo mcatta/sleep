@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import dev.marcocattaneo.core.design.theme.SleepTheme
+import dev.marcocattaneo.navigation.NavigationComponent
 import dev.marcocattaneo.sleep.catalog.presentation.Routes
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerEvent
 import dev.marcocattaneo.sleep.player.presentation.screen.PlayerScreen
@@ -43,11 +44,10 @@ fun SleepApp() {
                 playerViewModel = playerViewModel,
                 isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
             ) {
-                dev.marcocattaneo.navigation.NavigationComponent(
+                NavigationComponent(
                     startRoute = Routes.Dashboard,
                     navHostController = navHostController
                 ) {
-
                     registerCatalogScreen { media ->
                         playerViewModel.dispatchEvent(PlayerEvent.Stop)
                         playerViewModel.dispatchEvent(
@@ -58,7 +58,6 @@ fun SleepApp() {
                             )
                         )
                     }
-
                 }
             }
         }
