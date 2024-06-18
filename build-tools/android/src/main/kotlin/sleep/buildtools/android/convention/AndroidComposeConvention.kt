@@ -16,21 +16,15 @@
 
 package sleep.buildtools.android.convention
 
-import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
+import org.jetbrains.kotlin.compose.compiler.gradle.ComposeCompilerGradlePluginExtension
 import sleep.buildtools.android.common.BuildConvention
 import sleep.buildtools.utils.configure
-import sleep.buildtools.utils.libsCatalog
 
 internal class AndroidComposeConvention : BuildConvention {
     override fun apply(target: Project) {
-        target.extensions.configure<CommonExtension<*, *, *, *, *, *>> { ext ->
-            ext.buildFeatures {
-                compose = true
-            }
-            ext.composeOptions {
-                kotlinCompilerExtensionVersion = target.libsCatalog.findVersion("compose").get().toString()
-            }
+        target.extensions.configure<ComposeCompilerGradlePluginExtension> { ext ->
+            ext.enableStrongSkippingMode.set(true)
         }
     }
 }

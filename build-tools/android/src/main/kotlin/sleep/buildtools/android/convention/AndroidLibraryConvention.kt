@@ -21,12 +21,12 @@ import org.gradle.api.Project
 import sleep.buildtools.android.AndroidConfigs
 import sleep.buildtools.android.common.BuildConvention
 import sleep.buildtools.utils.configure
-import sleep.buildtools.utils.kapt
+import sleep.buildtools.utils.ksp
 import sleep.buildtools.utils.libsCatalog
 
 internal class AndroidLibraryConvention : BuildConvention {
     override fun apply(target: Project) {
-        target.dependencies.kapt(target.libsCatalog.findLibrary("hilt.androidCompiler"))
+        target.dependencies.ksp(target.libsCatalog.findLibrary("hilt.androidCompiler"))
 
         target.extensions.configure<LibraryExtension> { ext ->
             ext.testOptions {

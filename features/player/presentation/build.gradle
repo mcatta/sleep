@@ -20,7 +20,6 @@ plugins {
     alias libs.plugins.sleep.jacoco
     alias libs.plugins.sleep.detekt
     alias libs.plugins.android.hilt
-    id 'kotlin-kapt'
 }
 
 android {
@@ -44,8 +43,7 @@ dependencies {
     implementation libs.hilt.android
     implementation libs.androidx.media3.session
     implementation libs.androidx.media3.player
-
-    kapt libs.hilt.androidCompiler
+    implementation libs.molecule
 
     testImplementation project(":core:testing")
 

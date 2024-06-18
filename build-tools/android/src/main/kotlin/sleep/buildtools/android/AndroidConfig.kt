@@ -31,7 +31,8 @@ internal object AndroidPlugins {
     const val ANDROID_APPLICATION_PLUGIN = "com.android.application"
     const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
     const val FIREBASE_CRASHLYTICS = "com.google.firebase.crashlytics"
+    const val GOOGLE_KSP = "com.google.devtools.ksp"
     const val GOOGLE_SERVICES_PLUGIN = "com.google.gms.google-services"
     const val DAGGER_HILT_PLUGIN = "dagger.hilt.android.plugin"
-    const val KOTLIN_KAPT_PLUGIN = "kotlin-kapt"
+    const val KOTLIN_COMPOSE_COMPILER = "org.jetbrains.kotlin.plugin.compose"
 }

@@ -19,7 +19,6 @@ plugins {
     alias libs.plugins.sleep.android.compose
     alias libs.plugins.sleep.jacoco
     alias libs.plugins.sleep.detekt
-    alias libs.plugins.molecule
 }
 
 android {
@@ -38,6 +37,7 @@ dependencies {
     implementation libs.bundles.compose
     implementation libs.kotlin.stdlib
     implementation libs.hilt.android
+    implementation libs.molecule
 
     testImplementation project(":core:testing")
 }

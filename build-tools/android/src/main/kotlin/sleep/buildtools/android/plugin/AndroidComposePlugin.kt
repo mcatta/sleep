@@ -17,11 +17,14 @@
 package sleep.buildtools.android.plugin
 
 import org.gradle.api.Project
+import sleep.buildtools.android.AndroidPlugins
 import sleep.buildtools.android.common.BaseAndroidPlugin
 import sleep.buildtools.android.convention.AndroidComposeConvention
 
 internal class AndroidComposePlugin : BaseAndroidPlugin() {
-    override fun onApplyPlugins(target: Project) {}
+    override fun onApplyPlugins(target: Project) {
+        target.pluginManager.apply(AndroidPlugins.KOTLIN_COMPOSE_COMPILER)
+    }
 
     override fun onPluginsApplied(target: Project) = AndroidComposeConvention().apply(target)
 }

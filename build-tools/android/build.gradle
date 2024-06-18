@@ -28,4 +28,5 @@ dependencies {
     implementation project(':common')
     implementation libs.gradle.android.api
     implementation libs.gradle.kotlin
+    implementation libs.gradle.kotlin.compose.compiler
 }

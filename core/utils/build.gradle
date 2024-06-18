@@ -17,7 +17,6 @@
 plugins {
     alias libs.plugins.sleep.android.library
     alias libs.plugins.sleep.android.compose
-    alias libs.plugins.molecule
     alias libs.plugins.sleep.detekt
 }
 
@@ -30,6 +29,7 @@ dependencies {
 
     implementation libs.compose.ui
     implementation libs.androidx.lifecycle.viewmodel
+    implementation libs.molecule
 
     testImplementation project(":core:testing")
 }

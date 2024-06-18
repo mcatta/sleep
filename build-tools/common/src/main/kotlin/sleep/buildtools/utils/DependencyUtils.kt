@@ -23,7 +23,7 @@ import java.util.*
 
 internal const val IMPLEMENTATION_PREFIX = "implementation"
 internal const val TEST_IMPLEMENTATION_PREFIX = "testImplementation"
-internal const val KAPT_PREFIX = "kapt"
+internal const val KSP_PREFIX = "ksp"
 
 /**
  * Runs the gradle implementation '<dependency>' by passing the [dependency] object
@@ -42,9 +42,9 @@ fun DependencyHandler.testImplementation(
 ) = add(TEST_IMPLEMENTATION_PREFIX, dependency.get())
 
 /**
- * Runs the gradle kapt '<dependency>' by passing the [dependency] object
+ * Runs the gradle ksp '<dependency>' by passing the [dependency] object
  * @param dependency
  */
-fun DependencyHandler.kapt(
+fun DependencyHandler.ksp(
     dependency: Optional<Provider<MinimalExternalModuleDependency>>
-) = add(KAPT_PREFIX, dependency.get())
+) = add(KSP_PREFIX, dependency.get())
