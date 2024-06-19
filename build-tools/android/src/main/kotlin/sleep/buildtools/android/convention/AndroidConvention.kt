@@ -19,22 +19,23 @@ package sleep.buildtools.android.convention
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import sleep.buildtools.android.AndroidBuildTypes
 import sleep.buildtools.android.AndroidConfigs
 import sleep.buildtools.android.common.BuildConvention
 import sleep.buildtools.utils.*
 
 internal class AndroidConvention : BuildConvention {
-    @Suppress("UnstableApiUsage")
     override fun apply(target: Project) {
         val javaIntVersion = target.getIntProperty("sleep.jvm.version")
         val javaVersion = JavaVersion.toVersion(javaIntVersion)
 
-        target.tasks.withType<KotlinCompile> { task ->
-            task.kotlinOptions {
-                jvmTarget = javaIntVersion.toString()
-                freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn" + "-Xinline-classes"
+        target.tasks.withType<KotlinCompilationTask<KotlinJvmCompilerOptions>> { task ->
+            task.compilerOptions {
+                jvmTarget.set(JvmTarget.fromTarget(javaIntVersion.toString()))
+                freeCompilerArgs.addAll("-opt-in=kotlin.RequiresOptIn", "-Xinline-classes")
             }
         }
 

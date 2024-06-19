@@ -19,9 +19,10 @@ package sleep.buildtools.jvm
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import sleep.buildtools.utils.*
 
 
@@ -29,8 +30,10 @@ internal class JvmPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.pluginManager.apply<KotlinPluginWrapper>()
 
-        target.tasks.withType<KotlinCompile> { task ->
-            task.kotlinOptions.allWarningsAsErrors = target.getBooleanProperty("sleep.jvm.warning-as-error")
+        target.tasks.withType<KotlinCompilationTask<KotlinJvmCompilerOptions>> { task ->
+            task.compilerOptions {
+                allWarningsAsErrors.set(target.getBooleanProperty("sleep.jvm.warning-as-error"))
+            }
         }
 
         target.extensions.configure<KotlinTopLevelExtension> { ext ->
