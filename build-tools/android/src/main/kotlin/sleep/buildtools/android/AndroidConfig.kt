@@ -22,7 +22,7 @@ package sleep.buildtools.android
 internal object AndroidConfigs {
     const val COMPILE_SDK: Int = 34
     const val MIN_SDK: Int = 24
-    const val TARGET_SDK: Int = 33
+    const val TARGET_SDK: Int = 34
 
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 }

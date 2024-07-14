@@ -18,16 +18,13 @@ package dev.marcocattaneo.sleep.data.cache
 
 import dev.marcocattaneo.sleep.domain.cache.CachePolicy
 import dev.marcocattaneo.sleep.domain.cache.CacheService
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.time.Duration.Companion.seconds
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class InMemoryCacheTest {
 
     private lateinit var cacheService: CacheService<String, String>
