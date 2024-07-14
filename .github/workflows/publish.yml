@@ -32,7 +32,9 @@ jobs:
     - name: Set up JDK 18
       uses: actions/setup-java@v4
       with:
-        java-version: 18
+        java-version: '18'
+        distribution: 'zulu'
+        cache: gradle
     - name: Create keystore
       run: |
         echo "${{ secrets.RELEASE_KEYSTORE }}" > release.keystore.asc
