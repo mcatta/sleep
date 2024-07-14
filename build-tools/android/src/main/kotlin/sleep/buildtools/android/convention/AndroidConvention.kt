@@ -54,7 +54,7 @@ internal class AndroidConvention : BuildConvention {
 
             ext.buildTypes {
                 getByName(AndroidBuildTypes.RELEASE.key).apply {
-                    isMinifyEnabled = true
+                    isMinifyEnabled = false
                     proguardFiles(
                         ext.getDefaultProguardFile("proguard-android-optimize.txt"),
                         "proguard-rules.pro"
