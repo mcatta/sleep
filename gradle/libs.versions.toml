@@ -1,5 +1,5 @@
 [versions]
-composeNavigation = "2.8.2"
+composeNavigation = "2.8.5"
 composeNavigationHilt = "1.2.0"
 kotlin = "2.0.21"
 ksp = "2.0.21-1.0.25"
