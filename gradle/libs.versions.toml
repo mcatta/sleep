@@ -1,7 +1,7 @@
 [versions]
 composeNavigation = "2.8.5"
 composeNavigationHilt = "1.2.0"
-kotlin = "2.0.21"
+kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 hilt = "2.55"
 media3 = "1.4.1"
