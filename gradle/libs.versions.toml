@@ -49,7 +49,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
 
-arrow = { module = "io.arrow-kt:arrow-core", version = "2.0.0" }
+arrow = { module = "io.arrow-kt:arrow-core", version = "2.0.1" }
 molecule = { module = "app.cash.molecule:molecule-runtime", version = "2.0.0" }
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 retrofit-client = { module = "com.squareup.retrofit2:retrofit", version = "2.11.0" }
