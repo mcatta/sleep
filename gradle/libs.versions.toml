@@ -2,7 +2,7 @@
 composeNavigation = "2.8.5"
 composeNavigationHilt = "1.2.0"
 kotlin = "2.1.10"
-ksp = "2.1.10-1.0.29"
+ksp = "2.2.0-2.0.2"
 hilt = "2.55"
 media3 = "1.5.1"
 coroutine = "1.10.1"
