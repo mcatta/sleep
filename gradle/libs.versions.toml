@@ -80,7 +80,7 @@ android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.2" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-google-gms = { id = "com.google.gms.google-services", version = "4.4.2" }
+google-gms = { id = "com.google.gms.google-services", version = "4.4.3" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
