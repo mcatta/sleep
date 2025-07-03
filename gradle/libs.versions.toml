@@ -28,7 +28,7 @@ compose-material = { group = "androidx.compose.material", name = "material" }
 compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-activity = { group = "androidx.activity", name = "activity-compose" }
-compose-constraintLayout = { module = "androidx.constraintlayout:constraintlayout-compose", version = "1.1.0" }
+compose-constraintLayout = { module = "androidx.constraintlayout:constraintlayout-compose", version = "1.1.1" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 compose-navigationHilt = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
 compose-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder", version.ref = "accompanist" }
