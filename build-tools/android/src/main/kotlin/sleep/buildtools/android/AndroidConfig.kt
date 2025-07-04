@@ -20,9 +20,9 @@ package sleep.buildtools.android
  * Defines the shared configuration for Android targets.
  */
 internal object AndroidConfigs {
-    const val COMPILE_SDK: Int = 34
-    const val MIN_SDK: Int = 24
-    const val TARGET_SDK: Int = 34
+    const val COMPILE_SDK: Int = 36
+    const val MIN_SDK: Int = 36
+    const val TARGET_SDK: Int = 36
 
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 }
