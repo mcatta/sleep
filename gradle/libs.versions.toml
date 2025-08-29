@@ -36,7 +36,7 @@ compose-accompanist-uiController = { module = "com.google.accompanist:accompanis
 compose-accompanist-swipeToRefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanist" }
 
 compose-test-uiJunit4 = { module = "androidx.compose.ui:ui-test-junit4", version = "1.9.0" }
-compose-test-uiManifest = { module = "androidx.compose.ui:ui-test-manifest", version = "1.8.3" }
+compose-test-uiManifest = { module = "androidx.compose.ui:ui-test-manifest", version = "1.9.0" }
 
 coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
 coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine" }
