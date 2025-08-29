@@ -45,9 +45,9 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
 hilt-androidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx", version = "22.5.0" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx", version = "23.2.1" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx", version = "19.4.4" }
 
 arrow = { module = "io.arrow-kt:arrow-core", version = "2.1.2" }
 molecule = { module = "app.cash.molecule:molecule-runtime", version = "2.1.0" }
