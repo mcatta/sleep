@@ -78,7 +78,7 @@ retrofit = ["retrofit-client", "retrofit-gson", "retrofit-logger"]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.4" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 google-gms = { id = "com.google.gms.google-services", version = "4.4.3" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
