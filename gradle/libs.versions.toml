@@ -13,7 +13,7 @@ androidGradlePlugin = "8.13.0"
 jacoco = "0.8.8"
 
 [libraries]
-bom-compose = { group = "androidx.compose", name = "compose-bom", version = "2025.08.01" }
+bom-compose = { group = "androidx.compose", name = "compose-bom", version = "2025.11.00" }
 bom-firebase = { group = "com.google.firebase", name = "firebase-bom", version = "34.5.0" }
 
 androidx-core = { module = "androidx.core:core-ktx", version = "1.17.0" }
