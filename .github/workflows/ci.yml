@@ -35,7 +35,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Upload test report artifact
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: sleep-app-test-report
         path: /home/runner/work/sleep/sleep/app/build/reports/lint-results-debug.html
