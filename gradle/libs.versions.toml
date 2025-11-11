@@ -54,7 +54,7 @@ molecule = { module = "app.cash.molecule:molecule-runtime", version = "2.1.0" }
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 retrofit-client = { module = "com.squareup.retrofit2:retrofit", version = "3.0.0" }
 retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version = "3.0.0" }
-retrofit-logger = { module = "com.squareup.okhttp3:logging-interceptor", version = "5.1.0" }
+retrofit-logger = { module = "com.squareup.okhttp3:logging-interceptor", version = "5.3.0" }
 turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
 
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
