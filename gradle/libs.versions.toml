@@ -14,7 +14,7 @@ jacoco = "0.8.8"
 
 [libraries]
 bom-compose = { group = "androidx.compose", name = "compose-bom", version = "2025.11.00" }
-bom-firebase = { group = "com.google.firebase", name = "firebase-bom", version = "34.5.0" }
+bom-firebase = { group = "com.google.firebase", name = "firebase-bom", version = "34.6.0" }
 
 androidx-core = { module = "androidx.core:core-ktx", version = "1.17.0" }
 androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version = "2.9.4" }
